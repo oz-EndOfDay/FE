@@ -1,13 +1,16 @@
-import { Provider } from "@/components/ui/provider"
+import "../styles/globals.css";
 import React from "react";
-
-export default function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
-  return (
-    <html suppressHydrationWarning>
-    <body>
-    <Provider>{children}</Provider>
-    </body>
-    </html>
-  )
+import Sidebar from "@/components/ui/Sidebar";
+export default function RootLayout(props: {children: React.ReactNode}) {
+    const {children} = props;
+    return (
+        <html suppressHydrationWarning>
+            <body>
+                <div className="flex h-screen">
+                    <Sidebar />
+                    <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+                </div>
+            </body>
+        </html>
+    );
 }
