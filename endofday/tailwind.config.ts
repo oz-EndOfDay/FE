@@ -1,19 +1,24 @@
-import type { Config } from "tailwindcss";
+import type {Config} from "tailwindcss";
 
 const config: Config = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+    content: ["./src/app/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}"],
+    theme: {
+        extend: {
+            colors: {
+                // 배경색 (bg-${primary})
+                primary: "#A3C293",
+                secondary: "#FDFBF8",
+                navy: "#545F71",
+                beige: "#FDFBF8",
+                warmgray: "#F3F3F3",
+                // 글자색 (text-${base})
+                base: "#000000",
+                white: "#FFFFFF",
+                brown: "#4A2C1A",
+                gray: "#697077", // diabled, readonly color
+            },
+        },
     },
-  },
-  plugins: [],
+    plugins: [],
 };
 export default config;
