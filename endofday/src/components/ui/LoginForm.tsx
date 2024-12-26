@@ -11,9 +11,9 @@ const LoginForm = () => {
 
     return (
         <div className="bg-white py-[3rem] px-[3rem] rounded-lg h-full flex flex-col justify-between shadow-md">
-            <form className="flex flex-col h-full space-y-4">
+            <form className="space-y-4">
                 <Heading
-                    type="h2"
+                    tag="h2"
                     className="text-center"
                 >
                     로그인

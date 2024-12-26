@@ -2,8 +2,8 @@ type InputProps = {
     label: string;
     type: string;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeholder?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    placeholder: string;
     className?: string;
 };
 
@@ -16,7 +16,7 @@ const Input: React.FC<InputProps> = ({label, type, value, onChange, placeholder,
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                className="p-3 rounded-lg bg-[#F2F4F8] text-gray focus:outline-none"
+                className="p-3 rounded-lg bg-[#F2F4F8] placeholder:text-gray text-black focus:outline-none"
             />
         </div>
     );

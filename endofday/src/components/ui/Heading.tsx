@@ -1,5 +1,5 @@
 type HeadingProps = {
-    tag?: keyof JSX.IntrinsicElements;
+    tag?: "h1" | "h2" | "h3" | "p";
     children: React.ReactNode;
     className?: string;
 };
