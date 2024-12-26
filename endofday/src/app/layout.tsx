@@ -5,10 +5,10 @@ export default function RootLayout(props: {children: React.ReactNode}) {
     const {children} = props;
     return (
         <html suppressHydrationWarning>
-            <body className="overflow-auto">
-                <div className="flex min-h-screen">
+            <body className="h-full">
+                <div className="flex h-full">
                     <Sidebar />
-                    <main className="flex-1 p-10 pb-[10rem] md:p-20 md:pl-[13rem] overflow-auto">{children}</main>
+                    <main className="flex-1 p-10 pb-[10rem] md:p-20 md:pl-[13rem] overflow-auto h-full">{children}</main>
                 </div>
             </body>
         </html>

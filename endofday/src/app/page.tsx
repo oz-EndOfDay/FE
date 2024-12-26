@@ -5,7 +5,7 @@ import LoginForm from "@/components/ui/LoginForm";
 
 export default function Home() {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(20rem,1fr)_minmax(20rem,1fr)] md:py-[6.25rem] md:gap-[12.5rem] gap-[5rem]">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(20rem,1fr)_minmax(20rem,1fr)] md:py-[5rem] md:gap-[12.5rem] gap-[5rem]">
             <div className="flex flex-col md:h-full h-[18.75rem]">
                 <Heading tag="h1">
                     하루 끝, <br />
