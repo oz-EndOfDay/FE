@@ -6,7 +6,7 @@ type InputProps = {
   placeholder: string;
   className?: string;
   id: string;
-  required: boolean;
+  required?: boolean;
 };
 
 const Input: React.FC<InputProps> = ({
