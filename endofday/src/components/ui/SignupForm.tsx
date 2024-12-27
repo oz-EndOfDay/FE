@@ -1,4 +1,5 @@
-import { useForm } from "react-hook-form";
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   RegistrationFormData,
@@ -7,6 +8,7 @@ import {
 import Input from "@/components/ui/Input";
 import Button from "./Button";
 import Heading from "./Heading";
+import { useForm } from "react-hook-form";
 
 const SignupForm = () => {
   const {
@@ -15,12 +17,19 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
+    defaultValues: {
+      email: "",
+      name: "",
+      nickname: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
   const onSubmit = (data: RegistrationFormData) => {
     console.log("Form Data", data);
   };
   return (
-    <div className="bg-white py-[3rem] px-[3rem] rounded-lg h-full flex flex-col justify-between shadow-md">
+    <div className="bg-white py-[3rem] px-[3rem] rounded-lg h-full flex flex-col  shadow-md">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <Heading tag="h2" className="text-center">
           회원가입
@@ -30,10 +39,9 @@ const SignupForm = () => {
           label="Email"
           type="email"
           placeholder="이메일을 입력해주세요"
-          {...register("email")}
-          required
+          {...(register("email"), { required: "유효한 이메일을 입력" })}
         />
-        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+        {errors.email && <p className="text-gray">{errors.email.message}</p>}
 
         <Input
           id="user_name"
@@ -41,19 +49,17 @@ const SignupForm = () => {
           type="text"
           placeholder="이름을 입력해주세요"
           {...register("name")}
-          required
         />
-        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+        {errors.name && <p className="text-gray">{errors.name.message}</p>}
         <Input
           id="user_nickname"
           label="NickName"
           type="text"
           placeholder="별명을 입력해주세요"
           {...register("nickname")}
-          required
         />
         {errors.nickname && (
-          <p className="text-red-500">{errors.nickname.message}</p>
+          <p className="text-gray">{errors.nickname.message}</p>
         )}
         <Input
           id="user_password"
@@ -61,10 +67,9 @@ const SignupForm = () => {
           type="password"
           placeholder="비밀번호를 입력해주세요"
           {...register("password")}
-          required
         />
         {errors.password && (
-          <p className="text-red-500">{errors.password.message}</p>
+          <p className="text-gray">{errors.password.message}</p>
         )}
         <Input
           id="user_password_confirm"
@@ -74,7 +79,7 @@ const SignupForm = () => {
           {...register("confirmPassword")}
         />
         {errors.confirmPassword && (
-          <p className="text-red-500">{errors.confirmPassword.message}</p>
+          <p className="text-gray">{errors.confirmPassword.message}</p>
         )}
         <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
           <Button type="submit" variant="sand">
