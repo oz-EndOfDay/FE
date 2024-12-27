@@ -10,9 +10,11 @@ const config: Config = {
                 secondary: "#FDFBF8",
                 navy: "#545F71",
                 beige: "#FDFBF8",
+                sand: "#E7CCA9",
                 warmgray: "#F3F3F3",
-                // 글자색 (text-${base})
-                base: "#000000",
+                coolgray: "#F2F4F8", // input color
+                // 글자색 (text-${black})
+                black: "#000000",
                 white: "#FFFFFF",
                 brown: "#4A2C1A",
                 gray: "#697077", // diabled, readonly color
