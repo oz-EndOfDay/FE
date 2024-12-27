@@ -28,9 +28,16 @@ const SignupForm = () => {
   const onSubmit = (data: RegistrationFormData) => {
     console.log("Form Data", data);
   };
+  const onError = (errors: any) => {
+    console.log("폼 제출 에러:", errors);
+  };
+
   return (
-    <div className="bg-white py-[3rem] px-[3rem] rounded-lg h-full flex flex-col  shadow-md">
-      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+    <div className="bg-white flex flex-col justify-center py-[3rem] px-[3rem] rounded-lg  w-[30vw] h-[60vh] min-w-[500px] shadow-md">
+      <form
+        onSubmit={handleSubmit(onSubmit, onError)}
+        className="flex flex-col gap-4"
+      >
         <Heading tag="h2" className="text-center">
           회원가입
         </Heading>
@@ -39,7 +46,7 @@ const SignupForm = () => {
           label="Email"
           type="email"
           placeholder="이메일을 입력해주세요"
-          {...(register("email"), { required: "유효한 이메일을 입력" })}
+          {...register("email")}
         />
         {errors.email && <p className="text-gray">{errors.email.message}</p>}
 
