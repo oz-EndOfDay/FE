@@ -2,6 +2,7 @@
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
 import LoginForm from "@/components/ui/LoginForm";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -15,7 +16,9 @@ export default function Home() {
           아직 회원이 아니시라면, <br />
           오늘의 첫 기록을 남겨보세요
         </Heading>
-        <Button className="mt-auto">회원가입하러 가기</Button>
+        <Link href={"/signup"}>
+          <Button className="mt-auto">회원가입하러 가기</Button>
+        </Link>
       </div>
       <div className="flex flex-col md:h-full">
         <LoginForm />
