@@ -4,9 +4,10 @@ type ButtonProps = {
     className?: string;
     type?: "button" | "submit" | "reset";
     variant?: "navy" | "sand" | "text" | "icon";
+    disabled?: boolean;
 };
 
-const SmallButton: React.FC<ButtonProps> = ({onClick, children, className, type = "button", variant = "navy"}) => {
+const SmallButton: React.FC<ButtonProps> = ({onClick, children, className, type = "button", variant = "navy", disabled = false}) => {
     const buttonStyles = {
         navy: "bg-navy text-white hover:shadow-sm", // 네이비
         sand: "bg-sand text-brown hover:shadow-sm", // 갈색
@@ -19,6 +20,7 @@ const SmallButton: React.FC<ButtonProps> = ({onClick, children, className, type 
             onClick={onClick}
             type={type}
             className={`absolute top-2 right-2 ${className}`}
+            disabled={disabled}
         >
             {children}
         </button>
