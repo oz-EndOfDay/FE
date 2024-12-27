@@ -18,6 +18,7 @@ const config: Config = {
                 white: "#FFFFFF",
                 brown: "#4A2C1A",
                 gray: "#697077", // diabled, readonly color
+                lightgray: "#eeeeee", // line color
             },
         },
     },
