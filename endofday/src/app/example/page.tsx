@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button";
 import Heading from "@/components/ui/Heading";
 import Input from "@/components/ui/Input";
 import {useState} from "react";
+import SmallTextButton from "@/components/ui/SmallTextButton";
 
 const ExamplePage = () => {
     const [isModal, setModal] = useState(false);
@@ -33,16 +34,29 @@ const ExamplePage = () => {
                     >
                         카카오로 로그인
                     </Button>
-                    <Button
+                </div>
+            </section>
+
+            <section className="mt-10">
+                <Heading tag="h2">SmalltextButton Component</Heading>
+
+                <div className="mt-10 space-x-2">
+                    <SmallTextButton type="submit">로그인</SmallTextButton>
+                    <SmallTextButton
+                        type="submit"
+                        variant="sand"
+                    >
+                        카카오로 로그인
+                    </SmallTextButton>
+                    <SmallTextButton
                         type="submit"
                         variant="text"
                         className="w-full"
                     >
                         비밀번호 찾기
-                    </Button>
+                    </SmallTextButton>
                 </div>
             </section>
-
             <section className="mt-10">
                 <Heading tag="h2">Heading Component</Heading>
 
@@ -59,6 +73,7 @@ const ExamplePage = () => {
 
                 <div className="flex gap-3 flex-col mt-10">
                     <Input
+                        id="user_email"
                         label="Email"
                         type="email"
                         placeholder="이메일을 입력해주세요"
@@ -70,14 +85,14 @@ const ExamplePage = () => {
                 <Heading tag="h2">Modal Component</Heading>
 
                 <div className="flex gap-3 flex-col mt-10">
-                    <Button
+                    <SmallTextButton
                         variant="text"
                         onClick={() => {
                             setModal(true);
                         }}
                     >
                         모달 오픈
-                    </Button>
+                    </SmallTextButton>
                     {isModal && (
                         <Modal
                             title="정말로 회원을 탈퇴하시겠습니까?"
@@ -88,14 +103,14 @@ const ExamplePage = () => {
                             confirmText="확인"
                         />
                     )}
-                    <Button
+                    <SmallTextButton
                         variant="text"
                         onClick={() => {
                             setModal2(true);
                         }}
                     >
                         컨펌+ 설명글
-                    </Button>
+                    </SmallTextButton>
                     {isModal2 && (
                         <Modal
                             title="회원이 탈퇴되었습니다"
@@ -105,14 +120,14 @@ const ExamplePage = () => {
                             confirmType={true}
                         />
                     )}
-                    <Button
+                    <SmallTextButton
                         variant="text"
                         onClick={() => {
                             setModal3(true);
                         }}
                     >
                         컨펌 + 설명글 x
-                    </Button>
+                    </SmallTextButton>
                     {isModal3 && (
                         <Modal
                             title="회원이 탈퇴되었습니다"

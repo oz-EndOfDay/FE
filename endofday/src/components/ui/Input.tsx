@@ -1,17 +1,24 @@
 type InputProps = {
     label: string;
     type: string;
-    value: string;
+    value?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder: string;
     className?: string;
+    id: string;
 };
 
-const Input: React.FC<InputProps> = ({label, type, value, onChange, placeholder, className}) => {
+const Input: React.FC<InputProps> = ({id, label, type, value, onChange, placeholder, className}) => {
     return (
         <div className={`flex flex-col ${className}`}>
-            <label className="mb-2 text-sm text-gray">{label}</label>
+            <label
+                className="mb-2 text-sm text-gray"
+                htmlFor={id}
+            >
+                {label}
+            </label>
             <input
+                id={id}
                 type={type}
                 value={value}
                 onChange={onChange}

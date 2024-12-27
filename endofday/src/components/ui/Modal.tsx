@@ -4,9 +4,9 @@ import Heading from "./Heading";
 interface ModalProps {
     title: string;
     description?: string;
-    onCancel: () => void;
+    onCancel?: () => void;
     onConfirm: () => void;
-    cancelText: string;
+    cancelText?: string;
     confirmText: string;
     confirmType?: boolean;
     Isdescription?: boolean;
