@@ -16,8 +16,8 @@ export default function Home() {
           아직 회원이 아니시라면, <br />
           오늘의 첫 기록을 남겨보세요
         </Heading>
-        <Link href={"/signup"}>
-          <Button className="mt-auto">회원가입하러 가기</Button>
+        <Link href={"/signup"} className="mt-auto">
+          <Button>회원가입하러 가기</Button>
         </Link>
       </div>
       <div className="flex flex-col md:h-full">
