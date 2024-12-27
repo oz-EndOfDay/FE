@@ -9,9 +9,8 @@ export default function RootLayout(props: {children: React.ReactNode}) {
             <body className="h-full">
                 <div className="flex h-full">
                     <Sidebar />
-                    <main className="flex-1 p-10 pb-[10rem] md:p-20 md:pl-[13rem] overflow-auto h-full">{children}</main>
                     <Header />
-                    <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+                    <main className="flex-1 p-10 pb-[10rem] md:p-20 md:pl-[13rem] overflow-auto h-full">{children}</main>
                 </div>
             </body>
         </html>

@@ -22,6 +22,4 @@ export default function Home() {
       </div>
     </div>
   );
-
-  return <div>홈</div>;
 }
