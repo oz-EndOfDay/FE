@@ -1,6 +1,6 @@
 import Input from "@/components/ui/Input";
 import Button from "./Button";
-import SmallTextButton from "./SmallTextButton";
+import SmallButton from "./SmallButton";
 import Heading from "./Heading";
 
 const LoginForm = () => {
@@ -35,12 +35,12 @@ const LoginForm = () => {
                     >
                         카카오로 로그인
                     </Button>
-                    <SmallTextButton
+                    <SmallButton
                         type="submit"
                         variant="text"
                     >
                         비밀번호 찾기
-                    </SmallTextButton>
+                    </SmallButton>
                 </div>
             </form>
         </div>
