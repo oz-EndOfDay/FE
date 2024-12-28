@@ -114,18 +114,23 @@ const DiaryPage = () => {
 
     return (
         <div>
-            <div className="flex items-center">
-                <SearchInput placeholder="제목으로 검색해 보세요" />
-                <Select
-                    options={options}
-                    onChange={handleSelectChange}
-                    value={value}
+            <div className="flex items-center below540:flex-col-reverse below540:items-end">
+                <SearchInput
+                    placeholder="제목으로 검색해 보세요"
+                    className="below540:max-w-full"
                 />
-                <Select
-                    options={options2}
-                    onChange={handleSelectChange2}
-                    value={value2}
-                />
+                <div className="flex">
+                    <Select
+                        options={options}
+                        onChange={handleSelectChange}
+                        value={value}
+                    />
+                    <Select
+                        options={options2}
+                        onChange={handleSelectChange2}
+                        value={value2}
+                    />
+                </div>
             </div>
             <div className="pt-[3rem]">
                 <Heading tag="h2">

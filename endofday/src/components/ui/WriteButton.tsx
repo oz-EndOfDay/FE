@@ -8,7 +8,7 @@ type WriteButtonProps = {
 
 const WriteButton: React.FC<WriteButtonProps> = ({disabled = false}) => {
     return (
-        <div className="fixed md:bottom-5 md:right-5 bottom-[6rem] right-[2rem]">
+        <div className={`fixed md:bottom-5 md:right-5 bottom-[6rem] right-[2rem] ${disabled ? "" : "animate-bounceY"}`}>
             <SmallButton
                 disabled={disabled}
                 variant="icon"
