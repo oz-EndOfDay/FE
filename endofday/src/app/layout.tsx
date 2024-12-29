@@ -13,8 +13,8 @@ export default function RootLayout(props: {children: React.ReactNode}) {
                     <Header />
                     <div className="flex flex-1 overflow-hidden">
                         <Sidebar />
-                        <main className="flex-1 overflow-y-auto p-8 pt-[4rem] md:p-10">
-                            <div className="mx-auto max-w-[1200px] md:pl-[8rem] pb-[5rem]">{children}</div>
+                        <main className="flex-1 overflow-y-auto p-8 pt-[4rem] md:p-10 md:pl-[8rem]">
+                            <div className="mx-auto max-w-[1100px] pb-[5rem]">{children}</div>
                         </main>
                     </div>
                 </div>
