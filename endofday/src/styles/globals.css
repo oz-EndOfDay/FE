@@ -10,11 +10,12 @@
 html,
 body {
     height: 100%;
-}
-body {
+    min-height: 100%;
     color: var(--foreground);
     background: var(--background);
     font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    overflow: hidden;
 }
 @layer base {
     html {
@@ -30,4 +31,31 @@ body {
             font-size: 16px;
         }
     }
+}
+
+/* 숨김 처리 */
+input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+/* 일기 쓰기 */
+.mood-radio input[type="radio"]:checked + div,
+.weather-radio input[type="radio"]:checked + div {
+    position: relative;
+}
+.mood-radio input[type="radio"]:checked + div::after {
+    position: absolute;
+    content: "";
+    border: solid 1px #bbb;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    border-radius: 10px;
+}
+.weather-radio input[type="radio"]:checked + div::after {
+    position: absolute;
+    content: "";
+    border: solid 1px #bbb;
+    width: calc(100% + 40px);
+    height: calc(100% + 30px);
+    border-radius: 10px;
 }

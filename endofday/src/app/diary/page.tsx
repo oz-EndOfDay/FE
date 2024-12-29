@@ -148,7 +148,9 @@ const DiaryPage = () => {
                     })}
                 </ul>
             </div>
-            <WriteButton />
+            <Link href="/diary/write">
+                <WriteButton />
+            </Link>
         </div>
     );
 };
