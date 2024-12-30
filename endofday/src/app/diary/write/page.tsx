@@ -24,12 +24,14 @@ const WritePage = () => {
                     label="제목"
                     type="email"
                     placeholder="제목을 입력해주세요"
+                    isWhite={true}
                 />
                 <Input
                     id="date"
                     label="날짜"
                     type="date"
                     placeholder="날짜를 입력해주세요"
+                    isWhite={true}
                 />
                 <MoodRadio />
                 <WeatherRadio />

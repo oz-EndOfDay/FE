@@ -5,14 +5,16 @@ type InputProps = {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder: string;
     className?: string;
+    inputClassName?: string;
     id: string;
+    isWhite?: boolean;
 };
 
-const Input: React.FC<InputProps> = ({id, label, type, value, onChange, placeholder, className}) => {
+const Input: React.FC<InputProps> = ({id, label, type, value, onChange, placeholder, className, isWhite = false}) => {
     return (
         <div className={`flex flex-col ${className}`}>
             <label
-                className="mb-2 text-sm text-gray"
+                className={`"mb-2 text-sm text-gray" ${isWhite ? "!text-base text-black mb-2" : ""}`}
                 htmlFor={id}
             >
                 {label}
@@ -23,7 +25,7 @@ const Input: React.FC<InputProps> = ({id, label, type, value, onChange, placehol
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                className="p-3 rounded-lg bg-[#F2F4F8] placeholder:text-gray text-black focus:outline-none"
+                className={`p-3 rounded-lg bg-[#F2F4F8] placeholder:text-gray text-black focus:outline-none ${isWhite ? "bg-white border-lightgray border rounded-xl" : ""}`}
             />
         </div>
     );

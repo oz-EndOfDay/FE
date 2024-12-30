@@ -137,15 +137,19 @@ const DiaryPage = () => {
                     {value}-{value2}
                 </Heading>
                 <ul className="flex flex-col gap-4 pt-[1rem]">
-                    {diaryEntries.map(item => {
-                        return (
-                            <li key={item.id}>
-                                <Link href={`/diary/${item.id}`}>
-                                    <DiaryItem data={item} />
-                                </Link>
-                            </li>
-                        );
-                    })}
+                    {diaryEntries ? (
+                        diaryEntries.map(item => {
+                            return (
+                                <li key={item.id}>
+                                    <Link href={`/diary/${item.id}`}>
+                                        <DiaryItem data={item} />
+                                    </Link>
+                                </li>
+                            );
+                        })
+                    ) : (
+                        <div>작성하신 일기가 없습니다.</div>
+                    )}
                 </ul>
             </div>
             <Link href="/diary/write">

@@ -52,7 +52,7 @@ const MoodRadio: React.FC = () => {
                             className="peer hidden"
                         />
                         <div className="flex items-center justify-center flex-col">
-                            <div className="relative md:w-[5rem] md:h-[5rem] w-[3rem] h-[3rem]">
+                            <div className="relative md:w-[4rem] md:h-[4rem] w-[3rem] h-[3rem]">
                                 <Image
                                     src={item.path}
                                     alt={item.value}
