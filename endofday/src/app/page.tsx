@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex items-center justify-center md:min-h-[calc(100vh-10rem)] overflow-hidden">
-      <div className="grid grid-cols-1 md:grid-cols-[minmax(20rem,1fr)_minmax(20rem,1fr)] md:py-[5rem] md:gap-[12.5rem] gap-[5rem]">
+      <div className="grid grid-cols-1 w-full md:grid-cols-[minmax(20rem,1fr)_minmax(20rem,1fr)] md:gap-[10rem] gap-[3rem]">
         <div className="flex flex-col md:h-full h-[18.75rem]">
           <Heading tag="h1">
             하루 끝, <br />

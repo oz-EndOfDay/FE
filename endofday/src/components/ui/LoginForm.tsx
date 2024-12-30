@@ -1,13 +1,14 @@
 import Input from "@/components/ui/Input";
-import Button from "./Button";
-import SmallTextButton from "./SmallTextButton";
-import Heading from "./Heading";
+import Button from "@/components/ui/Button";
+import Heading from "@/components/ui/Heading";
 import { useForm } from "react-hook-form";
 import {
   RegistrationFormData,
   registrationSchema,
 } from "@/utils/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
+import SmallButton from "@/components/ui/SmallButton";
 import Link from "next/link";
 
 const LoginForm = () => {
@@ -54,7 +55,7 @@ const LoginForm = () => {
           <Button type="submit">로그인</Button>
           <Button variant="sand">카카오로 로그인</Button>
           <Link href={"/foundpassword"}>
-            <SmallTextButton variant="text">비밀번호 찾기</SmallTextButton>
+            <SmallButton variant="text">비밀번호 찾기</SmallButton>
           </Link>
         </div>
       </form>
