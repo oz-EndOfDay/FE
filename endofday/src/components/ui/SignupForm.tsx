@@ -6,9 +6,9 @@ import {
   registrationSchema,
 } from "@/utils/registrationSchema";
 import Input from "@/components/ui/Input";
-import Button from "./Button";
-import Heading from "./Heading";
 import { useForm } from "react-hook-form";
+import Heading from "@/components/ui/Heading";
+import Button from "@/components/ui/Button";
 
 const SignupForm = () => {
   const {

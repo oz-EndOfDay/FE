@@ -4,15 +4,21 @@ import Button from "@/components/ui/Button";
 import Heading from "@/components/ui/Heading";
 import Input from "@/components/ui/Input";
 import {useState} from "react";
-import SmallTextButton from "@/components/ui/SmallTextButton";
+import SmallButton from "@/components/ui/SmallButton";
+import CloseModal from "@/components/ui/CloseModal";
+import Select from "@/components/ui/Select";
+import SearchInput from "@/components/ui/SearchInput";
 
 const ExamplePage = () => {
+    // modal
     const [isModal, setModal] = useState(false);
     const [isModal2, setModal2] = useState(false);
     const [isModal3, setModal3] = useState(false);
+    const [isModal4, setModal4] = useState(false);
     const handleCancel = () => {
         setModal(false);
         setModal2(false);
+        setModal4(false);
     };
 
     const handleConfirm = () => {
@@ -20,6 +26,19 @@ const ExamplePage = () => {
         setModal2(false);
         setModal3(false);
     };
+
+    // select
+    const [value, setValue] = useState("년도");
+    const handleSelectChange = (value: string) => {
+        setValue(value);
+    };
+
+    const options = [
+        {value: "년도", label: "년도"},
+        {value: "2024", label: "2024"},
+        {value: "2023", label: "2023"},
+    ];
+
     return (
         <>
             <section>
@@ -38,23 +57,22 @@ const ExamplePage = () => {
             </section>
 
             <section className="mt-10">
-                <Heading tag="h2">SmalltextButton Component</Heading>
+                <Heading tag="h2">SmallButton Component</Heading>
 
                 <div className="mt-10 space-x-2">
-                    <SmallTextButton type="submit">로그인</SmallTextButton>
-                    <SmallTextButton
+                    <SmallButton type="submit">로그인</SmallButton>
+                    <SmallButton
                         type="submit"
                         variant="sand"
                     >
                         카카오로 로그인
-                    </SmallTextButton>
-                    <SmallTextButton
+                    </SmallButton>
+                    <SmallButton
                         type="submit"
                         variant="text"
-                        className="w-full"
                     >
                         비밀번호 찾기
-                    </SmallTextButton>
+                    </SmallButton>
                 </div>
             </section>
             <section className="mt-10">
@@ -85,14 +103,14 @@ const ExamplePage = () => {
                 <Heading tag="h2">Modal Component</Heading>
 
                 <div className="flex gap-3 flex-col mt-10">
-                    <SmallTextButton
+                    <SmallButton
                         variant="text"
                         onClick={() => {
                             setModal(true);
                         }}
                     >
                         모달 오픈
-                    </SmallTextButton>
+                    </SmallButton>
                     {isModal && (
                         <Modal
                             title="정말로 회원을 탈퇴하시겠습니까?"
@@ -103,14 +121,14 @@ const ExamplePage = () => {
                             confirmText="확인"
                         />
                     )}
-                    <SmallTextButton
+                    <SmallButton
                         variant="text"
                         onClick={() => {
                             setModal2(true);
                         }}
                     >
                         컨펌+ 설명글
-                    </SmallTextButton>
+                    </SmallButton>
                     {isModal2 && (
                         <Modal
                             title="회원이 탈퇴되었습니다"
@@ -120,14 +138,14 @@ const ExamplePage = () => {
                             confirmType={true}
                         />
                     )}
-                    <SmallTextButton
+                    <SmallButton
                         variant="text"
                         onClick={() => {
                             setModal3(true);
                         }}
                     >
                         컨펌 + 설명글 x
-                    </SmallTextButton>
+                    </SmallButton>
                     {isModal3 && (
                         <Modal
                             title="회원이 탈퇴되었습니다"
@@ -137,6 +155,49 @@ const ExamplePage = () => {
                             Isdescription={false}
                         />
                     )}
+                </div>
+            </section>
+
+            <section className="mt-10">
+                <Heading tag="h2">CloseModal Component</Heading>
+
+                <div className="flex gap-3 flex-col mt-10">
+                    <SmallButton
+                        variant="text"
+                        onClick={() => {
+                            setModal4(true);
+                        }}
+                    >
+                        모달 오픈(닫기버튼있는)
+                    </SmallButton>
+                    {isModal4 && (
+                        <CloseModal
+                            title="'따봉맨'님의 감정분석"
+                            onClose={handleCancel}
+                        >
+                            팝업내용
+                        </CloseModal>
+                    )}
+                </div>
+            </section>
+
+            <section className="mt-10">
+                <Heading tag="h2">Select Component</Heading>
+
+                <div className="mt-10">
+                    <Select
+                        options={options}
+                        onChange={handleSelectChange}
+                        value={value}
+                    />
+                </div>
+            </section>
+
+            <section className="mt-10">
+                <Heading tag="h2">SearchInput Component</Heading>
+
+                <div className="mt-10">
+                    <SearchInput placeholder="제목으로 검색해 보세요" />
                 </div>
             </section>
         </>
