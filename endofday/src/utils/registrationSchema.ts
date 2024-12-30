@@ -14,6 +14,7 @@ export const registrationSchema = z
         /[!@#$%^?]/,
         "비밀번호에는 최소 하나의 특수문자(!,@,#,$,%,^,?)가 포함되어야 합니다"
       ),
+    loginpassword: z.string().min(8, "비밀번호를 입력해주세요"),
     confirmPassword: z.string().min(8, "비밀번호 확인을 입력해주세요"),
   })
   .refine((data) => data.password === data.confirmPassword, {

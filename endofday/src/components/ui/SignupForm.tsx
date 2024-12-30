@@ -28,16 +28,10 @@ const SignupForm = () => {
   const onSubmit = (data: RegistrationFormData) => {
     console.log("Form Data", data);
   };
-  const onError = (errors: any) => {
-    console.log("폼 제출 에러:", errors);
-  };
 
   return (
     <div className="bg-white flex flex-col justify-center py-[3rem] px-[3rem] rounded-lg  w-[30vw] h-[60vh] min-w-[500px] shadow-md">
-      <form
-        onSubmit={handleSubmit(onSubmit, onError)}
-        className="flex flex-col gap-4"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 ">
         <Heading tag="h2" className="text-center">
           회원가입
         </Heading>
