@@ -56,9 +56,8 @@ const WeatherRadio: React.FC = () => {
                                 <Image
                                     src={item.path}
                                     alt={item.value}
-                                    layout="fill"
-                                    objectFit="contain"
-                                    priority
+                                    fill
+                                    className="object-contain"
                                 />
                             </div>
                             <span className="mt-3">{item.value}</span>

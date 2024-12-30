@@ -18,9 +18,8 @@ const WriteButton: React.FC<WriteButtonProps> = ({disabled = false}) => {
                     <Image
                         src="/icons/pencil.svg"
                         alt="연필버튼"
-                        layout="fill"
-                        objectFit="contain"
-                        priority
+                        fill
+                        className="object-contain"
                     />
                 </div>
             </SmallButton>

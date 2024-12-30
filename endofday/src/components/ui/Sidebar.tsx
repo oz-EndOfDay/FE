@@ -63,9 +63,8 @@ const Sidebar = () => {
                                 <Image
                                     src={item.icon}
                                     alt={item.label}
-                                    layout="fill"
-                                    objectFit="contain"
-                                    priority
+                                    fill
+                                    className="object-contain"
                                 />
                             </span>
                         </Link>

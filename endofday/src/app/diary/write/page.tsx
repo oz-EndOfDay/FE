@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, {useState} from "react";
 import Heading from "@/components/ui/Heading";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -6,6 +7,15 @@ import MoodRadio from "@/components/ui/MoodRadio";
 import WeatherRadio from "@/components/ui/WeatherRadio";
 
 const WritePage = () => {
+    const [selectedDate, setSelectedDate] = useState<string>("");
+    const [placeholder, setPlaceholder] = useState<string>("날짜를 선택하세요");
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const isoDate = e.target.value;
+        if (isoDate) {
+            setSelectedDate(isoDate);
+            setPlaceholder(isoDate);
+        }
+    };
     return (
         <div>
             <div className="text-center">
@@ -30,9 +40,13 @@ const WritePage = () => {
                     id="date"
                     label="날짜"
                     type="date"
-                    placeholder="날짜를 입력해주세요"
+                    value={selectedDate ? selectedDate : ""}
+                    placeholder={placeholder}
+                    onChange={handleDateChange}
+                    className={`${selectedDate ? "has-value" : ""}`}
                     isWhite={true}
                 />
+
                 <MoodRadio />
                 <WeatherRadio />
                 <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">

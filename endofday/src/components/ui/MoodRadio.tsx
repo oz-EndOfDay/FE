@@ -49,16 +49,15 @@ const MoodRadio: React.FC = () => {
                             type="radio"
                             value={item.value}
                             name="mood"
-                            className="peer hidden"
+                            className="hidden"
                         />
                         <div className="flex items-center justify-center flex-col">
                             <div className="relative md:w-[4rem] md:h-[4rem] w-[3rem] h-[3rem]">
                                 <Image
                                     src={item.path}
                                     alt={item.value}
-                                    layout="fill"
-                                    objectFit="contain"
-                                    priority
+                                    fill
+                                    className="object-contain"
                                 />
                             </div>
                             <span className="mt-2">{item.value}</span>
