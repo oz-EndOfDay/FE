@@ -25,6 +25,7 @@ const LoginForm = () => {
   const onSubmit = (data: RegistrationFormData) => {
     console.log("Form Data", data);
   };
+  console.log(errors);
   return (
     <div className="bg-white py-[3rem] px-[3rem] rounded-lg h-full flex flex-col justify-between shadow-md">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
