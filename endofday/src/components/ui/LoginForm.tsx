@@ -9,6 +9,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import SmallButton from "@/components/ui/SmallButton";
+import Link from "next/link";
 
 const LoginForm = () => {
   const {
@@ -52,12 +53,10 @@ const LoginForm = () => {
         )}
         <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
           <Button type="submit">로그인</Button>
-          <Button type="submit" variant="sand">
-            카카오로 로그인
-          </Button>
-          <SmallButton type="submit" variant="text">
-            비밀번호 찾기
-          </SmallButton>
+          <Button variant="sand">카카오로 로그인</Button>
+          <Link href={"/foundpassword"}>
+            <SmallButton variant="text">비밀번호 찾기</SmallButton>
+          </Link>
         </div>
       </form>
     </div>
