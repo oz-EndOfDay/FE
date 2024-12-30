@@ -28,6 +28,7 @@ const SignupForm = () => {
   const onSubmit = (data: RegistrationFormData) => {
     console.log("Form Data", data);
   };
+  console.log("에러", errors);
 
   return (
     <div className="bg-white flex flex-col justify-center py-[3rem] px-[3rem] rounded-lg  w-[30vw] h-[60vh] min-w-[500px] shadow-md">
@@ -42,7 +43,7 @@ const SignupForm = () => {
           placeholder="이메일을 입력해주세요"
           {...register("email")}
         />
-        {errors.email && <p className="text-gray">{errors.email.message}</p>}
+        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
         <Input
           id="user_name"
@@ -51,7 +52,7 @@ const SignupForm = () => {
           placeholder="이름을 입력해주세요"
           {...register("name")}
         />
-        {errors.name && <p className="text-gray">{errors.name.message}</p>}
+        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
         <Input
           id="user_nickname"
           label="NickName"
@@ -60,7 +61,7 @@ const SignupForm = () => {
           {...register("nickname")}
         />
         {errors.nickname && (
-          <p className="text-gray">{errors.nickname.message}</p>
+          <p className="text-red-500">{errors.nickname.message}</p>
         )}
         <Input
           id="user_password"
@@ -70,7 +71,7 @@ const SignupForm = () => {
           {...register("password")}
         />
         {errors.password && (
-          <p className="text-gray">{errors.password.message}</p>
+          <p className="text-red-500">{errors.password.message}</p>
         )}
         <Input
           id="user_password_confirm"
@@ -80,7 +81,7 @@ const SignupForm = () => {
           {...register("confirmPassword")}
         />
         {errors.confirmPassword && (
-          <p className="text-gray">{errors.confirmPassword.message}</p>
+          <p className="text-red-500">{errors.confirmPassword.message} </p>
         )}
         <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
           <Button type="submit" variant="sand">
