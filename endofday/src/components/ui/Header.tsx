@@ -2,11 +2,8 @@
 import { useState } from "react";
 import Image from "next/image";
 
-// ----- UI 컴포넌트 (사용자 요청에 맞춰 가정) -----
-import Modal from "@/components/ui/Modal";     // 이미 만든 Modal
-import CloseModal from "@/components/ui/CloseModal"; // 예: 기존 스타일
-import Heading from "@/components/ui/Heading";       // 예: 제목 컴포넌트
-import SmallButton from "@/components/ui/SmallButton";
+import Modal from "@/components/ui/Modal";
+import Heading from "@/components/ui/Heading";
 
 // --------------------------------------------------------------------------
 // 예시 데이터
