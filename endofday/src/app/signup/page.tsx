@@ -1,7 +1,7 @@
 import SignupForm from "@/components/ui/SignupForm";
 import React from "react";
 
-const SignUp = () => {
+const signUp = () => {
   return (
     <div className="flex justify-center items-center h-full">
       <SignupForm />
@@ -9,4 +9,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default signUp;

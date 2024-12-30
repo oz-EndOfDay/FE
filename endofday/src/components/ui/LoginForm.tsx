@@ -8,6 +8,7 @@ import {
   registrationSchema,
 } from "@/utils/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
 const LoginForm = () => {
   const {
@@ -50,12 +51,10 @@ const LoginForm = () => {
         )}
         <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
           <Button type="submit">로그인</Button>
-          <Button type="submit" variant="sand">
-            카카오로 로그인
-          </Button>
-          <SmallTextButton type="submit" variant="text">
-            비밀번호 찾기
-          </SmallTextButton>
+          <Button variant="sand">카카오로 로그인</Button>
+          <Link href={"/foundpassword"}>
+            <SmallTextButton variant="text">비밀번호 찾기</SmallTextButton>
+          </Link>
         </div>
       </form>
     </div>
