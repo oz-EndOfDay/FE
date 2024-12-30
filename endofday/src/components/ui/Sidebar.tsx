@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import Image from "next/image";
 type MenuItem = {
     id: number;
     label: string;
@@ -59,10 +59,11 @@ const Sidebar = () => {
                             href={item.path}
                             className="flex rounded-xl md:w-[5rem] md:h-[5rem] w-[3.5rem] h-[3.5rem] relative shadow-md justify-center items-center bg-beige"
                         >
-                            <span className="md:w-[2rem] md:h-[2rem] w-[1.5rem] h-[1.5rem]">
-                                <img
+                            <span className="md:w-[2rem] md:h-[2rem] w-[1.5rem] h-[1.5rem] relative">
+                                <Image
                                     src={item.icon}
                                     alt={item.label}
+                                    fill
                                     className="object-contain"
                                 />
                             </span>

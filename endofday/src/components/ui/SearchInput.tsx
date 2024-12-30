@@ -29,7 +29,6 @@ const SearchInput: React.FC<SearchInputProps> = ({placeholder = "제목으로 �
                             alt="검색버튼"
                             width={24}
                             height={24}
-                            priority
                         />
                     </SmallButton>
                 </div>
