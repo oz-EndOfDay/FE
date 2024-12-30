@@ -1,6 +1,6 @@
 import Input from "@/components/ui/Input";
 import Button from "./Button";
-import SmallTextButton from "./SmallTextButton";
+import SmallButton from "./SmallButton";
 import Heading from "./Heading";
 import { useForm } from "react-hook-form";
 import {
