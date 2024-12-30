@@ -29,7 +29,6 @@ const CloseModal: React.FC<CloseModalProps> = ({title, onClose, children}) => {
                             alt="닫기버튼"
                             width={24}
                             height={24}
-                            priority
                         />
                     </SmallButton>
                 </div>
