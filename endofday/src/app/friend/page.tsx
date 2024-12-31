@@ -45,7 +45,7 @@ const FriendPage = () => {
         <div className="absolute bottom-4 right-4">
           <button
             onClick={handleSearchClick}
-            className="p-4 bg-white rounded-full"
+            className="p-4 bg-white rounded-full shadow"
           >
             <Image
               src="/icons/search.svg"
