@@ -56,14 +56,12 @@ const FriendSearchPage = () => {
   // 검색 실행
   const handleSearch = () => {
     alert(`검색어 "${searchText}"로 검색! (추후 API 연동)`);
-    // 실제로는 서버에 요청, Re-render 등
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  // 현재 페이지 범위만 slicing
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentUsers = mockUsers.slice(startIndex, endIndex);
@@ -72,16 +70,12 @@ const FriendSearchPage = () => {
     <div className="mt-8">
       <h2 className="text-center text-2xl font-bold mb-4">친구 찾기</h2>
 
-      {/*
-        ① SearchInput 적용
-        - onChange: 검색어 입력 반영
-        - onSubmit: 엔터 또는 아이콘 클릭 시 handleSearch 호출
-      */}
       <SearchInput
         placeholder="이메일과 닉네임으로 친구를 검색해보세요"
         value={searchText}
         onChange={(val) => setSearchText(val)}
-        onSubmit={handleSearch}
+        // 여기가 onSearch로 바뀌어야 함
+        onSearch={handleSearch}
         className="mb-4"
       />
 
