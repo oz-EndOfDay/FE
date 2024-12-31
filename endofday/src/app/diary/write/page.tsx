@@ -5,7 +5,6 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import MoodRadio from "@/components/ui/MoodRadio";
 import WeatherRadio from "@/components/ui/WeatherRadio";
-import Editor from "@/components/ui/Editor";
 
 const WritePage = () => {
     const [selectedDate, setSelectedDate] = useState<string>("");
@@ -31,9 +30,9 @@ const WritePage = () => {
             </div>
             <form className="space-y-4">
                 <Input
-                    id="user_email"
+                    id="title"
                     label="제목"
-                    type="email"
+                    type="text"
                     placeholder="제목을 입력해주세요"
                     isWhite={true}
                 />
@@ -50,7 +49,6 @@ const WritePage = () => {
 
                 <MoodRadio />
                 <WeatherRadio />
-                <Editor />
                 <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
                     <Button
                         type="submit"
