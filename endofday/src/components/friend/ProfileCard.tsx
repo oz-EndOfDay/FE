@@ -1,5 +1,4 @@
-"use client";
-
+import Image from "next/image";
 import React from "react";
 
 interface ProfileCardProps {
@@ -14,11 +13,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                                                    statusMessage,
                                                  }) => {
   return (
-    <div className="flex items-center space-x-4">
-      <img
+    <div className="flex items-center space-x-2">
+      {/* Next.js 최적화 이미지 사용 */}
+      <Image
         src={profileImage}
         alt={`${name} 프로필`}
-        className="w-12 h-12 rounded-full object-cover"
+        width={50}
+        height={50}
+        className="rounded-full object-cover"
       />
       <div>
         <div className="font-semibold">{name}</div>

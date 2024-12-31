@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import ProfileCard from "@/components/friend/ProfileCard";
 import Pagination from "@/components/friend/Pagination";
-import Image from "next/image";
+import SearchInput from "@/components/ui/SearchInput";
 
 interface User {
   id: number;
@@ -53,17 +53,9 @@ const FriendSearchPage = () => {
   const totalItems = mockUsers.length;
   const totalPages = Math.ceil(totalItems / pageSize);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
-  };
-
+  // 검색 실행
   const handleSearch = () => {
     alert(`검색어 "${searchText}"로 검색! (추후 API 연동)`);
-  };
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    handleSearch();
   };
 
   const handlePageChange = (page: number) => {
@@ -78,28 +70,14 @@ const FriendSearchPage = () => {
     <div className="mt-8">
       <h2 className="text-center text-2xl font-bold mb-4">친구 찾기</h2>
 
-      <div className="flex justify-center mb-4">
-        <form onSubmit={handleFormSubmit} className="relative w-1/2">
-          <input
-            type="text"
-            value={searchText}
-            onChange={handleSearchChange}
-            placeholder="이메일과 닉네임으로 친구를 검색해보세요"
-            className="px-4 py-2 pr-10 rounded-full focus:outline-none w-full"
-          />
-          <button
-            type="submit"
-            className="absolute right-3 top-1/2 -translate-y-1/2"
-          >
-            <Image
-              src="/icons/search.svg"
-              alt="검색 아이콘"
-              width={20}
-              height={20}
-            />
-          </button>
-        </form>
-      </div>
+      <SearchInput
+        placeholder="이메일과 닉네임으로 친구를 검색해보세요"
+        value={searchText}
+        onChange={(val) => setSearchText(val)}
+        // 여기가 onSearch로 바뀌어야 함
+        onSearch={handleSearch}
+        className="mb-4"
+      />
 
       <div className="flex flex-col gap-4 px-4">
         {currentUsers.map((user) => (
