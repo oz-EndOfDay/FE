@@ -81,6 +81,7 @@ const FriendSearchPage = () => {
         placeholder="이메일과 닉네임으로 친구를 검색해보세요"
         value={searchText}
         onChange={(val) => setSearchText(val)}
+        onSubmit={handleSearch}
         className="mb-4"
       />
 
@@ -106,7 +107,6 @@ const FriendSearchPage = () => {
           </div>
         ))}
 
-        {/* 페이지네이션 */}
         <div className="mt-4 text-center">
           <Pagination
             currentPage={currentPage}
