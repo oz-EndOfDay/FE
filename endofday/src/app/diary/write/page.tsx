@@ -1,10 +1,12 @@
 "use client";
 import React, {useState} from "react";
+import dynamic from "next/dynamic";
 import Heading from "@/components/ui/Heading";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import MoodRadio from "@/components/ui/MoodRadio";
 import WeatherRadio from "@/components/ui/WeatherRadio";
+const TipTapEditor = dynamic(() => import("@/components/ui/TipTapEditor"), {ssr: false});
 
 const WritePage = () => {
     const [selectedDate, setSelectedDate] = useState<string>("");
@@ -49,6 +51,7 @@ const WritePage = () => {
 
                 <MoodRadio />
                 <WeatherRadio />
+                <TipTapEditor />
                 <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
                     <Button
                         type="submit"
