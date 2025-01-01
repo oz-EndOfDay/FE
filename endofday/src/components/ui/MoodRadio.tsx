@@ -13,27 +13,27 @@ type MoodRadioProps = {
 const MoodItems: MoodItem[] = [
     {
         id: 1,
-        path: "/icons/joy_mood.svg",
+        path: "/icons/joy_mood.png",
         value: "기쁨",
     },
     {
         id: 2,
-        path: "/icons/good_mood.svg",
+        path: "/icons/good_mood.png",
         value: "좋음",
     },
     {
         id: 3,
-        path: "/icons/neutral_mood.svg",
+        path: "/icons/neutral_mood.png",
         value: "보통",
     },
     {
         id: 4,
-        path: "/icons/tired_mood.svg",
+        path: "/icons/tired_mood.png",
         value: "지침",
     },
     {
         id: 5,
-        path: "/icons/sad_mood.svg",
+        path: "/icons/sad_mood.png",
         value: "슬픔",
     },
 ];
