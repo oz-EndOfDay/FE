@@ -6,7 +6,10 @@ type MoodItem = {
     path: string;
     value: string;
 };
-
+type MoodRadioProps = {
+    onChange: (value: string) => void;
+    value: string;
+};
 const MoodItems: MoodItem[] = [
     {
         id: 1,
@@ -35,7 +38,7 @@ const MoodItems: MoodItem[] = [
     },
 ];
 
-const MoodRadio: React.FC = () => {
+const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value}) => {
     return (
         <div>
             <p className="mb-2">오늘의 기분</p>
@@ -47,9 +50,11 @@ const MoodRadio: React.FC = () => {
                     >
                         <input
                             type="radio"
-                            value={item.value}
                             name="mood"
                             className="hidden"
+                            checked={value === item.value}
+                            value={item.value}
+                            onChange={() => onChange(item.value)}
                         />
                         <div className="flex items-center justify-center flex-col">
                             <div className="relative md:w-[4rem] md:h-[4rem] w-[3rem] h-[3rem]">

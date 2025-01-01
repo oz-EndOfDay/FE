@@ -6,7 +6,10 @@ type WeatherItem = {
     path: string;
     value: string;
 };
-
+type WeatherRadioProps = {
+    onChange: (value: string) => void;
+    value: string;
+};
 const WeatherItems: WeatherItem[] = [
     {
         id: 1,
@@ -35,7 +38,7 @@ const WeatherItems: WeatherItem[] = [
     },
 ];
 
-const WeatherRadio: React.FC = () => {
+const WeatherRadio: React.FC<WeatherRadioProps> = ({onChange, value}) => {
     return (
         <div>
             <p className="mb-2">오늘의 날씨</p>
@@ -48,6 +51,10 @@ const WeatherRadio: React.FC = () => {
                         <input
                             type="radio"
                             value={item.value}
+                            onChange={() => {
+                                onChange(item.value);
+                            }}
+                            checked={value === item.value}
                             name="weather"
                             className="hidden"
                         />

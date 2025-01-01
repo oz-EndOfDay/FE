@@ -81,6 +81,30 @@ const ToolBar: React.FC<ToolBarProps> = ({editor, handleUploadPhoto}) => {
                         height={24}
                     />
                 </button>
+                <button
+                    type="button"
+                    onClick={() => editor.chain().focus().toggleBulletList().run()}
+                    className={editor.isActive("bulletList") ? "is-active" : ""}
+                >
+                    <Image
+                        src="/icons/list_bullet_icon.svg"
+                        alt="bullet"
+                        width={24}
+                        height={24}
+                    />
+                </button>
+                <button
+                    type="button"
+                    onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                    className={editor.isActive("orderedList") ? "is-active" : ""}
+                >
+                    <Image
+                        src="/icons/list_num_icon.svg"
+                        alt="order"
+                        width={24}
+                        height={24}
+                    />
+                </button>
             </div>
 
             <div className="flex items-center justify-center gap-2">
