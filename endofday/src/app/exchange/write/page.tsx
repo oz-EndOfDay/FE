@@ -105,13 +105,21 @@ const WritePage = () => {
     return (
         <div>
             <div className="text-center">
-                <Heading tag="h2">오늘의 일기</Heading>
+                <Heading tag="h2">친구이름님과의 소중한 교환일기</Heading>
                 <Heading
                     tag="p"
                     className="mt-2"
                 >
-                    오늘의 기분은 어떠셨나요? <br />
-                    하루를 정리하며 기록해보세요.
+                    ✅ 내 차례입니다! 작성 완료 후 수정이 불가능합니다.
+                </Heading>
+                {/* 교환일기 처음으로 작성했을때 */}
+                <Heading
+                    tag="p"
+                    className="mt-2"
+                >
+                    교환일기의 첫 페이지를 장식해 보세요.
+                    <br />
+                    친구와의 소중한 기록이 시작됩니다!
                 </Heading>
             </div>
             <form
@@ -126,6 +134,13 @@ const WritePage = () => {
                     isWhite={true}
                     onChange={handleTitleChange}
                     value={formData.title}
+                />
+                <Input
+                    id="sender"
+                    label="작성자"
+                    type="text"
+                    placeholder="제목을 입력해주세요"
+                    value="나"
                 />
                 <Input
                     id="date"
@@ -159,8 +174,8 @@ const WritePage = () => {
                 </div>
                 {isWriteModalOpen && (
                     <Modal
-                        title="일기를 작성하시겠습니까?"
-                        description="일기를 작성하시면 수정이 불가능합니다."
+                        title="교환일기를 작성하시겠습니까?"
+                        description="교환일기를 작성하시면 수정이 불가능합니다."
                         onCancel={closeModal}
                         onConfirm={submitDiaryEntry}
                         cancelText="취소"
@@ -169,11 +184,11 @@ const WritePage = () => {
                 )}
                 {isCompleteModalOpen && (
                     <Modal
-                        title="일기 작성을 완료하였습니다."
-                        description="내 일기 목록에서 확인해보세요."
+                        title="작성 완료! 친구이름님 차례로 변경되었습니다"
                         onConfirm={closeModal}
                         confirmText="확인"
                         confirmType={true}
+                        Isdescription={false}
                     />
                 )}
             </form>

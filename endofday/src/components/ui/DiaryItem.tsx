@@ -21,7 +21,7 @@ const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
         <div className="relative flex items-center bg-white p-4 border-lightgray border rounded-xl">
             <div className="flex flex-shrink-0 border-lightgray flex-basis-auto relative border rounded-xl w-[3.75rem] h-[3.75rem]">
                 <Image
-                    src=""
+                    src="/photo"
                     fill
                     className="object-contain"
                     alt="교환일기사진"

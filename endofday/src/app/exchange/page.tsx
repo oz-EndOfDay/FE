@@ -121,7 +121,12 @@ const ExchangeDiaryPage = () => {
                     })}
                 </ul>
             </div>
-            <WriteButton disabled={true} />
+            {/* 비활성화 */}
+            {/* <WriteButton disabled={true} /> */}
+            {/* 활성화 */}
+            <Link href="/exchange/write">
+                <WriteButton />
+            </Link>
         </div>
     );
 };
