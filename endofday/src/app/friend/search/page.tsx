@@ -17,31 +17,31 @@ const mockUsers: User[] = [
     id: 1,
     name: "검색결과유저1",
     statusMessage: "상태메시지1",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
   {
     id: 2,
     name: "검색결과유저2",
     statusMessage: "상태메시지2",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
   {
     id: 3,
     name: "검색결과유저3",
     statusMessage: "상태메시지3",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
   {
     id: 4,
     name: "검색결과유저4",
     statusMessage: "상태메시지4",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
   {
     id: 5,
     name: "검색결과유저5",
     statusMessage: "상태메시지5",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
 ];
 
