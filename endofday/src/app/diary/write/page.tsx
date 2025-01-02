@@ -149,7 +149,7 @@ const WritePage = () => {
                     onChange={handleEditorUpdate}
                     onImageAdd={handleImageAdd}
                 />
-                <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
+                <div className="flex !mt-[3.25rem] items-center">
                     <Button
                         type="submit"
                         variant="sand"
