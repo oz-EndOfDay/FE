@@ -31,7 +31,7 @@ const SignupForm = () => {
   console.log("에러", errors);
 
   return (
-    <div className="bg-white flex flex-col justify-center py-[3rem] px-[3rem] rounded-lg  w-[30vw] h-[60vh] min-w-[500px] shadow-md">
+    <div className="bg-white flex flex-col justify-center p-[3rem] rounded-lg  w-[30vw] h-[60vh] min-h-[750px] min-w-[500px] shadow-md">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 ">
         <Heading tag="h2" className="text-center">
           회원가입
