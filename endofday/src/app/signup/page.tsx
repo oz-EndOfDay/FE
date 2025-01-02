@@ -3,7 +3,7 @@ import React from "react";
 
 const signUp = () => {
   return (
-    <div className="flex justify-center items-center h-full">
+    <div className="flex items-center justify-center md:min-h-[calc(100vh-10rem)] overflow-hidden ">
       <SignupForm />
     </div>
   );
