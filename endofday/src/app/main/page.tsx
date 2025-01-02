@@ -1,7 +1,13 @@
+import DoughnutChart from "@/components/ui/DoughnutChart";
 import Heading from "@/components/ui/Heading";
 import MainContentBox from "@/components/ui/MainContentBox";
+import { ChartData } from "chart.js";
 
 const main = () => {
+  const data: ChartData<"doughnut"> = {
+    labels: ["기쁨", "좋음", "보통", "지침", "슬픔"],
+    datasets: [],
+  };
   return (
     <div className="mt-8 flex flex-col gap-10 w-[100%]">
       <Heading
@@ -31,6 +37,7 @@ const main = () => {
           description={`평균 작성 횟수: n회/요일`}
         />
       </div>
+      <DoughnutChart data={data} />
     </div>
   );
 };
