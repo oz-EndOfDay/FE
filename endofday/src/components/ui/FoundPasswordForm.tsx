@@ -13,7 +13,7 @@ export const FoundPasswordForm = () => {
   };
 
   return (
-    <div className="bg-white flex flex-col justify-center py-[3rem] px-[3rem] rounded-lg  w-[25vw] h-[30vh] min-h-[300px] min-w-[500px] shadow-md">
+    <div className=" bg-white p-[3rem] rounded-lg shadow-md h-full w-full max-w-[600px]">
       <form
         className="flex flex-col gap-2 "
         onSubmit={(event) => {
