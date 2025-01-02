@@ -37,7 +37,7 @@ export const FoundPasswordForm = () => {
           </Button>
           {isModal && (
             <Modal
-              title="비밀번호 재설정 이메일이 발송되었습니다."
+              title="임시 비밀번호가 이메일로 발송되었습니다."
               description="이메일을 확인해 주세요."
               onConfirm={handleConfirm}
               confirmText="확인"
