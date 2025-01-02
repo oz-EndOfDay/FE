@@ -16,19 +16,19 @@ const mockFriends: Friend[] = [
     id: 1,
     name: "홍길동",
     statusMessage: "안녕하세요!",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
   {
     id: 2,
     name: "김철수",
     statusMessage: "반갑습니다",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
   {
     id: 3,
     name: "이영희",
     statusMessage: "오늘도 화이팅!",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
 ];
 

@@ -16,19 +16,19 @@ const mockRequests: Request[] = [
     id: 1,
     name: "나를친구추가한사람1",
     statusMessage: "친구해주세요~",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
   {
     id: 2,
     name: "나를친구추가한사람2",
     statusMessage: "안녕?",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
   {
     id: 3,
     name: "나를친구추가한사람3",
     statusMessage: "우리친구해요!",
-    profileImage: "https://via.placeholder.com/50",
+    profileImage: "",
   },
   // ... 필요 시 추가
 ];
