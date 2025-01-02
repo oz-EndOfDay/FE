@@ -3,10 +3,8 @@ import {useParams} from "next/navigation";
 import Image from "next/image";
 import {useState, useEffect} from "react";
 import Heading from "@/components/ui/Heading";
-import Button from "@/components/ui/Button";
 import SmallButton from "@/components/ui/SmallButton";
 import Modal from "@/components/ui/Modal";
-import CloseModal from "@/components/ui/CloseModal";
 
 type DiaryEntry = {
     id: number;
@@ -16,6 +14,7 @@ type DiaryEntry = {
     content: string;
     image: string;
     weather: string;
+    sender: string;
 };
 // 더미데이터
 const diaryEntries: DiaryEntry[] = [
@@ -27,6 +26,7 @@ const diaryEntries: DiaryEntry[] = [
         content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
         image: "image1.png",
         weather: "비",
+        sender: "나",
     },
     {
         id: 2,
@@ -36,6 +36,7 @@ const diaryEntries: DiaryEntry[] = [
         content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
         image: "image2.png",
         weather: "눈",
+        sender: "친구",
     },
     {
         id: 3,
@@ -45,6 +46,7 @@ const diaryEntries: DiaryEntry[] = [
         content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
         image: "image2.png",
         weather: "흐림",
+        sender: "친구",
     },
     {
         id: 4,
@@ -54,15 +56,17 @@ const diaryEntries: DiaryEntry[] = [
         content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
         image: "image2.png",
         weather: "흐림",
+        sender: "친구",
     },
     {
         id: 5,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
+        title: "1월 2일 일기",
+        write_date: "2025-01-02",
         emotion: "슬픔",
         content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
         image: "image2.png",
         weather: "구름조금",
+        sender: "나",
     },
     {
         id: 6,
@@ -72,6 +76,7 @@ const diaryEntries: DiaryEntry[] = [
         content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
         image: "image2.png",
         weather: "비",
+        sender: "나",
     },
     {
         id: 7,
@@ -81,6 +86,7 @@ const diaryEntries: DiaryEntry[] = [
         content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
         image: "image2.png",
         weather: "맑음",
+        sender: "친구",
     },
 ];
 // 날짜 변환
@@ -178,11 +184,11 @@ const getWeatherItem = (weather: string): WeatherItem => {
         }
     );
 };
-const DiaryDetail = () => {
+const ExchangeDiaryDetail = () => {
     const {id} = useParams();
     const [diary, setDiary] = useState<DiaryEntry | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [modalState, setModalState] = useState<"confirm" | "success" | "emotion" | "">("");
+    const [modalState, setModalState] = useState<"confirm" | "success" | "">("");
 
     useEffect(() => {
         if (id) {
@@ -211,10 +217,7 @@ const DiaryDetail = () => {
         console.log("삭제 처리 로직 실행 (예: API DELETE 호출)");
         setModalState("success");
     };
-    const handleEmotionAnalysis = () => {
-        console.log("API 호출로직");
-        setModalState("emotion");
-    };
+
     return (
         <div className="diary-detail space-y-4">
             <div className="text-center flex justify-center items-center gap-2 border-b border-gray pb-6">
@@ -254,6 +257,10 @@ const DiaryDetail = () => {
                 <div className="p-3 text-black bg-white border-lightgray border rounded-xl">{diary.title}</div>
             </div>
             <div>
+                <p className="mb-2">작성자</p>
+                <div className="p-3 text-black bg-white border-lightgray border rounded-xl">{diary.sender}</div>
+            </div>
+            <div>
                 <p className="mb-2">내용</p>
                 <div
                     className="p-3 text-black bg-white border-lightgray border rounded-xl"
@@ -282,18 +289,10 @@ const DiaryDetail = () => {
                     </div>
                 )}
             </div>
-            <div className="flex items-center !mt-[3.25rem]">
-                <Button
-                    type="submit"
-                    variant="sand"
-                    onClick={handleEmotionAnalysis}
-                >
-                    조언 받기 및 감정 분석
-                </Button>
-            </div>
+
             {modalState === "confirm" && (
                 <Modal
-                    title="일기를 삭제하시겠습니까?"
+                    title="교환일기를 삭제하시겠습니까?"
                     description="작성하신 일기는 7일 동안 보관 후 삭제됩니다."
                     onCancel={closeModal}
                     onConfirm={handleDeleteSuccess}
@@ -303,23 +302,15 @@ const DiaryDetail = () => {
             )}
             {modalState === "success" && (
                 <Modal
-                    title="일기가 삭제되었습니다"
+                    title="교환일기가 삭제되었습니다"
                     description="삭제하신 일기는 내 정보 > 휴지통에서 보실 수 있으며, 7일 안에 복구 가능합니다."
                     onConfirm={closeModal}
                     confirmText="확인"
                     confirmType={true}
                 />
             )}
-            {modalState === "emotion" && (
-                <CloseModal
-                    title="'따봉맨'님의 감정분석"
-                    onClose={closeModal}
-                >
-                    팝업내용
-                </CloseModal>
-            )}
         </div>
     );
 };
 
-export default DiaryDetail;
+export default ExchangeDiaryDetail;
