@@ -16,7 +16,7 @@ interface DiaryFormData {
     emotion: string;
     weather: string;
     content: string;
-    image: File | null;
+    image?: File | null;
 }
 
 const WritePage = () => {
@@ -33,13 +33,16 @@ const WritePage = () => {
     const validateAndShowModal = (e: React.FormEvent) => {
         e.preventDefault();
 
-        const isValid = Object.values(formData).every(value => value !== "" && value !== null);
+        // 모든 필수 필드가 입력되었는지 확인 (image 제외)
+        const isValid = Object.entries(formData).every(([key, value]) => {
+            if (key === "image") return true; // 이미지 필드는 제외
+            return value !== "" && value !== null;
+        });
 
         if (!isValid) {
             alert("모든 값을 입력해주세요.");
             return;
         }
-
         setWriteModalOpen(true);
     };
 
