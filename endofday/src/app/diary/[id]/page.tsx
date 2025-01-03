@@ -1,4 +1,5 @@
 "use client";
+import "@/styles/diary.css";
 import {useParams} from "next/navigation";
 import Image from "next/image";
 import {useState, useEffect} from "react";
