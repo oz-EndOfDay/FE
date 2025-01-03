@@ -216,80 +216,82 @@ const DiaryDetail = () => {
         setModalState("emotion");
     };
     return (
-        <div className="diary-detail space-y-4">
-            <div className="text-center flex justify-center items-center gap-2 border-b border-gray pb-6">
-                <Heading tag="h2">{formatDate(diary.write_date)}</Heading>
-                {moodItem && (
-                    <div className="w-[3rem] h-[3rem] relative">
-                        <Image
-                            src={moodItem.path}
-                            alt={moodItem.value}
-                            fill
-                            className="object-contain"
-                        />
-                    </div>
-                )}
+        <div className="diary-detail">
+            <div className="space-y-4">
+                <div className="text-center flex justify-center items-center gap-2 border-b border-gray pb-3 md:pb-6">
+                    <Heading tag="h2">{formatDate(diary.write_date)}</Heading>
+                    {moodItem && (
+                        <div className="w-[3rem] h-[3rem] relative">
+                            <Image
+                                src={moodItem.path}
+                                alt={moodItem.value}
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
+                    )}
 
-                {weatherItem && (
-                    <div className="w-[2rem] h-[2rem] md:w-[3rem] md:h-[3rem] relative">
-                        <Image
-                            src={weatherItem.path}
-                            alt={weatherItem.value}
-                            fill
-                            className="object-contain"
-                        />
-                    </div>
-                )}
-            </div>
-            <div className="text-right">
-                <SmallButton
-                    type="submit"
-                    onClick={openDeleteConfirmModal}
-                >
-                    삭제
-                </SmallButton>
-            </div>
-            <div>
-                <p className="mb-2">제목</p>
-                <div className="p-3 text-black bg-white border-lightgray border rounded-xl">{diary.title}</div>
-            </div>
-            <div>
-                <p className="mb-2">내용</p>
-                <div
-                    className="p-3 text-black bg-white border-lightgray border rounded-xl"
-                    dangerouslySetInnerHTML={{__html: diary.content}}
-                />
-            </div>
-            <div>
-                <p className="mb-2">사진</p>
-                {diary.image ? (
-                    <div
-                        className="relative w-full aspect-w-16 aspect-h-9 max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto"
-                        style={{
-                            paddingTop: "56.25%", // 16:9 비율
-                        }}
+                    {weatherItem && (
+                        <div className="w-[2rem] h-[2rem] md:w-[3rem] md:h-[3rem] relative">
+                            <Image
+                                src={weatherItem.path}
+                                alt={weatherItem.value}
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
+                    )}
+                </div>
+                <div className="text-right">
+                    <SmallButton
+                        type="submit"
+                        onClick={openDeleteConfirmModal}
                     >
-                        <Image
-                            src="/icons/moka.jpeg"
-                            alt="dummyImage"
-                            fill
-                            className="object-cover rounded-xl"
-                        />
-                    </div>
-                ) : (
-                    <div className="relative w-full h-[15rem] flex justify-center items-center">
-                        <p className="text-gray-500">첨부하신 사진이 없습니다.</p>
-                    </div>
-                )}
-            </div>
-            <div className="flex items-center !mt-[3.25rem]">
-                <Button
-                    type="submit"
-                    variant="sand"
-                    onClick={handleEmotionAnalysis}
-                >
-                    조언 받기 및 감정 분석
-                </Button>
+                        삭제
+                    </SmallButton>
+                </div>
+                <div>
+                    <p className="mb-2">제목</p>
+                    <div className="p-3 text-black bg-white border-lightgray border rounded-xl">{diary.title}</div>
+                </div>
+                <div>
+                    <p className="mb-2">내용</p>
+                    <div
+                        className="p-3 text-black bg-white border-lightgray border rounded-xl"
+                        dangerouslySetInnerHTML={{__html: diary.content}}
+                    />
+                </div>
+                <div>
+                    <p className="mb-2">사진</p>
+                    {diary.image ? (
+                        <div
+                            className="relative w-full aspect-w-16 aspect-h-9 max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto"
+                            style={{
+                                paddingTop: "56.25%", // 16:9 비율
+                            }}
+                        >
+                            <Image
+                                src="/icons/moka.jpeg"
+                                alt="dummyImage"
+                                fill
+                                className="object-cover rounded-xl"
+                            />
+                        </div>
+                    ) : (
+                        <div className="relative w-full h-[15rem] flex justify-center items-center">
+                            <p className="text-gray-500">첨부하신 사진이 없습니다.</p>
+                        </div>
+                    )}
+                </div>
+                <div className="flex items-center !mt-[3.25rem]">
+                    <Button
+                        type="submit"
+                        variant="sand"
+                        onClick={handleEmotionAnalysis}
+                    >
+                        조언 받기 및 감정 분석
+                    </Button>
+                </div>
             </div>
             {modalState === "confirm" && (
                 <Modal

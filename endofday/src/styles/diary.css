@@ -19,47 +19,9 @@ input[type="radio"] {
     position: absolute;
     content: "";
     border: solid 1px #111;
-    width: calc(100% + 40px);
+    width: calc(100% + 30px);
     height: calc(100% + 30px);
     border-radius: 10px;
-}
-// 날짜선택
-input[type="date"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    color: #697077;
-}
-input#date::-webkit-calendar-picker-indicator {
-    position: absolute;
-    right: 0.75rem;
-    background: url("/icons/calendar.svg");
-    width: 1.25rem;
-    height: 1.25rem;
-    background-size: 100%;
-    background-repeat: no-repeat 0 0;
-}
-input[type="date"]::before {
-    width: 100%;
-    height: 100%;
-    content: attr(placeholder);
-    position: absolute;
-    left: 0.75rem;
-    top: 0.75rem;
-    color: #697077;
-    pointer-events: none;
-}
-input[type="date"]:focus::before {
-    content: ""; /* 포커스 시 플레이스홀더 숨기기 */
-}
-input[type="date"]::-webkit-datetime-edit-text,
-input[type="date"]::-webkit-datetime-edit-month-field,
-input[type="date"]::-webkit-datetime-edit-day-field,
-input[type="date"]::-webkit-datetime-edit-year-field {
-    display: none !important;
-}
-.flex.flex-col.has-value input[type="date"]::before {
-    color: #000;
 }
 // editor
 .prose [data-placeholder]:before {
@@ -144,4 +106,41 @@ div.diary-detail ul li p,
 div.diary-detail ol li p {
     margin-top: 0.25em;
     margin-bottom: 0.25em;
+}
+// Day picker
+.daypicker {
+    position: relative !important;
+    width: 300px !important;
+}
+.rdp-month {
+    border: solid;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    border: 1px solid #d1d5db;
+    padding: 15px 10px;
+    border-radius: 1rem;
+}
+.rdp-month tbody tr td {
+    text-align: center;
+}
+.rdp-month_caption {
+    text-align: center;
+    padding-bottom: 10px;
+}
+.rdp-nav {
+    position: absolute;
+    right: 20px;
+    z-index: 10;
+    top: 17px;
+}
+.rdp-nav button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+.rdp-month tbody tr td button[aria-label*="Sunday"] {
+    color: #e63946;
+}
+.rdp-month tbody tr td button[aria-label*="Saturday"] {
+    color: #60a5fa;
 }
