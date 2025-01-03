@@ -65,6 +65,7 @@ const EmotionDoughnutChart: React.FC = () => {
 
   const options: ChartOptions<"doughnut"> = {
     responsive: true,
+
     plugins: {
       legend: {
         position: "top",
