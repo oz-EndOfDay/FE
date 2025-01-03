@@ -5,7 +5,7 @@ import MainContentBox from "@/components/ui/MainContentBox";
 
 const main = () => {
   return (
-    <div className="mt-8 flex flex-col gap-10 w-[100%]">
+    <div className="mt-8 flex flex-col gap-10 ">
       <Heading
         tag="h1"
         className="text-center"
@@ -33,10 +33,16 @@ const main = () => {
           description={`평균 작성 횟수: 2.3회/요일`}
         />
       </div>
+      <br />
       <Heading tag="h1" className="text-center">
         일기를 통해 본 나의 감정 흐름
       </Heading>
-      <EmotionDoughnutChart />
+
+      <div className="flex flex-col gap-16 justify-center items-center ">
+        <div className="md:h-[700px] md:w-[700px] h-[300px] w-[300px]">
+          <EmotionDoughnutChart />
+        </div>
+      </div>
       <Input
         id="week_select"
         label="주 선택"
