@@ -9,6 +9,7 @@ type MoodItem = {
 type MoodRadioProps = {
     onChange: (value: string) => void;
     value: string;
+    error?: string;
 };
 const MoodItems: MoodItem[] = [
     {
@@ -38,7 +39,8 @@ const MoodItems: MoodItem[] = [
     },
 ];
 
-const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value}) => {
+const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value, error}) => {
+    console.log("MoodRadio 컴포넌트 value 상태:", value);
     return (
         <div>
             <p className="mb-2">오늘의 기분</p>
@@ -54,7 +56,12 @@ const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value}) => {
                             className="hidden"
                             checked={value === item.value}
                             value={item.value}
-                            onChange={() => onChange(item.value)}
+                            onChange={() => {
+                                console.log("item.value:", item.value);
+                                console.log("value:", value, "item.value:", item.value);
+                                console.log("값 비교:", value === item.value);
+                                onChange(item.value); // 상태 변경
+                            }}
                         />
                         <div className="flex items-center justify-center flex-col">
                             <div className="relative md:w-[4rem] md:h-[4rem] w-[3rem] h-[3rem]">
@@ -70,6 +77,7 @@ const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value}) => {
                     </label>
                 ))}
             </div>
+            {error && <p className="text-[#e63946] text-sm !mt-2">{error}</p>}
         </div>
     );
 };

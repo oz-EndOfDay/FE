@@ -9,6 +9,7 @@ type WeatherItem = {
 type WeatherRadioProps = {
     onChange: (value: string) => void;
     value: string;
+    error?: string;
 };
 const WeatherItems: WeatherItem[] = [
     {
@@ -38,7 +39,7 @@ const WeatherItems: WeatherItem[] = [
     },
 ];
 
-const WeatherRadio: React.FC<WeatherRadioProps> = ({onChange, value}) => {
+const WeatherRadio: React.FC<WeatherRadioProps> = ({onChange, value, error}) => {
     return (
         <div>
             <p className="mb-2">오늘의 날씨</p>
@@ -72,6 +73,7 @@ const WeatherRadio: React.FC<WeatherRadioProps> = ({onChange, value}) => {
                     </label>
                 ))}
             </div>
+            {error && <p className="text-[#e63946] text-sm !mt-2">{error}</p>}
         </div>
     );
 };
