@@ -1,6 +1,9 @@
 "use client";
+import "@/styles/diary.css";
 import React, {useState} from "react";
+import Image from "next/image";
 import dynamic from "next/dynamic";
+import {DayPicker} from "react-day-picker";
 import Heading from "@/components/ui/Heading";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -72,37 +75,37 @@ const WritePage = () => {
         content: "",
         image: null,
     });
-
-    const [selectedDate, setSelectedDate] = useState<string>("");
-    const [placeholder, setPlaceholder] = useState<string>("날짜를 선택하세요");
-
+    // 제목
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prev => ({...prev, title: e.target.value}));
     };
-
-    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const isoDate = e.target.value;
-        if (isoDate) {
-            setSelectedDate(isoDate);
-            setPlaceholder(isoDate);
-            setFormData(prev => ({...prev, write_date: isoDate}));
-        }
-    };
-
+    // 기분
     const handleMoodChange = (emotion: string) => {
         setFormData(prev => ({...prev, emotion}));
     };
-
+    // 날씨
     const handleWeatherChange = (weather: string) => {
         setFormData(prev => ({...prev, weather}));
     };
-
+    // 에디터
     const handleEditorUpdate = (htmlContent: string) => {
         setFormData(prev => ({...prev, content: htmlContent}));
     };
-
+    // 사진
     const handleImageAdd = (file: File | null) => {
         setFormData(prev => ({...prev, image: file}));
+    };
+    // 날짜
+    const [isOpenDayPicker, SetOpenDayPicker] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+
+    const handleDateSelect = (date: Date | undefined) => {
+        setSelectedDate(date);
+        setFormData(prev => ({
+            ...prev,
+            write_date: date ? date.toISOString().split("T")[0] : "", // ISO 포맷 날짜 저장
+        }));
+        SetOpenDayPicker(false);
     };
 
     return (
@@ -145,16 +148,41 @@ const WritePage = () => {
                     placeholder="제목을 입력해주세요"
                     value="나"
                 />
-                <Input
-                    id="date"
-                    label="날짜"
-                    type="date"
-                    value={selectedDate ? selectedDate : ""}
-                    placeholder={placeholder}
-                    onChange={handleDateChange}
-                    className={`${selectedDate ? "has-value" : ""}`}
-                    isWhite={true}
-                />
+                <div>
+                    <p className="mb-2">날짜</p>
+                    <button
+                        type="button"
+                        className="justify-between p-3 text-black bg-white border-lightgray border rounded-xl flex w-full"
+                        onClick={() => SetOpenDayPicker(prev => !prev)}
+                    >
+                        <span className={`${selectedDate ? "text-black" : "text-gray"}`}>
+                            {selectedDate
+                                ? selectedDate.toLocaleDateString("ko-KR", {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric",
+                                  })
+                                : "날짜를 선택해주세요"}
+                        </span>
+                        <span>
+                            <Image
+                                src="/icons/calendar.svg"
+                                alt="달력아이콘"
+                                width={24}
+                                height={24}
+                            />
+                        </span>
+                    </button>
+                    {isOpenDayPicker && (
+                        <DayPicker
+                            mode="single"
+                            selected={selectedDate}
+                            onSelect={handleDateSelect}
+                            fixedWeeks
+                            className="absolute z-50 w-[18.75rem] mt-[0.7rem]"
+                        />
+                    )}
+                </div>
                 <MoodRadio
                     onChange={handleMoodChange}
                     value={formData.emotion}
@@ -175,26 +203,26 @@ const WritePage = () => {
                         작성
                     </Button>
                 </div>
-                {isWriteModalOpen && (
-                    <Modal
-                        title="교환일기를 작성하시겠습니까?"
-                        description="교환일기를 작성하시면 수정이 불가능합니다."
-                        onCancel={closeModal}
-                        onConfirm={submitDiaryEntry}
-                        cancelText="취소"
-                        confirmText="확인"
-                    />
-                )}
-                {isCompleteModalOpen && (
-                    <Modal
-                        title="작성 완료! 친구이름님 차례로 변경되었습니다"
-                        onConfirm={closeModal}
-                        confirmText="확인"
-                        confirmType={true}
-                        Isdescription={false}
-                    />
-                )}
             </form>
+            {isWriteModalOpen && (
+                <Modal
+                    title="교환일기를 작성하시겠습니까?"
+                    description="교환일기를 작성하시면 수정이 불가능합니다."
+                    onCancel={closeModal}
+                    onConfirm={submitDiaryEntry}
+                    cancelText="취소"
+                    confirmText="확인"
+                />
+            )}
+            {isCompleteModalOpen && (
+                <Modal
+                    title="작성 완료! 친구이름님 차례로 변경되었습니다"
+                    onConfirm={closeModal}
+                    confirmText="확인"
+                    confirmType={true}
+                    Isdescription={false}
+                />
+            )}
         </div>
     );
 };
