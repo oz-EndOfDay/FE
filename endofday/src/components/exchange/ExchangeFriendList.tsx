@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useState} from "react";
+import Link from "next/link";
 import ProfileCard from "@/components/friend/ProfileCard";
 import Pagination from "@/components/friend/Pagination";
 
@@ -48,24 +49,29 @@ const ExchangeFriendList = () => {
 
     return (
         <div className="h-full flex flex-col">
-            <div className="flex flex-col gap-4 flex-1">
+            <ul className="flex flex-col gap-4 flex-1">
                 {currentFriends.map(friend => (
-                    <div
+                    <li
                         key={friend.id}
-                        className="flex items-center justify-between p-4 bg-white rounded-lg"
+                        className="p-4 bg-white rounded-lg shadow-sm"
                     >
-                        <ProfileCard
-                            profileImage={friend.profileImage}
-                            name={friend.name}
-                            statusMessage={friend.statusMessage}
-                        />
-                        <div className="text-right space-x-2">
-                            <p>마지막 교환 날짜 : 2024-12-20</p>
-                            <p>교환한 일기 수 : 3</p>
-                        </div>
-                    </div>
+                        <Link
+                            href="/"
+                            className="w-full flex items-center justify-between "
+                        >
+                            <ProfileCard
+                                profileImage={friend.profileImage}
+                                name={friend.name}
+                                statusMessage={friend.statusMessage}
+                            />
+                            <div className="text-right space-x-2">
+                                <p>마지막 교환 날짜 : 2024-12-20</p>
+                                <p>교환한 일기 수 : 3</p>
+                            </div>
+                        </Link>
+                    </li>
                 ))}
-            </div>
+            </ul>
             <div className="mt-4 text-center">
                 <Pagination
                     currentPage={currentPage}
