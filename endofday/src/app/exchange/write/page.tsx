@@ -113,6 +113,8 @@ const WritePage = () => {
                     type="text"
                     placeholder="제목을 입력해주세요"
                     value="나"
+                    readOnly={true}
+                    isWhite={true}
                 />
                 {/* 날짜 */}
                 <div className="relative">
