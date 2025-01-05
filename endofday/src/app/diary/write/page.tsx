@@ -10,11 +10,11 @@ import {DayPicker} from "react-day-picker";
 import Heading from "@/components/ui/Heading";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import MoodRadio from "@/components/ui/MoodRadio";
-import WeatherRadio from "@/components/ui/WeatherRadio";
+import MoodRadio from "@/components/diary/MoodRadio";
+import WeatherRadio from "@/components/diary/WeatherRadio";
 import Modal from "@/components/ui/Modal";
 
-const TipTapEditor = dynamic(() => import("@/components/ui/TipTapEditor"), {ssr: false});
+const TipTapEditor = dynamic(() => import("@/components/diary/TipTapEditor"), {ssr: false});
 
 const WritePage = () => {
     // 작성 모달 상태

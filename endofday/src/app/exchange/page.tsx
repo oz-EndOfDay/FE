@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import Heading from "@/components/ui/Heading";
-import WriteButton from "@/components/ui/WriteButton";
-import DiaryItem from "@/components/ui/DiaryItem";
+import WriteButton from "@/components/diary/WriteButton";
+import DiaryItem from "@/components/diary/DiaryItem";
 
 type DiaryEntry = {
     id: number;
