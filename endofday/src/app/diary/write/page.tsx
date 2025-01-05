@@ -97,7 +97,7 @@ const WritePage = () => {
                     isWhite={true}
                     {...register("title")}
                 />
-                {errors.title && <p className="text-[#e63946] text-sm !mt-2">{errors.title.message}</p>}
+                {errors.title && <p className="text-red-500 text-sm !mt-2">{errors.title.message}</p>}
 
                 {/* 날짜 */}
                 <div className="relative">
@@ -137,7 +137,7 @@ const WritePage = () => {
                             className="absolute z-50 w-[18.75rem] mt-[0.7rem]"
                         />
                     )}
-                    {errors.write_date && <p className="text-[#e63946] text-sm !mt-2">{errors.write_date.message}</p>}
+                    {errors.write_date && <p className="text-red-500 text-sm !mt-2">{errors.write_date.message}</p>}
                 </div>
 
                 {/* 기분 */}
@@ -162,7 +162,7 @@ const WritePage = () => {
                     onChange={value => setValue("content", value)}
                     onImageAdd={file => setValue("image", file)}
                 />
-                {errors.content && <p className="text-[#e63946] text-sm !mt-2">{errors.content.message}</p>}
+                {errors.content && <p className="text-red-500 text-sm !mt-2">{errors.content.message}</p>}
 
                 <div className="flex !mt-[3.25rem] items-center">
                     <Button

@@ -57,9 +57,6 @@ const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value, error}) => {
                             checked={value === item.value}
                             value={item.value}
                             onChange={() => {
-                                console.log("item.value:", item.value);
-                                console.log("value:", value, "item.value:", item.value);
-                                console.log("값 비교:", value === item.value);
                                 onChange(item.value); // 상태 변경
                             }}
                         />
@@ -77,7 +74,7 @@ const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value, error}) => {
                     </label>
                 ))}
             </div>
-            {error && <p className="text-[#e63946] text-sm !mt-2">{error}</p>}
+            {error && <p className="text-red-500 text-sm !mt-2">{error}</p>}
         </div>
     );
 };

@@ -73,7 +73,7 @@ const WeatherRadio: React.FC<WeatherRadioProps> = ({onChange, value, error}) => 
                     </label>
                 ))}
             </div>
-            {error && <p className="text-[#e63946] text-sm !mt-2">{error}</p>}
+            {error && <p className="text-red-500 text-sm !mt-2">{error}</p>}
         </div>
     );
 };
