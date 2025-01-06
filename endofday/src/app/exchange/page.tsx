@@ -49,13 +49,15 @@ const ExchangeFriendPage = () => {
                         <br />
                         교환일기를 나눌 친구를 추가해보세요!
                     </Heading>
-                    <Button
-                        type="submit"
-                        variant="sand"
-                        className="!w-[17rem]"
-                    >
-                        친구 찾기
-                    </Button>
+                    <Link href="/friend/search">
+                        <Button
+                            type="submit"
+                            variant="sand"
+                            className="!w-[17rem]"
+                        >
+                            친구 찾기
+                        </Button>
+                    </Link>
                 </div>
             ) : (
                 <>
