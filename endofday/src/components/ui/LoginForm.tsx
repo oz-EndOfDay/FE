@@ -40,7 +40,7 @@ const LoginForm = () => {
           placeholder="이메일을 입력해주세요"
           {...register("email")}
         />
-        {errors.email && <p className="text-gray">{errors.email.message}</p>}
+        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
         <Input
           id="user_password"
           label="Password"
@@ -49,7 +49,7 @@ const LoginForm = () => {
           {...register("loginpassword")}
         />
         {errors.loginpassword && (
-          <p className="text-gray">{errors.loginpassword.message}</p>
+          <p className="text-red-500">{errors.loginpassword.message}</p>
         )}
         <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
           <Button type="submit">로그인</Button>
