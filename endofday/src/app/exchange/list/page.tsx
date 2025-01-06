@@ -1,8 +1,11 @@
 "use client";
+
+import React, {useState} from "react";
 import Link from "next/link";
 import Heading from "@/components/ui/Heading";
 import WriteButton from "@/components/diary/WriteButton";
 import DiaryItem from "@/components/diary/DiaryItem";
+import Pagination from "@/components/friend/Pagination";
 
 type DiaryEntry = {
     id: number;
@@ -81,10 +84,23 @@ const diaryEntries: DiaryEntry[] = [
     },
 ];
 
-const ExchangeDiaryPage = () => {
+const ExchangeDiaryList = () => {
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const pageSize = 6; 
+    const totalItems = diaryEntries.length;
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const diaryList = diaryEntries.slice(startIndex, endIndex);
+
     return (
-        <div>
-            <div className="pt-[1rem]">
+        <div className="h-full flex flex-col">
+            <div className="pt-[1rem] flex-1">
                 <div className="text-center">
                     <Heading tag="h2">친구이름 님과의 소중한 교환일기</Heading>
                     <Heading
@@ -107,7 +123,7 @@ const ExchangeDiaryPage = () => {
                     </Heading>
                 </div>
                 <ul className="flex flex-col gap-4 pt-[3rem]">
-                    {diaryEntries.map(item => {
+                    {diaryList.map(item => {
                         return (
                             <li key={item.id}>
                                 <Link href={`/exchange/${item.id}`}>
@@ -121,6 +137,14 @@ const ExchangeDiaryPage = () => {
                     })}
                 </ul>
             </div>
+            <div className="text-center mt-4">
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            </div>
+
             {/* 비활성화 */}
             {/* <WriteButton disabled={true} /> */}
             {/* 활성화 */}
@@ -131,4 +155,4 @@ const ExchangeDiaryPage = () => {
     );
 };
 
-export default ExchangeDiaryPage;
+export default ExchangeDiaryList;

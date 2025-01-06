@@ -124,7 +124,7 @@ const DiaryPage = () => {
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const currentDiary = diaryEntries.slice(startIndex, endIndex);
+    const diaryList = diaryEntries.slice(startIndex, endIndex);
 
     return (
         <div className="h-full flex flex-col">
@@ -151,8 +151,8 @@ const DiaryPage = () => {
                     {value}-{value2}
                 </Heading>
                 <ul className="flex flex-col gap-4 pt-[1rem]">
-                    {currentDiary ? (
-                        currentDiary.map(item => {
+                    {diaryList ? (
+                        diaryList.map(item => {
                             return (
                                 <li key={item.id}>
                                     <Link href={`/diary/${item.id}`}>
