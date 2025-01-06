@@ -2,18 +2,29 @@
 import Image from "next/image";
 import Heading from "@/components/ui/Heading";
 
+interface Room {
+  id: number;
+  friendName: string;
+  friendProfile: string;
+  lastMessage: string;
+}
+
+interface RoomListProps {
+  roomSearch: string;
+  setRoomSearch: (val: string) => void;
+  onRoomClick: (roomId: number) => void;
+  rooms: Room[];
+}
+
 export default function RoomList({
                                    roomSearch,
                                    setRoomSearch,
                                    onRoomClick,
                                    rooms,
-                                 }: {
-  roomSearch: string;
-  setRoomSearch: (val: string) => void;
-  onRoomClick: (roomId: number) => void;
-  rooms: { id: number; friendName: string; friendProfile: string; lastMessage: string }[];
-}) {
-  const filtered = rooms.filter((r) => r.friendName.includes(roomSearch));
+                                 }: RoomListProps) {
+  const filtered = rooms.filter((r) =>
+    r.friendName.includes(roomSearch)
+  );
 
   return (
     <>
@@ -31,33 +42,33 @@ export default function RoomList({
         />
       </div>
 
-      {filtered.length === 0 && (
+      {filtered.length === 0 ? (
         <div className="text-sm text-gray-500">
           현재 참여중인 채팅방이 없습니다.
         </div>
+      ) : (
+        <ul className="space-y-2">
+          {filtered.map((room) => (
+            <li
+              key={room.id}
+              className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-50"
+              onClick={() => onRoomClick(room.id)}
+            >
+              <Image
+                src={room.friendProfile}
+                alt="프로필"
+                width={32}
+                height={32}
+                className="rounded-full"
+              />
+              <div className="flex-1 text-sm">
+                <div className="font-semibold">{room.friendName}</div>
+                <div className="text-xs text-gray-500">{room.lastMessage}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
-
-      <ul className="space-y-2">
-        {filtered.map((room) => (
-          <li
-            key={room.id}
-            className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-50"
-            onClick={() => onRoomClick(room.id)}
-          >
-            <Image
-              src={room.friendProfile}
-              alt="프로필"
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-            <div className="flex-1 text-sm">
-              <div className="font-semibold">{room.friendName}</div>
-              <div className="text-xs text-gray-500">{room.lastMessage}</div>
-            </div>
-          </li>
-        ))}
-      </ul>
     </>
   );
 }

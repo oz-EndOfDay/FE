@@ -2,18 +2,25 @@
 import Image from "next/image";
 import Heading from "@/components/ui/Heading";
 
+interface Friend {
+  id: number;
+  name: string;
+  profileUrl: string;
+}
+
+interface FriendListProps {
+  friendSearch: string;
+  setFriendSearch: (val: string) => void;
+  onFriendClick: (friend: Friend) => void;
+  friends: Friend[];
+}
+
 export default function FriendList({
                                      friendSearch,
                                      setFriendSearch,
                                      onFriendClick,
                                      friends,
-                                   }: {
-  friendSearch: string;
-  setFriendSearch: (val: string) => void;
-  onFriendClick: (friend: { id: number; name: string }) => void;
-  friends: { id: number; name: string; profileUrl: string }[];
-}) {
-  // 이제 mockFriends 대신 props인 friends 사용
+                                   }: FriendListProps) {
   const filtered = friends.filter((f) => f.name.includes(friendSearch));
 
   return (
@@ -32,28 +39,28 @@ export default function FriendList({
         />
       </div>
 
-      {filtered.length === 0 && (
+      {filtered.length === 0 ? (
         <div className="text-sm text-gray-500">친구가 없습니다.</div>
+      ) : (
+        <ul className="space-y-2">
+          {filtered.map((friend) => (
+            <li
+              key={friend.id}
+              className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-50"
+              onClick={() => onFriendClick(friend)}
+            >
+              <Image
+                src={friend.profileUrl}
+                alt="프로필"
+                width={32}
+                height={32}
+                className="rounded-full"
+              />
+              <span className="text-sm">{friend.name}</span>
+            </li>
+          ))}
+        </ul>
       )}
-
-      <ul className="space-y-2">
-        {filtered.map((friend) => (
-          <li
-            key={friend.id}
-            className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-50"
-            onClick={() => onFriendClick(friend)}
-          >
-            <Image
-              src={friend.profileUrl}
-              alt="프로필"
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-            <span className="text-sm">{friend.name}</span>
-          </li>
-        ))}
-      </ul>
     </>
   );
 }
