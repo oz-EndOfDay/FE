@@ -84,7 +84,6 @@ const DiaryRemoveTable: React.FC = () => {
             <th className="min-w-16">제목</th>
             <th className="min-w-16">내용</th>
             <th className="md:w-36 min-w-16 ">날짜</th>
-            <th className="min-w-16 md:w-20">유형</th>
             <th className="min-w-16">복구</th>
           </tr>
         </thead>
