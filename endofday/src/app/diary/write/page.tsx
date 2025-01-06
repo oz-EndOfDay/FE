@@ -1,26 +1,20 @@
 "use client";
 import "@/styles/diary.css";
 import React, {useState} from "react";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {diarySchema, DiaryFormData} from "@/utils/diarySchema";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import {DayPicker} from "react-day-picker";
 import Heading from "@/components/ui/Heading";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import MoodRadio from "@/components/ui/MoodRadio";
-import WeatherRadio from "@/components/ui/WeatherRadio";
+import MoodRadio from "@/components/diary/MoodRadio";
+import WeatherRadio from "@/components/diary/WeatherRadio";
 import Modal from "@/components/ui/Modal";
 
-const TipTapEditor = dynamic(() => import("@/components/ui/TipTapEditor"), {ssr: false});
-
-interface DiaryFormData {
-    title: string;
-    write_date: string;
-    emotion: string;
-    weather: string;
-    content: string;
-    image?: File | null;
-}
+const TipTapEditor = dynamic(() => import("@/components/diary/TipTapEditor"), {ssr: false});
 
 const WritePage = () => {
     // 작성 모달 상태
@@ -32,82 +26,51 @@ const WritePage = () => {
         setWriteModalOpen(false);
         setCompleteModalOpen(false);
     };
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        getValues,
+        watch,
+        formState: {errors},
+    } = useForm<DiaryFormData>({
+        resolver: zodResolver(diarySchema),
+        defaultValues: {
+            title: "",
+            write_date: "",
+            emotion: "",
+            weather: "",
+            content: "",
+            image: null,
+        },
+    });
+    // 필요한 폼 필드들을 모두 watch
+    const currentEmotion = watch("emotion");
+    const currentWeather = watch("weather");
 
-    const validateAndShowModal = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        // 모든 필수 필드가 입력되었는지 확인 (image 제외)
-        const isValid = Object.entries(formData).every(([key, value]) => {
-            if (key === "image") return true; // 이미지 필드는 제외
-            return value !== "" && value !== null;
-        });
-
-        if (!isValid) {
-            alert("모든 값을 입력해주세요.");
-            return;
-        }
-
+    // 폼 제출
+    const onSubmit = (data: DiaryFormData) => {
+        // 작성모달
         setWriteModalOpen(true);
-    };
+        const formData = new FormData();
 
-    const submitDiaryEntry = () => {
-        setWriteModalOpen(false);
-        console.log("폼 데이터 제출:", formData);
+        // 폼 데이터 추가
+        formData.append("title", data.title);
+        formData.append("write_date", data.write_date);
+        formData.append("emotion", data.emotion);
+        formData.append("weather", data.weather);
+        formData.append("content", data.content);
 
-        const form = new FormData();
-        form.append("title", formData.title);
-        form.append("write_date", formData.write_date);
-        form.append("emotion", formData.emotion);
-        form.append("weather", formData.weather);
-        form.append("content", formData.content);
-
-        if (formData.image) {
-            form.append("image", formData.image);
+        if (data.image) {
+            formData.append("image", data.image);
         }
-
+        // 서버에 데이터전송 함수 추가해야함(리액트쿼리)
+    };
+    const handleConfirm = () => {
         setCompleteModalOpen(true);
     };
-
-    const [formData, setFormData] = useState<DiaryFormData>({
-        title: "",
-        write_date: "",
-        emotion: "",
-        weather: "",
-        content: "",
-        image: null,
-    });
-    // 제목
-    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData(prev => ({...prev, title: e.target.value}));
-    };
-    // 기분
-    const handleMoodChange = (emotion: string) => {
-        setFormData(prev => ({...prev, emotion}));
-    };
-    // 날씨
-    const handleWeatherChange = (weather: string) => {
-        setFormData(prev => ({...prev, weather}));
-    };
-    // 에디터
-    const handleEditorUpdate = (htmlContent: string) => {
-        setFormData(prev => ({...prev, content: htmlContent}));
-    };
-    // 사진
-    const handleImageAdd = (file: File | null) => {
-        setFormData(prev => ({...prev, image: file}));
-    };
     // 날짜
-    const [isOpenDayPicker, SetOpenDayPicker] = useState(false);
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-
-    const handleDateSelect = (date: Date | undefined) => {
-        setSelectedDate(date);
-        setFormData(prev => ({
-            ...prev,
-            write_date: date ? date.toISOString().split("T")[0] : "", // ISO 포맷 날짜 저장
-        }));
-        SetOpenDayPicker(false);
-    };
+    const [isOpenDayPicker, setOpenDayPicker] = useState(false);
 
     return (
         <div>
@@ -123,65 +86,84 @@ const WritePage = () => {
             </div>
             <form
                 className="space-y-4"
-                onSubmit={validateAndShowModal}
+                onSubmit={handleSubmit(onSubmit)}
             >
+                {/* 제목 */}
                 <Input
                     id="title"
                     label="제목"
                     type="text"
                     placeholder="제목을 입력해주세요"
                     isWhite={true}
-                    onChange={handleTitleChange}
-                    value={formData.title}
+                    {...register("title")}
                 />
-                <div>
+                {errors.title && <p className="text-red-500 text-sm !mt-2">{errors.title.message}</p>}
+
+                {/* 날짜 */}
+                <div className="relative">
                     <p className="mb-2">날짜</p>
                     <button
                         type="button"
                         className="justify-between p-3 text-black bg-white border-lightgray border rounded-xl flex w-full"
-                        onClick={() => SetOpenDayPicker(prev => !prev)}
+                        onClick={() => setOpenDayPicker(prev => !prev)}
                     >
-                        <span className={`${selectedDate ? "text-black" : "text-gray"}`}>
-                            {selectedDate
-                                ? selectedDate.toLocaleDateString("ko-KR", {
+                        <span className={`${getValues("write_date") ? "text-black" : "text-gray"}`}>
+                            {getValues("write_date")
+                                ? new Date(getValues("write_date")).toLocaleDateString("ko-KR", {
                                       year: "numeric",
                                       month: "long",
                                       day: "numeric",
                                   })
                                 : "날짜를 선택해주세요"}
                         </span>
-                        <span>
-                            <Image
-                                src="/icons/calendar.svg"
-                                alt="달력아이콘"
-                                width={24}
-                                height={24}
-                            />
-                        </span>
+                        <Image
+                            src="/icons/calendar.svg"
+                            alt="달력아이콘"
+                            width={24}
+                            height={24}
+                        />
                     </button>
                     {isOpenDayPicker && (
                         <DayPicker
                             mode="single"
-                            selected={selectedDate}
-                            onSelect={handleDateSelect}
+                            selected={getValues("write_date") ? new Date(getValues("write_date")) : undefined}
+                            onSelect={date => {
+                                if (date) {
+                                    setValue("write_date", date.toISOString().split("T")[0]);
+                                }
+                                setOpenDayPicker(false);
+                            }}
                             fixedWeeks
                             className="absolute z-50 w-[18.75rem] mt-[0.7rem]"
                         />
                     )}
+                    {errors.write_date && <p className="text-red-500 text-sm !mt-2">{errors.write_date.message}</p>}
                 </div>
 
+                {/* 기분 */}
                 <MoodRadio
-                    onChange={handleMoodChange}
-                    value={formData.emotion}
+                    onChange={value => {
+                        setValue("emotion", value);
+                    }}
+                    value={currentEmotion}
+                    error={errors.emotion?.message}
                 />
+
+                {/* 날씨 */}
                 <WeatherRadio
-                    onChange={handleWeatherChange}
-                    value={formData.weather}
+                    onChange={value => setValue("weather", value)}
+                    value={currentWeather}
+                    error={errors.weather?.message}
                 />
+
+                {/* 내용 */}
                 <TipTapEditor
-                    onChange={handleEditorUpdate}
-                    onImageAdd={handleImageAdd}
+                    value={getValues("content")}
+                    onChange={value => setValue("content", value)}
+                    onImageAdd={file => setValue("image", file)}
                 />
+                {errors.content && <p className="text-red-500 text-sm !mt-2">{errors.content.message}</p>}
+
                 <div className="flex !mt-[3.25rem] items-center">
                     <Button
                         type="submit"
@@ -191,12 +173,13 @@ const WritePage = () => {
                     </Button>
                 </div>
             </form>
+
             {isWriteModalOpen && (
                 <Modal
                     title="일기를 작성하시겠습니까?"
                     description="일기를 작성하시면 수정이 불가능합니다."
                     onCancel={closeModal}
-                    onConfirm={submitDiaryEntry}
+                    onConfirm={handleConfirm}
                     cancelText="취소"
                     confirmText="확인"
                 />

@@ -1,65 +1,67 @@
 import Image from "next/image";
 import React from "react";
 
-type WeatherItem = {
+type MoodItem = {
     id: number;
     path: string;
     value: string;
 };
-type WeatherRadioProps = {
+type MoodRadioProps = {
     onChange: (value: string) => void;
     value: string;
+    error?: string;
 };
-const WeatherItems: WeatherItem[] = [
+const MoodItems: MoodItem[] = [
     {
         id: 1,
-        path: "/icons/sunny.svg",
-        value: "맑음",
+        path: "/icons/joy_mood.png",
+        value: "기쁨",
     },
     {
         id: 2,
-        path: "/icons/cloud_sun.svg",
-        value: "구름조금",
+        path: "/icons/good_mood.png",
+        value: "좋음",
     },
     {
         id: 3,
-        path: "/icons/cloud.svg",
-        value: "흐림",
+        path: "/icons/neutral_mood.png",
+        value: "보통",
     },
     {
         id: 4,
-        path: "/icons/rain.svg",
-        value: "비",
+        path: "/icons/tired_mood.png",
+        value: "지침",
     },
     {
         id: 5,
-        path: "/icons/snow.svg",
-        value: "눈",
+        path: "/icons/sad_mood.png",
+        value: "슬픔",
     },
 ];
 
-const WeatherRadio: React.FC<WeatherRadioProps> = ({onChange, value}) => {
+const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value, error}) => {
+    console.log("MoodRadio 컴포넌트 value 상태:", value);
     return (
         <div>
-            <p className="mb-2">오늘의 날씨</p>
-            <div className="weather-radio flex w-full justify-evenly bg-white p-5 rounded-xl border-lightgray border">
-                {WeatherItems.map(item => (
+            <p className="mb-2">오늘의 기분</p>
+            <div className="mood-radio flex w-full justify-evenly bg-white p-5 rounded-xl border-lightgray border">
+                {MoodItems.map(item => (
                     <label
                         key={item.id}
                         className="flex flex-col justify-center items-center cursor-pointer"
                     >
                         <input
                             type="radio"
+                            name="mood"
+                            className="hidden"
+                            checked={value === item.value}
                             value={item.value}
                             onChange={() => {
-                                onChange(item.value);
+                                onChange(item.value); // 상태 변경
                             }}
-                            checked={value === item.value}
-                            name="weather"
-                            className="hidden"
                         />
                         <div className="flex items-center justify-center flex-col">
-                            <div className="relative w-[2rem] h-[2rem] md:w-[3rem] md:h-[3rem]">
+                            <div className="relative md:w-[4rem] md:h-[4rem] w-[3rem] h-[3rem]">
                                 <Image
                                     src={item.path}
                                     alt={item.value}
@@ -67,13 +69,14 @@ const WeatherRadio: React.FC<WeatherRadioProps> = ({onChange, value}) => {
                                     className="object-contain"
                                 />
                             </div>
-                            <span className="mt-3">{item.value}</span>
+                            <span className="mt-2">{item.value}</span>
                         </div>
                     </label>
                 ))}
             </div>
+            {error && <p className="text-red-500 text-sm !mt-2">{error}</p>}
         </div>
     );
 };
 
-export default WeatherRadio;
+export default MoodRadio;
