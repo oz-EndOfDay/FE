@@ -20,16 +20,15 @@ export default function FriendList({
                                      friendSearch,
                                      setFriendSearch,
                                      onFriendClick,
-                                     friends = [],
-                                   }: FriendListProps) {
-  // 여기서는 mockFriends를 직접 써도 되지만, 상위에서 props로 받을 수도 있음
-  // 임시로 mockFriends 사용하려면 import 해서 대체 가능
-  const mockFriends = [
-    { id: 1, name: "홍길동", profileUrl: "/icons/my.svg" },
-    { id: 2, name: "김코딩", profileUrl: "/icons/my.svg" },
-    { id: 3, name: "이하루", profileUrl: "/icons/my.svg" },
-  ];
-  const filtered = mockFriends.filter((f) => f.name.includes(friendSearch));
+                                     friends,
+                                   }: {
+  friendSearch: string;
+  setFriendSearch: (val: string) => void;
+  onFriendClick: (friend: { id: number; name: string }) => void;
+  friends: { id: number; name: string; profileUrl: string }[];
+}) {
+  // 이제 mockFriends 대신 props인 friends 사용
+  const filtered = friends.filter((f) => f.name.includes(friendSearch));
 
   return (
     <>
