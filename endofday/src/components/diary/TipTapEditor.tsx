@@ -8,15 +8,17 @@ import Image from "next/image";
 import Modal from "@/components/ui/Modal";
 
 interface TipTapEditorProps {
+    value: string;
     onChange: (content: string) => void;
     onImageAdd: (file: File | null) => void;
 }
 
-const TipTapEditor: React.FC<TipTapEditorProps> = ({onChange, onImageAdd}) => {
+const TipTapEditor: React.FC<TipTapEditorProps> = ({value, onChange, onImageAdd}) => {
     const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
     const [preview, setPreview] = useState<string | null>(null); // 미리보기 이미지 URL
 
     const editor = useEditor({
+        content: value,
         extensions: [
             StarterKit.configure({
                 heading: false,
