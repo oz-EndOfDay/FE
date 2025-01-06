@@ -1,18 +1,9 @@
 import Heading from "@/components/ui/Heading";
 import Image from "next/image";
-
-type DiaryEntry = {
-    id: number;
-    title: string;
-    write_date: string;
-    emotion: string;
-    content: string;
-    image: string;
-    weather: string;
-};
+import {DiaryListEntry} from "@/types/diary";
 
 type DiaryItemProps = {
-    data: DiaryEntry;
+    data: DiaryListEntry;
     type?: string;
 };
 
