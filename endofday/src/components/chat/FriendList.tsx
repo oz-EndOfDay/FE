@@ -2,20 +2,6 @@
 import Image from "next/image";
 import Heading from "@/components/ui/Heading";
 
-// 친구 데이터 예시와 동일한 구조
-interface Friend {
-  id: number;
-  name: string;
-  profileUrl: string;
-}
-
-interface FriendListProps {
-  friendSearch: string;
-  setFriendSearch: (val: string) => void;
-  onFriendClick: (friend: { id: number; name: string }) => void;
-  friends?: Friend[]; // 필요시 외부에서 주입 가능
-}
-
 export default function FriendList({
                                      friendSearch,
                                      setFriendSearch,
