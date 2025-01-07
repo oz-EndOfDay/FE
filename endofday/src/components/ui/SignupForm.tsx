@@ -28,7 +28,6 @@ const SignupForm = () => {
   const onSubmit = (data: RegistrationFormData) => {
     console.log("Form Data", data);
   };
-  console.log("에러", errors);
 
   return (
     <div className="bg-white p-[3rem] rounded-lg shadow-md h-full w-full max-w-[600px]">
@@ -41,6 +40,7 @@ const SignupForm = () => {
           label="Email"
           type="email"
           placeholder="이메일을 입력해주세요"
+          autocomplete="off"
           {...register("email")}
         />
         {errors.email && <p className="text-red-500">{errors.email.message}</p>}
@@ -50,6 +50,7 @@ const SignupForm = () => {
           label="Name"
           type="text"
           placeholder="이름을 입력해주세요"
+          autocomplete="off"
           {...register("name")}
         />
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
@@ -58,6 +59,7 @@ const SignupForm = () => {
           label="NickName"
           type="text"
           placeholder="별명을 입력해주세요"
+          autocomplete="off"
           {...register("nickname")}
         />
         {errors.nickname && (
@@ -68,6 +70,7 @@ const SignupForm = () => {
           label="Password"
           type="password"
           placeholder="비밀번호를 입력해주세요"
+          autocomplete="off"
           {...register("password")}
         />
         {errors.password && (
@@ -78,6 +81,7 @@ const SignupForm = () => {
           label="Password Confirm"
           type="password"
           placeholder="비밀번호 확인"
+          autocomplete="off"
           {...register("confirmPassword")}
         />
         {errors.confirmPassword && (
