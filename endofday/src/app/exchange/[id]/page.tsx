@@ -221,7 +221,7 @@ const ExchangeDiaryDetail = () => {
             {modalState === "confirm" && (
                 <Modal
                     title="교환일기를 삭제하시겠습니까?"
-                    description="작성하신 일기는 7일 동안 보관 후 삭제됩니다."
+                    description="작성하신 일기는 영구적으로 삭제됩니다."
                     onCancel={closeModal}
                     onConfirm={handleDeleteSuccess}
                     cancelText="취소"
@@ -231,7 +231,7 @@ const ExchangeDiaryDetail = () => {
             {modalState === "success" && (
                 <Modal
                     title="교환일기가 삭제되었습니다"
-                    description="삭제하신 일기는 내 정보 > 휴지통에서 보실 수 있으며, 7일 안에 복구 가능합니다."
+                    Isdescription={false}
                     onConfirm={closeModal}
                     confirmText="확인"
                     confirmType={true}
