@@ -45,7 +45,7 @@ const ProfileToggle = () => {
 
             <div className="flex flex-col items-center w-full sticky top-[150px] left-0">
                 {isToggleOpen && (
-                    <div className={`transition-all duration-400 ease-out opacity-0 flex flex-col items-center ${isToggleOpen ? "opacity-100 translate-y-0" : ""}`}>
+                    <div className={`transition-all duration-500 ease-in-out opacity-0 flex flex-col items-center ${isToggleOpen ? "opacity-100" : ""}`}>
                         <div className="bg-white w-[11.25rem] h-[11.25rem] rounded-[50%] flex justify-center items-center border overflow-hidden">
                             <Image
                                 src="/icons/ProfileExample.png"
