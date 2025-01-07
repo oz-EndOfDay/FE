@@ -1,7 +1,22 @@
+'use client'
+import {useEffect, useState} from "react";
 import {BounceDot} from "basic-loading";
 
 const Loading = () => {
-    const isMobile = window.innerWidth < 640;
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 640);
+        };
+
+        handleResize(); 
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
     const option = {
         size: isMobile ? 16 : 22,
         color: "#545f71",
