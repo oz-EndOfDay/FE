@@ -9,24 +9,40 @@ import Input from "@/components/ui/Input";
 import { useForm } from "react-hook-form";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
+import { useState } from "react";
 
 const SignupForm = () => {
+  const [serverMessage, setServerMassage] = useState<string | null>(null);
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
-    defaultValues: {
-      email: "",
-      name: "",
-      nickname: "",
-      password: "",
-      confirmPassword: "",
-    },
   });
-  const onSubmit = (data: RegistrationFormData) => {
-    console.log("Form Data", data);
+  const onSubmit = async (data: RegistrationFormData) => {
+    setServerMassage(null);
+    try {
+      const response = await fetch(`${API_BASE_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setServerMassage(`회원가입이 완료되었습니다.${result.message}`);
+      } else {
+        const error = await response.json();
+        setServerMassage(`회원가입 실패: ${error.message}`);
+      }
+    } catch (err) {
+      console.error("오류발생:", err);
+      setServerMassage("서버와 통신 중 오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -92,6 +108,17 @@ const SignupForm = () => {
             회원가입
           </Button>
         </div>
+        {serverMessage && (
+          <p
+            className={`mt-4 ${
+              serverMessage.startsWith("회원가입 실패")
+                ? "text-red-500"
+                : "text-green-500"
+            }`}
+          >
+            {serverMessage}
+          </p>
+        )}
       </form>
     </div>
   );
