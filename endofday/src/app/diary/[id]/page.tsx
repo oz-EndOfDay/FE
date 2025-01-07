@@ -8,80 +8,72 @@ import Button from "@/components/ui/Button";
 import SmallButton from "@/components/ui/SmallButton";
 import Modal from "@/components/ui/Modal";
 import CloseModal from "@/components/ui/CloseModal";
+import {DiaryDetailEntry, MoodItem, MoodItems, WeatherItem, WeatherItems} from "@/types/diary";
 
-type DiaryEntry = {
-    id: number;
-    title: string;
-    write_date: string;
-    emotion: string;
-    content: string;
-    image: string;
-    weather: string;
-};
 // 더미데이터
-const diaryEntries: DiaryEntry[] = [
+const diaryEntries: DiaryDetailEntry[] = [
     {
         id: 1,
         title: "12월 25일 일기",
         write_date: "2024-12-25",
-        emotion: "보통",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        image: "image1.png",
         weather: "비",
+        mood: "보통",
+        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
+        img_url: "image1.png",
     },
     {
+        weather: "눈",
         id: 2,
         title: "12월 26일 일기",
         write_date: "2024-12-26",
-        emotion: "기쁨",
+        mood: "기쁨",
         content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        image: "image2.png",
-        weather: "눈",
+        img_url: "image2.png",
     },
     {
         id: 3,
         title: "12월 26일 일기",
         write_date: "2024-12-26",
-        emotion: "좋음",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        image: "image2.png",
         weather: "흐림",
+        mood: "좋음",
+        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
+        img_url: "image2.png",
     },
     {
         id: 4,
         title: "12월 26일 일기",
         write_date: "2024-12-26",
-        emotion: "지침",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        image: "image2.png",
         weather: "흐림",
+        mood: "지침",
+        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
+        img_url: "image2.png",
     },
     {
         id: 5,
         title: "12월 26일 일기",
         write_date: "2024-12-26",
-        emotion: "슬픔",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        image: "image2.png",
         weather: "구름조금",
+        mood: "슬픔",
+        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
+        img_url: "image2.png",
     },
     {
         id: 6,
         title: "1월 2일 일기",
         write_date: "2025-01-02",
-        emotion: "보통",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        image: "image2.png",
         weather: "비",
+        mood: "보통",
+        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
+        img_url: "image2.png",
     },
     {
         id: 7,
         title: "1월 2일 일기",
         write_date: "2025-01-02",
-        emotion: "보통",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        image: "image2.png",
         weather: "맑음",
+        mood: "보통",
+        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
+        img_url: "image2.png",
     },
 ];
 // 날짜 변환
@@ -95,39 +87,6 @@ const formatDate = (dateString: string): string => {
     return `${year}년 ${month}월 ${day}일 ${dayOfWeek}`;
 };
 // 기분 맵핑
-type MoodItem = {
-    id: number;
-    path: string;
-    value: string;
-};
-
-const MoodItems: MoodItem[] = [
-    {
-        id: 1,
-        path: "/icons/joy_mood.png",
-        value: "기쁨",
-    },
-    {
-        id: 2,
-        path: "/icons/good_mood.png",
-        value: "좋음",
-    },
-    {
-        id: 3,
-        path: "/icons/neutral_mood.png",
-        value: "보통",
-    },
-    {
-        id: 4,
-        path: "/icons/tired_mood.png",
-        value: "지침",
-    },
-    {
-        id: 5,
-        path: "/icons/sad_mood.png",
-        value: "슬픔",
-    },
-];
 const getMoodItem = (mood: string): MoodItem => {
     return (
         MoodItems.find(item => item.value === mood) || {
@@ -138,38 +97,6 @@ const getMoodItem = (mood: string): MoodItem => {
     );
 };
 // 날씨 맵핑
-type WeatherItem = {
-    id: number;
-    path: string;
-    value: string;
-};
-const WeatherItems: WeatherItem[] = [
-    {
-        id: 1,
-        path: "/icons/sunny.svg",
-        value: "맑음",
-    },
-    {
-        id: 2,
-        path: "/icons/cloud_sun.svg",
-        value: "구름조금",
-    },
-    {
-        id: 3,
-        path: "/icons/cloud.svg",
-        value: "흐림",
-    },
-    {
-        id: 4,
-        path: "/icons/rain.svg",
-        value: "비",
-    },
-    {
-        id: 5,
-        path: "/icons/snow.svg",
-        value: "눈",
-    },
-];
 const getWeatherItem = (weather: string): WeatherItem => {
     return (
         WeatherItems.find(item => item.value === weather) || {
@@ -181,9 +108,9 @@ const getWeatherItem = (weather: string): WeatherItem => {
 };
 const DiaryDetail = () => {
     const {id} = useParams();
-    const [diary, setDiary] = useState<DiaryEntry | null>(null);
+    const [diary, setDiary] = useState<DiaryDetailEntry | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [modalState, setModalState] = useState<"confirm" | "success" | "emotion" | "">("");
+    const [modalState, setModalState] = useState<"confirm" | "success" | "mood" | "">("");
 
     useEffect(() => {
         if (id) {
@@ -203,7 +130,7 @@ const DiaryDetail = () => {
     if (!diary) {
         return <div>일기를 찾을 수 없습니다.</div>;
     }
-    const moodItem = getMoodItem(diary.emotion);
+    const moodItem = getMoodItem(diary.mood);
     const weatherItem = getWeatherItem(diary.weather);
 
     const openDeleteConfirmModal = () => setModalState("confirm");
@@ -214,7 +141,7 @@ const DiaryDetail = () => {
     };
     const handleEmotionAnalysis = () => {
         console.log("API 호출로직");
-        setModalState("emotion");
+        setModalState("mood");
     };
     return (
         <div className="diary-detail">
@@ -264,7 +191,7 @@ const DiaryDetail = () => {
                 </div>
                 <div>
                     <p className="mb-2">사진</p>
-                    {diary.image ? (
+                    {diary.img_url ? (
                         <div
                             className="relative w-full aspect-w-16 aspect-h-9 max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto"
                             style={{
@@ -313,7 +240,7 @@ const DiaryDetail = () => {
                     confirmType={true}
                 />
             )}
-            {modalState === "emotion" && (
+            {modalState === "mood" && (
                 <CloseModal
                     title="'따봉맨'님의 감정분석"
                     onClose={closeModal}

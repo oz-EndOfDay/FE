@@ -12,31 +12,14 @@ interface Friend {
     profileImage: string;
 }
 
-const mockFriends: Friend[] = [
-    {
-        id: 1,
-        name: "홍길동",
-        statusMessage: "안녕하세요!",
-        profileImage: "",
-    },
-    {
-        id: 2,
-        name: "김철수",
-        statusMessage: "반갑습니다",
-        profileImage: "",
-    },
-    {
-        id: 3,
-        name: "이영희",
-        statusMessage: "오늘도 화이팅!",
-        profileImage: "",
-    },
-];
+interface ExchangeFriendListProps {
+    friends: Friend[];
+}
 
-const ExchangeFriendList = () => {
+const ExchangeFriendList = ({friends}: ExchangeFriendListProps) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const pageSize = 2; // 한 페이지에 몇명 표시할건지
-    const totalItems = mockFriends.length;
+    const totalItems = friends.length;
     const totalPages = Math.ceil(totalItems / pageSize);
 
     const handlePageChange = (page: number) => {
@@ -45,7 +28,7 @@ const ExchangeFriendList = () => {
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const currentFriends = mockFriends.slice(startIndex, endIndex);
+    const currentFriends = friends.slice(startIndex, endIndex);
 
     return (
         <div className="h-full flex flex-col">
