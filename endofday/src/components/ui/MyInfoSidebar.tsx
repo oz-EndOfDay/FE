@@ -1,10 +1,10 @@
 "use client";
 import React, {useState} from "react";
 import Link from "next/link";
-import {IoIosMenu} from "react-icons/io";
 import {IoCalendarNumberOutline} from "react-icons/io5";
 import {SlUser} from "react-icons/sl";
 import {SlTrash} from "react-icons/sl";
+import {RiMoreLine} from "react-icons/ri";
 const MyInfoSidebar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return (
@@ -34,11 +34,11 @@ const MyInfoSidebar = () => {
                 className="fixed top-4 left-4 z-50 md:hidden"
                 onClick={() => setIsMenuOpen(true)}
             >
-                <IoIosMenu size={25} />
+                <RiMoreLine size={20} />
             </button>
 
             {/* 모바일 */}
-            <nav className={`fixed top-0 left-0 bg-warmgray p-[2.3rem] flex-col items-center z-50 transition-transform duration-700 ease-in-out ${isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"} md:hidden`}>
+            <nav className={`fixed top-1/2 left-1/2 bg-warmgray rounded-lg p-[2.3rem] flex-col items-center z-50 transition-transform duration-500 ease-in-out translate-x-[-50%] translate-y-[-50%] ${isMenuOpen ? "opacity-100" : "opacity-0"} md:hidden`}>
                 {/* 닫기 버튼 */}
                 <button
                     className="absolute top-3 right-4 text-xl text-gray-600"
@@ -49,21 +49,30 @@ const MyInfoSidebar = () => {
 
                 <ul className="text-center space-y-6">
                     <li>
-                        <Link href="/my">
+                        <Link
+                            href="/my"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
                             <span className="flex items-center justify-center gap-2">
                                 내 정보 <SlUser size={20} />
                             </span>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/my/record">
+                        <Link
+                            href="/my/record"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
                             <span className="flex items-center justify-center gap-2">
                                 나의 기록 <IoCalendarNumberOutline size={20} />
                             </span>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/my/remove">
+                        <Link
+                            href="/my/remove"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
                             <span className="flex items-center justify-center gap-2">
                                 휴지통 <SlTrash size={20} />
                             </span>
