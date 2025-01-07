@@ -9,7 +9,6 @@ interface Diary {
   mood: "기쁨" | "좋음" | "보통" | "지침" | "슬픔";
   weather: "맑음" | "구름조금" | "흐림" | "비" | "눈";
   content: string;
-  type: string;
 }
 
 // 목업 데이터
@@ -17,7 +16,6 @@ const Diaries: Diary[] = [
   {
     id: 1,
     date: "2025-01-01",
-    type: "일기",
     title: "새해 첫날",
     mood: "기쁨",
     weather: "맑음",
@@ -28,7 +26,6 @@ const Diaries: Diary[] = [
     id: 2,
     date: "2025-01-05",
     title: "테스트",
-    type: "교환 일기",
     mood: "지침",
     weather: "맑음",
     content: "테스트 중",
@@ -37,7 +34,6 @@ const Diaries: Diary[] = [
     id: 3,
     date: "2025-01-16",
     title: "프로젝트 마감",
-    type: "일기",
     mood: "지침",
     weather: "맑음",
     content:
@@ -47,7 +43,6 @@ const Diaries: Diary[] = [
     id: 4,
     date: "2025-01-25",
     title: "여행 가고 싶다",
-    type: "일기",
     mood: "보통",
     weather: "구름조금",
     content: "일본 가서 라멘이랑 규동이랑 돈까스 먹고 싶다.",
@@ -56,7 +51,6 @@ const Diaries: Diary[] = [
     id: 5,
     date: "2025-01-26",
     title: "바쁜 하루",
-    type: "일기",
     mood: "지침",
     weather: "비",
     content: "바쁘다 바빠 현대사회",
@@ -65,7 +59,6 @@ const Diaries: Diary[] = [
     id: 6,
     date: "2025-01-26",
     title: "바쁜 하루2",
-    type: "일기",
     mood: "지침",
     weather: "비",
     content: "바쁘다 바빠 현대사회",
@@ -74,7 +67,6 @@ const Diaries: Diary[] = [
     id: 7,
     date: "2025-01-26",
     title: "바쁜 하루3",
-    type: "교환 일기",
     mood: "지침",
     weather: "비",
     content: "바쁘다 바빠 현대사회",
@@ -84,7 +76,7 @@ const Diaries: Diary[] = [
 const DiaryRemoveTable: React.FC = () => {
   return (
     <div className=" bg-white p-10 w-full shadow-md rounded-md">
-      <table className="   ">
+      <table>
         <thead className=" border-b-2">
           <tr>
             <th className="p-1">No</th>
@@ -92,7 +84,6 @@ const DiaryRemoveTable: React.FC = () => {
             <th className="min-w-16">제목</th>
             <th className="min-w-16">내용</th>
             <th className="md:w-36 min-w-16 ">날짜</th>
-            <th className="min-w-16 md:w-20">유형</th>
             <th className="min-w-16">복구</th>
           </tr>
         </thead>
@@ -109,7 +100,6 @@ const DiaryRemoveTable: React.FC = () => {
                 {diary.content}
               </td>
               <td className="text-center">{diary.date}</td>
-              <td>{diary.type}</td>
               <td>
                 <Button className="p-2" type="button" variant="sand">
                   복구
