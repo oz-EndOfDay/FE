@@ -91,11 +91,13 @@ const DiaryCalendar: React.FC = () => {
       return diaries.length > 0 ? (
         <div className=" flex flex-col gap-1 md:text-nowrap overflow-hidden m-2 items-start md:p-4 p-1 md:text-md text-sm font-semibold border md:h-[110px] h-[60px] min-w-8 border-lightgray rounded-md text-gray">
           {diaries.map((diary, index) => (
-            <p key={index}>{diary.title}</p>
+            <p className="line-clamp-1" key={index}>
+              {diary.title}
+            </p>
           ))}
         </div>
       ) : (
-        <div className="text-md text-nowrap mx-2 border md:h-[110px] h-[60px] min-w-8 border-lightgray rounded-md "></div>
+        <div className="text-md text-nowrap m-2 border md:h-[110px] h-[60px] min-w-8 border-lightgray rounded-md "></div>
       );
     }
     return null;
@@ -115,9 +117,9 @@ const DiaryCalendar: React.FC = () => {
   // 모달 닫기
   const closeModal = () => setModalOpen(false);
   return (
-    <div className="flex flex-col items-center w-full md:gap-20 gap-10  p-6">
+    <div className="flex flex-col items-center w-full gap-10  p-6">
       <Heading tag="h1">나의 기록</Heading>
-      <div className=" shadow-md">
+      <div className=" shadow-md rounded-[20px] ">
         <Calendar
           onChange={(value) => {
             setSelectedDate(value as Date);
@@ -173,7 +175,9 @@ const DiaryCalendar: React.FC = () => {
                   ))}
                 </ul>
               ) : (
-                <p className="text-center">작성하신 일기가 없습니다.</p>
+                <div className="flex justify-center items-center h-20 ">
+                  <p>작성한 일기가 없습니다.</p>
+                </div>
               )}
             </div>
           </div>
