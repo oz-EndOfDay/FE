@@ -244,6 +244,8 @@ const DiaryDetail = () => {
             {modalState === "mood" && (
                 <CloseModal
                     title="'따봉맨'님의 감정분석"
+                    subTitle="'따봉맨'님에게 해주고싶은 말"
+                    subContent="조언"
                     onClose={closeModal}
                 >
                     팝업내용
