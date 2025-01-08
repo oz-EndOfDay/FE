@@ -147,9 +147,6 @@ export default function Header() {
     console.log(`${activeChatRoom?.friendName}님과의 채팅방에서 나갔습니다.`);
     setActiveChatRoomId(null);
   };
-  const finalCloseLeftChatModal = () => {
-    setIsLeftChatConfirmModalOpen(false);
-  };
 
   const chatMessages = [
     {
