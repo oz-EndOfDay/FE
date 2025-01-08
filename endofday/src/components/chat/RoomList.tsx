@@ -34,7 +34,7 @@ export function RoomList({
           value={roomSearch}
           onChange={(e) => setRoomSearch(e.target.value)}
           placeholder="채팅방 검색"
-          className="w-full pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full pl-10 border pr-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
