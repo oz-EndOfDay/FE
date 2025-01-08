@@ -46,7 +46,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="bg-white p-[3rem] rounded-lg shadow-md h-full w-full max-w-[600px]">
+    <div className="bg-white p-[3rem] rounded-lg shadow-md w-full max-w-[600px]">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 ">
         <Heading tag="h2" className="text-center">
           회원가입

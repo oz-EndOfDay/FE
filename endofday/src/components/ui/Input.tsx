@@ -19,7 +19,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       placeholder,
       className,
       isWhite = false,
-      autoComplete,
+      autocomplete,
       ...rest
     },
     ref
@@ -37,7 +37,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type={type}
           placeholder={placeholder}
           className={`relative p-3 rounded-lg bg-[#F2F4F8] placeholder:text-gray text-black focus:outline-none ${isWhite ? "bg-white border-lightgray border rounded-xl" : ""}`}
-          autoComplete={autoComplete}
+          autoComplete={autocomplete}
           ref={ref}
           {...rest}
         />
