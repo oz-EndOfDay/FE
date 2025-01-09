@@ -9,6 +9,7 @@
 html,
 body {
     height: 100vh;
+    height: 100dvh;
     min-height: 100%;
     color: var(--foreground);
     background: var(--background);

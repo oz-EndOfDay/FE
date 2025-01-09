@@ -1,12 +1,15 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Modal from "@/components/ui/Modal";
 
-import FriendList from "@/components/chat/FriendList";
-import RoomList from "@/components/chat/RoomList";
-import ChatRoom from "@/components/chat/ChatRoom";
 import NotificationPanel from "@/components/NotificationPanel";
+import { RoomList } from "@/components/chat/RoomList";
+import { ChatRoom } from "@/components/chat/ChatRoom";
+import { FriendList } from "@/components/chat/FriendList";
+import {IoChatbubbleOutline} from "react-icons/io5";
+import {FaRegUser} from "react-icons/fa6";
 
 interface NotificationItem {
   id: number;
@@ -14,6 +17,15 @@ interface NotificationItem {
   text: string;
   unread: boolean;
 }
+
+interface ChatRoomItem {
+  id: number;
+  friendId: number;
+  friendName: string;
+  friendProfile: string;
+  lastMessage: string;
+}
+
 const mockNotifications: NotificationItem[] = [
   {
     id: 1,
@@ -30,18 +42,11 @@ const mockNotifications: NotificationItem[] = [
   {
     id: 3,
     profileUrl: "/icons/my.svg",
-    text: "이하루님이 친구신청 보냈다. 빋이리",
+    text: "이하루님이 친구신청 보냈습니다.",
     unread: true,
   },
 ];
 
-interface ChatRoomItem {
-  id: number;
-  friendId: number;
-  friendName: string;
-  friendProfile: string;
-  lastMessage: string;
-}
 const mockChatRooms: ChatRoomItem[] = [
   {
     id: 101,
@@ -60,10 +65,12 @@ const mockChatRooms: ChatRoomItem[] = [
 ];
 
 export default function Header() {
-  // ------------------ 알림 상태 ------------------
+  // ------------------ 알림(Notification) 상태 ------------------
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [notifications, setNotifications] = useState<NotificationItem[]>(mockNotifications);
-  const [notificationFilter, setNotificationFilter] = useState<"all" | "unread">("all");
+  const [notifications, setNotifications] =
+    useState<NotificationItem[]>(mockNotifications);
+  const [notificationFilter, setNotificationFilter] =
+    useState<"all" | "unread">("all");
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(true);
 
   const filteredNotifications = notifications.filter((n) => {
@@ -76,17 +83,31 @@ export default function Header() {
       prev.map((n) => (n.id === id ? { ...n, unread: false } : n))
     );
   };
+
   const handleNotificationFilter = (filter: "all" | "unread") => {
     setNotificationFilter(filter);
   };
 
-  // ------------------ 채팅 상태 ------------------
+  const handleNotificationToggle = () => {
+    setIsNotificationOpen((prev) => !prev);
+    setIsChatOpen(false);
+    setIsProfileOpen(false);
+  };
+
+  // ------------------ 채팅(Chat) 상태 ------------------
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatTab, setChatTab] = useState<"friend" | "room">("friend");
   const [friendSearch, setFriendSearch] = useState("");
   const [roomSearch, setRoomSearch] = useState("");
   const [activeChatRoomId, setActiveChatRoomId] = useState<number | null>(null);
   const activeChatRoom = mockChatRooms.find((r) => r.id === activeChatRoomId);
+
+  const handleChatToggle = () => {
+    setIsChatOpen(!isChatOpen);
+    setIsNotificationOpen(false);
+    setIsProfileOpen(false);
+    setActiveChatRoomId(null);
+  };
 
   const handleSwitchTab = (tab: "friend" | "room") => {
     setChatTab(tab);
@@ -106,9 +127,10 @@ export default function Header() {
     setActiveChatRoomId(null);
   };
 
-  // 채팅방 나가기 2단계 모달
+  // 채팅방 나가기 모달
   const [isLeaveChatModalOpen, setIsLeaveChatModalOpen] = useState(false);
-  const [isLeftChatConfirmModalOpen, setIsLeftChatConfirmModalOpen] = useState(false);
+  const [isLeftChatConfirmModalOpen, setIsLeftChatConfirmModalOpen] =
+    useState(false);
 
   const handleLeaveChatRoom = () => {
     setIsLeaveChatModalOpen(true);
@@ -124,9 +146,6 @@ export default function Header() {
     setIsLeftChatConfirmModalOpen(false);
     console.log(`${activeChatRoom?.friendName}님과의 채팅방에서 나갔습니다.`);
     setActiveChatRoomId(null);
-  };
-  const finalCloseLeftChatModal = () => {
-    setIsLeftChatConfirmModalOpen(false);
   };
 
   const chatMessages = [
@@ -156,42 +175,17 @@ export default function Header() {
     },
   ];
 
-  // ------------------ 프로필(로그아웃 & 마이페이지) 상태 ------------------
+  // ------------------ 프로필(마이페이지 / 로그아웃) 상태 ------------------
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-
-  // 2단계 로그아웃 모달
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const [isLoggedOutConfirmModalOpen, setIsLoggedOutConfirmModalOpen] = useState(false);
+  const [isLoggedOutConfirmModalOpen, setIsLoggedOutConfirmModalOpen] =
+    useState(false);
 
-  // ------------------ 패널/아이콘 ref ------------------
-  const chatIconRef = useRef<HTMLButtonElement>(null);
-  const chatPanelRef = useRef<HTMLDivElement>(null);
-
-  const notificationIconRef = useRef<HTMLButtonElement>(null);
-  const notificationPanelRef = useRef<HTMLDivElement>(null);
-
-  const profileIconRef = useRef<HTMLButtonElement>(null);
-  const profilePanelRef = useRef<HTMLDivElement>(null);
-
-  // ------------------ 토글 함수 ------------------
-  const handleChatToggle = () => {
-    setIsChatOpen(!isChatOpen);
-    setIsNotificationOpen(false);
-    setIsProfileOpen(false);
-    setActiveChatRoomId(null);
-  };
-  const handleNotificationToggle = () => {
-    setIsNotificationOpen(!isNotificationOpen);
-    setIsChatOpen(false);
-    setIsProfileOpen(false);
-  };
   const handleProfileToggle = () => {
     setIsProfileOpen(!isProfileOpen);
     setIsChatOpen(false);
     setIsNotificationOpen(false);
   };
-
-  // ------------------ 로그아웃 로직 ------------------
   const handleGotoMyPage = () => {
     console.log("마이페이지로 이동 (미구현)");
   };
@@ -210,7 +204,14 @@ export default function Header() {
     console.log("로그아웃 완료 (실제 로직 처리)");
   };
 
-  // ------------------ 바깥 클릭 감지 => 패널 닫기 ------------------
+  // ------------------ 바깥 클릭 시 패널 닫기 ------------------
+  const chatIconRef = useRef<HTMLButtonElement>(null);
+  const chatPanelRef = useRef<HTMLDivElement>(null);
+  const notificationIconRef = useRef<HTMLButtonElement>(null);
+  const notificationPanelRef = useRef<HTMLDivElement>(null);
+  const profileIconRef = useRef<HTMLButtonElement>(null);
+  const profilePanelRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       const target = e.target as Node;
@@ -225,7 +226,6 @@ export default function Header() {
       ) {
         setIsChatOpen(false);
       }
-
       // 알림
       if (
         isNotificationOpen &&
@@ -236,7 +236,6 @@ export default function Header() {
       ) {
         setIsNotificationOpen(false);
       }
-
       // 프로필
       if (
         isProfileOpen &&
@@ -255,9 +254,13 @@ export default function Header() {
     };
   }, [isChatOpen, isNotificationOpen, isProfileOpen]);
 
+  // --------------------------------------------------------------------------
+  // 렌더링
+  // --------------------------------------------------------------------------
   return (
     <header className="fixed top-0 right-0 h-16 flex items-center bg-FDFBF8 justify-end px-2 z-50 w-full">
       <div className="flex items-center gap-2">
+
         {/* 채팅 아이콘 + 패널 */}
         <div>
           <button
@@ -265,27 +268,22 @@ export default function Header() {
             onClick={handleChatToggle}
             className="p-2 hover:bg-gray-100 rounded-full"
           >
-            <Image
-              src="/icons/chat.svg"
-              alt="채팅 아이콘"
-              width={40}
-              height={40}
-            />
+            <Image src="/icons/chat.svg" alt="채팅 아이콘" width={40} height={40} />
           </button>
           {isChatOpen && (
             <div
               ref={chatPanelRef}
-              className="absolute right-0 mt-2 w-80 bg-white z-10 border shadow"
+              className="absolute right-0 mt-2 w-80 bg-white z-10 shadow"
               style={{ maxHeight: "80vh" }}
             >
               {activeChatRoomId === null ? (
                 <div className="p-4 relative" style={{ minHeight: "400px" }}>
+                  {/* 친구목록 / 채팅방 목록 */}
                   {chatTab === "friend" && (
                     <FriendList
                       friendSearch={friendSearch}
                       setFriendSearch={setFriendSearch}
                       onFriendClick={handleFriendClick}
-                      // 만약 실제 friends 데이터가 있다면 props로 전달
                       friends={[
                         { id: 1, name: "홍길동", profileUrl: "/icons/my.svg" },
                         { id: 2, name: "김코딩", profileUrl: "/icons/my.svg" },
@@ -298,7 +296,6 @@ export default function Header() {
                       roomSearch={roomSearch}
                       setRoomSearch={setRoomSearch}
                       onRoomClick={handleRoomClick}
-                      // 실제 rooms 데이터
                       rooms={mockChatRooms.map((item) => ({
                         id: item.id,
                         friendName: item.friendName,
@@ -308,27 +305,28 @@ export default function Header() {
                     />
                   )}
 
+                  {/* 탭 전환 버튼들 */}
                   <div className="absolute bottom-2 left-0 w-full px-4">
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleSwitchTab("friend")}
-                        className={`flex-1 py-2 text-sm ${
+                        className={`flex-1 flex justify-center py-2 text-sm ${
                           chatTab === "friend"
-                            ? "bg-blue-200"
-                            : "bg-gray-100 hover:bg-gray-200"
+                            ? "bg-slate-700 text-white"
+                            : "bg-slate-200 text-slate-700 hover:bg-slate-300"
                         } rounded`}
                       >
-                        친구목록
+                        <FaRegUser/>
                       </button>
                       <button
                         onClick={() => handleSwitchTab("room")}
-                        className={`flex-1 py-2 text-sm ${
+                        className={`flex-1 flex justify-center py-2 text-sm ${
                           chatTab === "room"
-                            ? "bg-blue-200"
-                            : "bg-gray-100 hover:bg-gray-200"
+                            ? "bg-slate-700 text-white"
+                            : "bg-slate-200 text-slate-700 hover:bg-slate-300"
                         } rounded`}
                       >
-                        현재 채팅방
+                        <IoChatbubbleOutline/>
                       </button>
                     </div>
                   </div>
@@ -346,24 +344,19 @@ export default function Header() {
           )}
         </div>
 
-        {/* 알림 아이콘 + 패널 */}
+        {/* 알림 아이콘 */}
         <div>
           <button
             ref={notificationIconRef}
             onClick={handleNotificationToggle}
             className="p-2 hover:bg-gray-100 rounded-full"
           >
-            <Image
-              src="/icons/alarm.svg"
-              alt="알림 아이콘"
-              width={40}
-              height={40}
-            />
+            <Image src="/icons/alarm.svg" alt="알림 아이콘" width={40} height={40} />
           </button>
           {isNotificationOpen && (
             <div
               ref={notificationPanelRef}
-              className="absolute right-0 mt-2 w-72 bg-white z-10 p-4 border shadow"
+              className="absolute right-0 mt-2 w-72 bg-white z-10 p-4 shadow"
               style={{ maxHeight: "80vh", overflowY: "auto" }}
             >
               <NotificationPanel
@@ -378,25 +371,20 @@ export default function Header() {
           )}
         </div>
 
-        {/* 프로필 아이콘 + 패널 */}
+        {/* 프로필 아이콘 */}
         <div>
           <button
             ref={profileIconRef}
             onClick={handleProfileToggle}
             className="p-2 hover:bg-gray-100 rounded-full"
           >
-            <Image
-              src="/icons/my.svg"
-              alt="프로필 아이콘"
-              width={40}
-              height={40}
-            />
+            <Image src="/icons/my.svg" alt="프로필 아이콘" width={40} height={40} />
           </button>
 
           {isProfileOpen && (
             <div
               ref={profilePanelRef}
-              className="absolute right-0 mt-2 w-48 py-2 bg-white z-10 border shadow-md"
+              className="absolute right-0 mt-2 w-48 py-2 bg-white z-10 shadow-md"
             >
               <div className="flex items-center p-4">
                 <Image
@@ -406,9 +394,7 @@ export default function Header() {
                   height={48}
                   className="rounded-full"
                 />
-                <span className="font-bold flex-1 text-center">
-                  내닉네임
-                </span>
+                <span className="font-bold flex-1 text-center">내닉네임</span>
               </div>
 
               <hr className="my-2 w-4/5 mx-auto" />
@@ -447,14 +433,15 @@ export default function Header() {
           confirmText="확인"
         />
       )}
+
       {/* 로그아웃 2단계 모달 */}
       {isLoggedOutConfirmModalOpen && (
         <Modal
           title="로그아웃되었습니다."
-          onCancel={() => setIsLoggedOutConfirmModalOpen(false)}
+          // 취소 버튼 없이 확인만
           onConfirm={handleLoggedOutConfirm}
-          cancelText="닫기"
           confirmText="확인"
+          confirmType={true}  // 이 값으로 인해, 버튼 하나만 표시
         />
       )}
 
@@ -469,14 +456,15 @@ export default function Header() {
           confirmText="확인"
         />
       )}
-      {/* 채팅방 나가기: 두 번째 모달 */}
+
+      {/* 채팅방 나가기: 두 번째 모달 (확인만) */}
       {isLeftChatConfirmModalOpen && (
         <Modal
           title={`${activeChatRoom?.friendName}님과의 채팅방에서 나갔습니다.`}
-          onCancel={finalCloseLeftChatModal}
+          // 취소 버튼 없이 확인만
           onConfirm={finalConfirmLeftChat}
-          cancelText="닫기"
           confirmText="확인"
+          confirmType={true} // 하나만 표시
         />
       )}
     </header>

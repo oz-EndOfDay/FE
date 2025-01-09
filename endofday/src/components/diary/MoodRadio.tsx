@@ -1,46 +1,14 @@
 import Image from "next/image";
 import React from "react";
+import {MoodItems} from "@/types/diary";
 
-type MoodItem = {
-    id: number;
-    path: string;
-    value: string;
-};
 type MoodRadioProps = {
     onChange: (value: string) => void;
     value: string;
     error?: string;
 };
-const MoodItems: MoodItem[] = [
-    {
-        id: 1,
-        path: "/icons/joy_mood.png",
-        value: "기쁨",
-    },
-    {
-        id: 2,
-        path: "/icons/good_mood.png",
-        value: "좋음",
-    },
-    {
-        id: 3,
-        path: "/icons/neutral_mood.png",
-        value: "보통",
-    },
-    {
-        id: 4,
-        path: "/icons/tired_mood.png",
-        value: "지침",
-    },
-    {
-        id: 5,
-        path: "/icons/sad_mood.png",
-        value: "슬픔",
-    },
-];
 
 const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value, error}) => {
-    console.log("MoodRadio 컴포넌트 value 상태:", value);
     return (
         <div>
             <p className="mb-2">오늘의 기분</p>

@@ -8,6 +8,7 @@ import SmallButton from "@/components/ui/SmallButton";
 import CloseModal from "@/components/ui/CloseModal";
 import Select from "@/components/ui/Select";
 import SearchInput from "@/components/ui/SearchInput";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 const ExamplePage = () => {
     // modal
@@ -198,6 +199,14 @@ const ExamplePage = () => {
 
                 <div className="mt-10">
                     <SearchInput placeholder="제목으로 검색해 보세요" />
+                </div>
+            </section>
+
+            <section className="mt-10">
+                <Heading tag="h2">LoadingSpinner Component</Heading>
+
+                <div className="mt-10">
+                    <LoadingSpinner />
                 </div>
             </section>
         </>

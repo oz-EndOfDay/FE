@@ -1,43 +1,12 @@
 import Image from "next/image";
 import React from "react";
+import {WeatherItems} from "@/types/diary";
 
-type WeatherItem = {
-    id: number;
-    path: string;
-    value: string;
-};
 type WeatherRadioProps = {
     onChange: (value: string) => void;
     value: string;
     error?: string;
 };
-const WeatherItems: WeatherItem[] = [
-    {
-        id: 1,
-        path: "/icons/sunny.svg",
-        value: "맑음",
-    },
-    {
-        id: 2,
-        path: "/icons/cloud_sun.svg",
-        value: "구름조금",
-    },
-    {
-        id: 3,
-        path: "/icons/cloud.svg",
-        value: "흐림",
-    },
-    {
-        id: 4,
-        path: "/icons/rain.svg",
-        value: "비",
-    },
-    {
-        id: 5,
-        path: "/icons/snow.svg",
-        value: "눈",
-    },
-];
 
 const WeatherRadio: React.FC<WeatherRadioProps> = ({onChange, value, error}) => {
     return (
