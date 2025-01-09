@@ -2,8 +2,7 @@ import "../styles/globals.css";
 import React from "react";
 import Sidebar from "@/components/ui/Sidebar";
 import Header from "@/components/ui/Header";
-import { Provider } from "react-redux";
-import { store } from "@/store/store";
+import AuthProvider from "@/store/authProvider";
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props;
@@ -11,7 +10,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html suppressHydrationWarning>
       <body>
-        <Provider store={store}>
+        <AuthProvider>
           <div className="flex min-h-full flex-col">
             <Header />
             <div className="flex flex-1 overflow-hidden">
@@ -24,7 +23,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
               </main>
             </div>
           </div>
-        </Provider>
+        </AuthProvider>
       </body>
     </html>
   );

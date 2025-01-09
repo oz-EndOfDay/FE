@@ -5,13 +5,15 @@ import Heading from "@/components/ui/Heading";
 import { useForm } from "react-hook-form";
 import { LoginFormData, loginSchema } from "@/utils/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React from "react";
 import SmallButton from "@/components/ui/SmallButton";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { login } from "@/api/api";
+import { setToken } from "@/store/auth/authSlice";
 
 const LoginForm = () => {
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -24,32 +26,12 @@ const LoginForm = () => {
     },
   });
   const onSubmit = async (data: LoginFormData) => {
-    setSuccessMessage(null);
-    console.log("API 요청 URL:", `${API_BASE_URL}/users/login`);
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/users/login?email=${data.email}&password=${data.password}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
-      if (response.ok) {
-        const result = await response.json();
-        document.cookie = `token=${result.token}; path=/; secure; HttpOnly`;
-        setSuccessMessage("로그인 성공! 메인 페이지로 이동합니다.");
-        // setTimeout(() => (window.location.href = "/main"), 1000);
-      } else {
-        const error = await response.json();
-        alert("에러" + error.message);
-      }
-    } catch (err) {
-      console.error("오류발생:", err);
-      alert("네트워크 연결이 원활하지 않습니다.");
+      const signin = await login(data);
+      dispatch(setToken(signin.token));
+      alert("로그인 성공");
+    } catch (error) {
+      alert("로그인 실패" + error);
     }
   };
 
@@ -85,7 +67,6 @@ const LoginForm = () => {
             <SmallButton variant="text">비밀번호 찾기</SmallButton>
           </Link>
         </div>
-        {successMessage && <p className="text-green-500">{successMessage}</p>}
       </form>
     </div>
   );
