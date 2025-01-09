@@ -1,7 +1,12 @@
 "use client";
 
 import "../styles/globals.css";
+<<<<<<< HEAD
 import React from "react";
+=======
+import React, {useState} from "react";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+>>>>>>> 42d070d6d8120ac9f8f034d5317f749a51f573d1
 import {usePathname} from "next/navigation";
 import Sidebar from "@/components/ui/Sidebar";
 import Header from "@/components/ui/Header";
@@ -13,6 +18,7 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
+<<<<<<< HEAD
 export default function RootLayout(props: {children: React.ReactNode}) {
     const pathname = usePathname();
     const {children} = props;
@@ -39,4 +45,35 @@ export default function RootLayout(props: {children: React.ReactNode}) {
             </body>
         </html>
     );
+=======
+
+export default function RootLayout(props: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const { children } = props;
+  const isMyPage = pathname.includes("/my");
+  const [queryClient] = useState(() => new QueryClient());
+  return (
+    <html suppressHydrationWarning>
+    <body>
+    <ReduxProvider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <div className="flex min-h-full flex-col">
+          <Header />
+          <div className="flex flex-1">
+            <Sidebar />
+            {/* "/my" 경로일 때 MyInfoSidebar, 아닐 때 ProfileToggle */}
+            {isMyPage ? <MyInfoSidebar /> : <ProfileToggle />}
+            <main className="flex-1 flex justify-center overflow-y-auto px-[2rem] pb-[7rem] pt-[6rem] md:pb-[2.5rem] md:py-[2.5rem] md:pl-[3rem]">
+              <div className="max-w-[68.75rem] w-full min-h-0 flex flex-col">
+                {children}
+              </div>
+            </main>
+          </div>
+        </div>
+      </QueryClientProvider>
+    </ReduxProvider>
+    </body>
+    </html>
+  );
+>>>>>>> 42d070d6d8120ac9f8f034d5317f749a51f573d1
 }
