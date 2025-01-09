@@ -9,7 +9,6 @@ type MoodRadioProps = {
 };
 
 const MoodRadio: React.FC<MoodRadioProps> = ({onChange, value, error}) => {
-    console.log("MoodRadio 컴포넌트 value 상태:", value);
     return (
         <div>
             <p className="mb-2">오늘의 기분</p>
