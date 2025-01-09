@@ -18,8 +18,13 @@ interface FriendItem {
 
 const FriendList = () => {
   const queryClient = useQueryClient();
+  const [currentPage, setCurrentPage] = React.useState(1);
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["friends"],
     queryFn: fetchFriends,
   });
@@ -35,6 +40,7 @@ const FriendList = () => {
     },
   });
 
+  // 그리고 나서 조건문(early return)을 둡니다.
   if (isLoading) {
     return <div>로딩중...</div>;
   }
@@ -44,7 +50,7 @@ const FriendList = () => {
 
   const friendList: FriendItem[] = data?.friends || [];
 
-  const [currentPage, setCurrentPage] = React.useState(1);
+  // 페이지네이션 로직
   const pageSize = 5;
   const totalPages = Math.ceil(friendList.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
@@ -66,7 +72,9 @@ const FriendList = () => {
           <div className="space-x-2">
             <button
               className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200"
-              onClick={() => alert(`교환일기 보기: friendId = ${friend.id}`)}
+              onClick={() =>
+                alert(`교환일기 보기 (friendId = ${friend.id})`)
+              }
             >
               교환일기
             </button>
