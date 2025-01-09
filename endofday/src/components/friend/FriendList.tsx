@@ -1,73 +1,78 @@
 "use client";
 
-import React, { useState } from "react";
-import ProfileCard from "@/components/friend/ProfileCard";
-import Pagination from "@/components/friend/Pagination";
+import React from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteFriend, fetchFriends } from "@/api/friendApi";
+import ProfileCard from "./ProfileCard";
+import Pagination from "./Pagination";
 
-interface Friend {
+interface FriendItem {
   id: number;
-  name: string;
-  statusMessage: string;
-  profileImage: string;
+  user_id1: number;
+  user_id2: number;
+  is_accept: boolean;
+  ex_diary_cnt: number;
+  last_ex_date: string;
+  created_at: string;
 }
 
-const mockFriends: Friend[] = [
-  {
-    id: 1,
-    name: "홍길동",
-    statusMessage: "안녕하세요!",
-    profileImage: "",
-  },
-  {
-    id: 2,
-    name: "김철수",
-    statusMessage: "반갑습니다",
-    profileImage: "",
-  },
-  {
-    id: 3,
-    name: "이영희",
-    statusMessage: "오늘도 화이팅!",
-    profileImage: "",
-  },
-];
-
 const FriendList = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 2; // 한 페이지에 몇명 표시할건지
-  const totalItems = mockFriends.length;
-  const totalPages = Math.ceil(totalItems / pageSize);
+  const queryClient = useQueryClient();
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["friends"],
+    queryFn: fetchFriends,
+  });
 
+  const deleteFriendMutation = useMutation({
+    mutationFn: (friendId: number) => deleteFriend(friendId),
+    onSuccess: () => {
+      alert("친구가 삭제되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["friends"] });
+    },
+    onError: () => {
+      alert("친구 삭제 중 오류가 발생했습니다.");
+    },
+  });
+
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
+  if (isError) {
+    return <div>친구 목록을 불러오는 중 오류가 발생했습니다.</div>;
+  }
+
+  const friendList: FriendItem[] = data?.friends || [];
+
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const pageSize = 5;
+  const totalPages = Math.ceil(friendList.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentFriends = mockFriends.slice(startIndex, endIndex);
+  const currentFriends = friendList.slice(startIndex, endIndex);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div>
       {currentFriends.map((friend) => (
         <div
           key={friend.id}
-          className="flex items-center justify-between p-4 bg-white rounded-lg"
+          className="flex items-center justify-between border-b py-2"
         >
           <ProfileCard
-            profileImage={friend.profileImage}
-            name={friend.name}
-            statusMessage={friend.statusMessage}
+            profileImage="https://via.placeholder.com/50"
+            name={`친구ID: ${friend.user_id2}`}
+            statusMessage={`is_accept: ${friend.is_accept}`}
           />
-          <div className="text-right space-x-2">
+          <div className="space-x-2">
             <button
-              className="px-4 py-2 bg-[#E7CCA9] rounded-full hover:bg-[#C9A782] font-semibold"
-              onClick={() => alert(`${friend.name} 님과 교환일기 보기`)}
+              className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200"
+              onClick={() => alert(`교환일기 보기: friendId = ${friend.id}`)}
             >
               교환일기
             </button>
             <button
-              className="px-4 py-2 bg-[#E7CCA9] rounded-full hover:bg-[#C9A782] font-semibold"
-              onClick={() => alert(`${friend.name} 님을 삭제`)}
+              className="px-3 py-1 bg-red-100 rounded hover:bg-red-200"
+              onClick={() => deleteFriendMutation.mutate(friend.id)}
             >
               삭제
             </button>
@@ -76,7 +81,11 @@ const FriendList = () => {
       ))}
 
       <div className="mt-4 text-center">
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
       </div>
     </div>
   );
