@@ -1,5 +1,7 @@
-import Image from "next/image";
+"use client";
+
 import React from "react";
+import Image from "next/image";
 
 interface ProfileCardProps {
   profileImage: string;
@@ -14,7 +16,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                                                  }) => {
   return (
     <div className="flex items-center space-x-2">
-      {/* Next.js 최적화 이미지 사용 */}
       <Image
         src={profileImage}
         alt={`${name} 프로필`}
