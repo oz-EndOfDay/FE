@@ -8,7 +8,7 @@ import SmallButton from "@/components/ui/SmallButton";
 import CloseModal from "@/components/ui/CloseModal";
 import Select from "@/components/ui/Select";
 import SearchInput from "@/components/ui/SearchInput";
-import Loading from "@/components/ui/Loading";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 const ExamplePage = () => {
     // modal
@@ -203,10 +203,10 @@ const ExamplePage = () => {
             </section>
 
             <section className="mt-10">
-                <Heading tag="h2">Loading Component</Heading>
+                <Heading tag="h2">LoadingSpinner Component</Heading>
 
                 <div className="mt-10">
-                    <Loading/>
+                    <LoadingSpinner />
                 </div>
             </section>
         </>
