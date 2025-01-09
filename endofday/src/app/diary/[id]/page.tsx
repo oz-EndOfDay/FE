@@ -3,7 +3,6 @@ import "@/styles/diary.css";
 import {useParams} from "next/navigation";
 import Image from "next/image";
 import {useState, useEffect} from "react";
-import Loading from "@/components/ui/Loading";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
@@ -127,7 +126,7 @@ const DiaryDetail = () => {
     }, [id]);
 
     if (isLoading) {
-        return <LoadingSpinner />;
+        return <Loading />;
     }
     if (!diary) {
         return <div>일기를 찾을 수 없습니다.</div>;

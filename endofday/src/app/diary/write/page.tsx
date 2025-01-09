@@ -12,7 +12,6 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import MoodRadio from "@/components/diary/MoodRadio";
 import WeatherRadio from "@/components/diary/WeatherRadio";
-import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Modal from "@/components/ui/Modal";
 import {login} from "../../../api/diary";
 import {useSendDiary} from "@/hooks/useDiary";
