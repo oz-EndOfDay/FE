@@ -8,6 +8,8 @@ import Header from "@/components/ui/Header";
 import ProfileToggle from "@/components/ui/ProfileToggle";
 import MyInfoSidebar from "@/components/ui/MyInfoSidebar";
 import AuthProvider from "@/store/authProvider";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor } from "@/store/store";
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -18,21 +20,23 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html suppressHydrationWarning>
       <body>
         <AuthProvider>
-          <QueryClientProvider client={queryClient}>
-            <div className="flex min-h-full flex-col">
-              <Header />
-              <div className="flex flex-1">
-                <Sidebar />
-                {/* "/my" 경로일 때 MyInfoSidebar, 아닐 때 ProfileToggle */}
-                {isMyPage ? <MyInfoSidebar /> : <ProfileToggle />}
-                <main className="flex-1 flex justify-center overflow-y-auto px-[2rem] pb-[7rem] pt-[6rem] md:pb-[2.5rem] md:py-[2.5rem] md:pl-[3rem]">
-                  <div className="max-w-[68.75rem] w-full min-h-0 flex flex-col">
-                    {children}
-                  </div>
-                </main>
+          <PersistGate persistor={persistor}>
+            <QueryClientProvider client={queryClient}>
+              <div className="flex min-h-full flex-col">
+                <Header />
+                <div className="flex flex-1">
+                  <Sidebar />
+                  {/* "/my" 경로일 때 MyInfoSidebar, 아닐 때 ProfileToggle */}
+                  {isMyPage ? <MyInfoSidebar /> : <ProfileToggle />}
+                  <main className="flex-1 flex justify-center overflow-y-auto px-[2rem] pb-[7rem] pt-[6rem] md:pb-[2.5rem] md:py-[2.5rem] md:pl-[3rem]">
+                    <div className="max-w-[68.75rem] w-full min-h-0 flex flex-col">
+                      {children}
+                    </div>
+                  </main>
+                </div>
               </div>
-            </div>
-          </QueryClientProvider>
+            </QueryClientProvider>
+          </PersistGate>
         </AuthProvider>
       </body>
     </html>
