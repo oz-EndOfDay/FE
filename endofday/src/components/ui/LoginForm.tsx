@@ -5,15 +5,17 @@ import Heading from "@/components/ui/Heading";
 import { useForm } from "react-hook-form";
 import { LoginFormData, loginSchema } from "@/utils/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
 import SmallButton from "@/components/ui/SmallButton";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { login } from "@/api/api";
-import { setToken } from "@/store/auth/authSlice";
+import { login } from "@/api/login";
+import { setToken, setUserInfo } from "@/store/auth/authSlice";
+import { getUserInfo } from "@/api/user";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -29,9 +31,13 @@ const LoginForm = () => {
     try {
       const signin = await login(data);
       dispatch(setToken(signin.token));
-      alert("로그인 성공");
+      const userInfo = await getUserInfo(signin.access_token);
+      dispatch(setUserInfo(userInfo));
     } catch (error) {
       alert("로그인 실패" + error);
+    } finally {
+      alert("로그인 성공");
+      router.push("/main");
     }
   };
 

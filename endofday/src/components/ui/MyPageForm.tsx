@@ -8,8 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import SmallButton from "@/components/ui/SmallButton";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const MyPageForm = () => {
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const {
     register,
     handleSubmit,
@@ -52,7 +55,7 @@ const MyPageForm = () => {
           <input
             id="user_email"
             className="relative p-3 rounded-lg bg-lightgray focus:outline-none pointer-events-none"
-            value="h_j1234@gmail.com"
+            value={`${userInfo?.email}`}
           />
         </div>
 
@@ -61,7 +64,7 @@ const MyPageForm = () => {
           <input
             id="user_name"
             className="relative p-3 rounded-lg bg-lightgray focus:outline-none pointer-events-none"
-            value="윤현정"
+            value={`${userInfo?.name}`}
           />
         </div>
 
@@ -69,7 +72,7 @@ const MyPageForm = () => {
           id="user_nickname"
           label="NickName"
           type="text"
-          placeholder="따봉맨"
+          placeholder={`별명을 입력해주세요.`}
           // {...register("nickname")}
         />
         <Input
@@ -77,7 +80,6 @@ const MyPageForm = () => {
           label="Profile intro"
           type="text"
           placeholder="프로필 소개를 입력해주세요"
-          {...register("password")}
         />
         <Input
           id="user_password"

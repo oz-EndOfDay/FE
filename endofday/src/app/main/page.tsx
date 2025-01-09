@@ -1,15 +1,20 @@
+"use client";
 import EmotionDoughnutChart from "@/components/ui/EmotionDoughnutChart";
 import Heading from "@/components/ui/Heading";
 import Input from "@/components/ui/Input";
 import MainContentBox from "@/components/ui/MainContentBox";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 
-const main = () => {
+const Main = () => {
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+
   return (
     <div className="mt-8 flex flex-col gap-10 ">
       <Heading
         tag="h1"
         className="text-center"
-      >{`따봉맨님, 환영합니다!`}</Heading>
+      >{`${userInfo?.name}님, 환영합니다!`}</Heading>
 
       <Heading
         tag="h3"
@@ -59,4 +64,4 @@ const main = () => {
   );
 };
 
-export default main;
+export default Main;
