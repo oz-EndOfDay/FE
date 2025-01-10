@@ -13,7 +13,6 @@ import Button from "@/components/ui/Button";
 import MoodRadio from "@/components/diary/MoodRadio";
 import WeatherRadio from "@/components/diary/WeatherRadio";
 import Modal from "@/components/ui/Modal";
-import {login} from "../../../api/diary";
 import {useSendDiary} from "@/hooks/useDiary";
 
 const TipTapEditor = dynamic(() => import("@/components/diary/TipTapEditor"), {ssr: false});
@@ -72,7 +71,6 @@ const WritePage = () => {
         if (data.image) {
             formData.append("image", data.image);
         }
-        // 서버 전송
         setFormData(formData);
     };
     const handleConfirm = () => {
@@ -191,9 +189,6 @@ const WritePage = () => {
                     <Button
                         type="submit"
                         variant="sand"
-                        onClick={() => {
-                            login();
-                        }}
                     >
                         작성
                     </Button>
