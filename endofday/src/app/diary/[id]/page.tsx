@@ -3,9 +3,9 @@ import "@/styles/diary.css";
 import {useParams} from "next/navigation";
 import Image from "next/image";
 import {useState, useEffect} from "react";
-import Loading from "@/components/ui/Loading";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
+import Loading from "@/components/ui/Loading";
 import SmallButton from "@/components/ui/SmallButton";
 import Modal from "@/components/ui/Modal";
 import CloseModal from "@/components/ui/CloseModal";
@@ -121,7 +121,7 @@ const DiaryDetail = () => {
             } else {
                 alert("일기를 찾을 수 없습니다.");
             }
-            setIsLoading(false);
+            setIsLoading(true);
         }
     }, [id]);
 
@@ -244,6 +244,8 @@ const DiaryDetail = () => {
             {modalState === "mood" && (
                 <CloseModal
                     title="'따봉맨'님의 감정분석"
+                    subTitle="'따봉맨'님에게 해주고싶은 말"
+                    subContent="조언"
                     onClose={closeModal}
                 >
                     팝업내용
