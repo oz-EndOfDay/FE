@@ -80,6 +80,7 @@ const WritePage = () => {
                 onSuccess: () => {
                     setCompleteModalOpen(true);
                     setWriteModalOpen(false);
+                    setFormData(null);
                 },
             });
         }

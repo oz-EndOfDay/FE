@@ -20,7 +20,8 @@ export const useFetchDiary = (params: DiaryQueryParams) => {
         queryFn: () => fetchDiaries(params),
         staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선하게 유지
         gcTime: 1000 * 60 * 10, // 10분 동안 캐시 유지
-        retry: 1, // ✅ 실패 시 1회 재시도
+        retry: 1, // 실패 시 1회 재시도
         enabled: !!params, // params가 있을 때만 실행
+        placeholderData: previousData => previousData, // 이전 데이터 유지
     });
 };
