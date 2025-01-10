@@ -31,6 +31,12 @@ export type DiaryDetailEntry = {
     content: string;
     img_url: string;
 };
+// post (일기감정분석, 조언)
+export type EmotionAnalysisResponse = {
+    diary_id: number;
+    diary_content: string;
+    analysis_result: string;
+};
 // 기분
 export type MoodItem = {
     id: number;

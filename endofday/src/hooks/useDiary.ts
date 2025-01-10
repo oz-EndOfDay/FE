@@ -1,7 +1,8 @@
 import {useMutation, useQuery} from "@tanstack/react-query";
-import {sendDiary, fetchDiaries, fetchDiaryById} from "@/api/diary";
-import {DiaryQueryParams} from "@/types/diary";
+import {sendDiary, fetchDiaries, fetchDiaryById, deleteDiaryById, analyzeDiaryById} from "@/api/diary";
+import {DiaryQueryParams, EmotionAnalysisResponse} from "@/types/diary";
 
+// 일기 post
 export const useSendDiary = () => {
     return useMutation<void, Error, FormData>({
         mutationFn: sendDiary,
@@ -14,6 +15,7 @@ export const useSendDiary = () => {
     });
 };
 
+// 일기 get
 export const useFetchDiary = (params: DiaryQueryParams) => {
     return useQuery({
         queryKey: ["diaries", params], // 고유 키
@@ -26,11 +28,26 @@ export const useFetchDiary = (params: DiaryQueryParams) => {
     });
 };
 
+// 일기상세
 export const useDiaryById = (id: number) => {
     return useQuery({
         queryKey: ["diary", id],
         queryFn: () => fetchDiaryById(id),
         enabled: !!id, // id 있을때만 호출
         staleTime: 1000 * 60 * 5,
+    });
+};
+
+// 일기 삭제
+export const useDeleteDiary = () => {
+    return useMutation({
+        mutationFn: (id: number) => deleteDiaryById(id),
+    });
+};
+
+// 일기분석
+export const useAnalyzeDiary = () => {
+    return useMutation<EmotionAnalysisResponse, Error, number>({
+        mutationFn: (id: number) => analyzeDiaryById(id),
     });
 };

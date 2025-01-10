@@ -1,6 +1,5 @@
 import {DiaryQueryParams} from "@/types/diary";
-import {DiaryResponse} from "@/types/diary";
-import {DiaryDetailEntry} from "@/types/diary";
+import {DiaryDetailEntry, DiaryResponse, EmotionAnalysisResponse} from "@/types/diary";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 일기 전송
@@ -65,10 +64,43 @@ export const fetchDiaryById = async (id: number): Promise<DiaryDetailEntry> => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data: DiaryDetailEntry = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("일기 조회 실패:", error);
         throw new Error("일기 조회에 실패했습니다.");
+    }
+};
+
+// 일기 삭제
+export const deleteDiaryById = async (id: number): Promise<void> => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/diary/${id}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("일기 삭제 실패:", error);
+        throw new Error("일기 삭제 실패했습니다.");
+    }
+};
+
+// 일기 감정분석 및 조언
+export const analyzeDiaryById = async (id: number): Promise<EmotionAnalysisResponse> => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/diary/${id}/analysis`, {
+            method: "POST",
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("감정 분석 실패:", error);
+        throw new Error("감정 분석 요청에 실패했습니다.");
     }
 };
