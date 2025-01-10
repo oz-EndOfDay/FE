@@ -1,4 +1,3 @@
-"use client";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
 import LoginForm from "@/components/ui/LoginForm";

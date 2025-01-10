@@ -1,32 +1,46 @@
+"use client";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Heading from "@/components/ui/Heading";
 import { useForm } from "react-hook-form";
-import {
-  RegistrationFormData,
-  registrationSchema,
-} from "@/utils/registrationSchema";
+import { LoginFormData, loginSchema } from "@/utils/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
 import SmallButton from "@/components/ui/SmallButton";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { login } from "@/api/login";
+import { setToken, setUserInfo } from "@/store/auth/authSlice";
+import { getUserInfo } from "@/api/user";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegistrationFormData>({
-    resolver: zodResolver(registrationSchema),
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
-      loginpassword: "",
+      password: "",
     },
   });
-  const onSubmit = (data: RegistrationFormData) => {
-    console.log("Form Data", data);
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const signin = await login(data);
+      dispatch(setToken(signin.token));
+      const userInfo = await getUserInfo(signin.access_token);
+      dispatch(setUserInfo(userInfo));
+    } catch (error) {
+      alert("로그인 실패" + error);
+    } finally {
+      alert("로그인 성공");
+      router.push("/main");
+    }
   };
-  console.log(errors);
+
   return (
     <div className="bg-white py-[3rem] px-[3rem] rounded-lg h-full flex flex-col justify-between shadow-md">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -46,10 +60,11 @@ const LoginForm = () => {
           label="Password"
           type="password"
           placeholder="비밀번호를 입력해주세요"
-          {...register("loginpassword")}
+          autoComplete="off"
+          {...register("password")}
         />
-        {errors.loginpassword && (
-          <p className="text-red-500">{errors.loginpassword.message}</p>
+        {errors.password && (
+          <p className="text-red-500">{errors.password.message}</p>
         )}
         <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
           <Button type="submit">로그인</Button>
