@@ -13,13 +13,14 @@ import Button from "@/components/ui/Button";
 import MoodRadio from "@/components/diary/MoodRadio";
 import WeatherRadio from "@/components/diary/WeatherRadio";
 import Modal from "@/components/ui/Modal";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import {useSendDiary} from "@/hooks/useDiary";
 
 const TipTapEditor = dynamic(() => import("@/components/diary/TipTapEditor"), {ssr: false});
 
 const WritePage = () => {
     // 일기 전송 함수
-    const {mutate} = useSendDiary();
+    const {mutate, isPending} = useSendDiary();
     // 폼 데이터 저장
     const [formData, setFormData] = useState<FormData | null>(null);
     // 작성 모달 상태
@@ -83,9 +84,9 @@ const WritePage = () => {
             });
         }
     };
-    // if (isLoading) {
-    //     return <LoadingSpinner />;
-    // }
+    if (isPending) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <div>

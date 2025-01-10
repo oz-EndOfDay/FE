@@ -1,7 +1,7 @@
-import {useMutation, UseMutationResult} from "@tanstack/react-query";
+import {useMutation} from "@tanstack/react-query";
 import {sendDiary} from "@/api/diary";
 
-export const useSendDiary = (): UseMutationResult<void, Error, FormData> => {
+export const useSendDiary = () => {
     return useMutation<void, Error, FormData>({
         mutationFn: sendDiary,
         onSuccess: () => {
