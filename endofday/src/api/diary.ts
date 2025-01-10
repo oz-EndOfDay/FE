@@ -1,16 +1,11 @@
-import {DiaryFormData} from "@/utils/diarySchema";
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 일기 전송
-export const sendDiary = async (formData: DiaryFormData): Promise<void> => {
+export const sendDiary = async (formData: FormData): Promise<void> => {
     try {
         const response = await fetch(`${API_BASE_URL}/diary`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
+            body: formData,
         });
 
         if (!response.ok) {
