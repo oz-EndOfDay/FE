@@ -1,3 +1,13 @@
+// post
+export type DiaryEntry = {
+    title: string;
+    write_date: string;
+    weather: string;
+    mood: string;
+    content: string;
+    image: string;
+};
+// get
 export type DiaryListEntry = {
     id: number;
     title: string;

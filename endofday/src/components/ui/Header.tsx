@@ -273,7 +273,7 @@ export default function Header() {
           {isChatOpen && (
             <div
               ref={chatPanelRef}
-              className="absolute right-0 mt-2 w-80 bg-white z-10 border shadow"
+              className="absolute right-0 mt-2 w-80 bg-white z-10 shadow"
               style={{ maxHeight: "80vh" }}
             >
               {activeChatRoomId === null ? (
@@ -356,7 +356,7 @@ export default function Header() {
           {isNotificationOpen && (
             <div
               ref={notificationPanelRef}
-              className="absolute right-0 mt-2 w-72 bg-white z-10 p-4 border shadow"
+              className="absolute right-0 mt-2 w-72 bg-white z-10 p-4 shadow"
               style={{ maxHeight: "80vh", overflowY: "auto" }}
             >
               <NotificationPanel
@@ -384,7 +384,7 @@ export default function Header() {
           {isProfileOpen && (
             <div
               ref={profilePanelRef}
-              className="absolute right-0 mt-2 w-48 py-2 bg-white z-10 border shadow-md"
+              className="absolute right-0 mt-2 w-48 py-2 bg-white z-10 shadow-md"
             >
               <div className="flex items-center p-4">
                 <Image

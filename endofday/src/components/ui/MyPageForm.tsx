@@ -3,31 +3,31 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Heading from "@/components/ui/Heading";
 import { useForm } from "react-hook-form";
-import {
-  RegistrationFormData,
-  registrationSchema,
-} from "@/utils/registrationSchema";
+import { LoginFormData, loginSchema } from "@/utils/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import SmallButton from "@/components/ui/SmallButton";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const MyPageForm = () => {
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegistrationFormData>({
-    resolver: zodResolver(registrationSchema),
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
-      loginpassword: "",
+      password: "",
     },
   });
-  const onSubmit = (data: RegistrationFormData) => {
+  const onSubmit = (data: LoginFormData) => {
     console.log("Form Data", data);
   };
-
+  //스키마 마이 페이지 폼으로 하나 만들 것
   return (
     <div className=" p-[3rem] rounded-lg h-full w-full max-w-[600px] flex flex-col gap-10 ">
       <Heading tag="h1" className="text-center">
@@ -55,7 +55,7 @@ const MyPageForm = () => {
           <input
             id="user_email"
             className="relative p-3 rounded-lg bg-lightgray focus:outline-none pointer-events-none"
-            value="h_j1234@gmail.com"
+            value={`${userInfo?.email}`}
           />
         </div>
 
@@ -64,7 +64,7 @@ const MyPageForm = () => {
           <input
             id="user_name"
             className="relative p-3 rounded-lg bg-lightgray focus:outline-none pointer-events-none"
-            value="윤현정"
+            value={`${userInfo?.name}`}
           />
         </div>
 
@@ -72,15 +72,14 @@ const MyPageForm = () => {
           id="user_nickname"
           label="NickName"
           type="text"
-          placeholder="따봉맨"
-          {...register("nickname")}
+          placeholder={`별명을 입력해주세요.`}
+          // {...register("nickname")}
         />
         <Input
           id="user_Profile"
           label="Profile intro"
           type="text"
           placeholder="프로필 소개를 입력해주세요"
-          {...register("password")}
         />
         <Input
           id="user_password"
@@ -97,11 +96,11 @@ const MyPageForm = () => {
           label="Password Confirm"
           type="password"
           placeholder="비밀번호 확인"
-          {...register("confirmPassword")}
+          // {...register("confirmPassword")}
         />
-        {errors.confirmPassword && (
-          <p className="text-red-500">{errors.confirmPassword.message} </p>
-        )}
+        {/* {errors.Password && (
+          <p className="text-red-500">{errors.mPassword.message} </p>
+        )} */}
         <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
           <Button variant="sand" type="submit">
             수정

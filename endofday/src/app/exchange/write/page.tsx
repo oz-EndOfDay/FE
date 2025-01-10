@@ -38,14 +38,14 @@ const WritePage = () => {
         defaultValues: {
             title: "",
             write_date: "",
-            emotion: "",
             weather: "",
+            mood: "",
             content: "",
             image: null,
         },
     });
     // 필요한 폼 필드들을 모두 watch
-    const currentEmotion = watch("emotion");
+    const currentMood = watch("mood");
     const currentWeather = watch("weather");
 
     // 폼 제출
@@ -57,7 +57,7 @@ const WritePage = () => {
         // 폼 데이터 추가
         formData.append("title", data.title);
         formData.append("write_date", data.write_date);
-        formData.append("emotion", data.emotion);
+        formData.append("emotion", data.mood);
         formData.append("weather", data.weather);
         formData.append("content", data.content);
 
@@ -144,11 +144,17 @@ const WritePage = () => {
                         <DayPicker
                             mode="single"
                             selected={getValues("write_date") ? new Date(getValues("write_date")) : undefined}
-                            onSelect={date => {
+                            onSelect={(date: Date | undefined) => {
                                 if (date) {
-                                    setValue("write_date", date.toISOString().split("T")[0]);
+                                    // UTC 날짜를 로컬 시간으로 변환
+                                    const year = date.getFullYear();
+                                    const month = String(date.getMonth() + 1).padStart(2, "0");
+                                    const day = String(date.getDate()).padStart(2, "0");
+                                    const localDate = `${year}-${month}-${day}`;
+
+                                    setValue("write_date", localDate);
+                                    setOpenDayPicker(false); // 선택 후 달력 닫기
                                 }
-                                setOpenDayPicker(false);
                             }}
                             fixedWeeks
                             className="absolute z-50 w-[18.75rem] mt-[0.7rem]"
@@ -160,10 +166,10 @@ const WritePage = () => {
                 {/* 기분 */}
                 <MoodRadio
                     onChange={value => {
-                        setValue("emotion", value);
+                        setValue("mood", value);
                     }}
-                    value={currentEmotion}
-                    error={errors.emotion?.message}
+                    value={currentMood}
+                    error={errors.mood?.message}
                 />
 
                 {/* 날씨 */}

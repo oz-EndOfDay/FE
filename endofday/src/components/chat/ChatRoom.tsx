@@ -39,7 +39,6 @@ export function ChatRoom({
 
   return (
     <div className="flex flex-col h-full bg-gray-100">
-      {/* Header */}
       <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
         <button
           onClick={onGoBack}
@@ -65,7 +64,6 @@ export function ChatRoom({
         </button>
       </div>
 
-      {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((msg) => (
           <div
@@ -106,7 +104,6 @@ export function ChatRoom({
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            // Handle message submission here
             setInputMessage("");
           }}
           className="flex space-x-2"
@@ -116,7 +113,7 @@ export function ChatRoom({
             placeholder="메시지를 입력하세요"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-4 py-2 border rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             type="submit"
