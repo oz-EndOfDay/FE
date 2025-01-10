@@ -1,82 +1,17 @@
 "use client";
 import "@/styles/diary.css";
-import {useParams} from "next/navigation";
 import Image from "next/image";
 import {useState, useEffect} from "react";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
-import Loading from "@/components/ui/Loading";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import SmallButton from "@/components/ui/SmallButton";
 import Modal from "@/components/ui/Modal";
 import CloseModal from "@/components/ui/CloseModal";
-import {DiaryDetailEntry, MoodItem, MoodItems, WeatherItem, WeatherItems} from "@/types/diary";
+import {MoodItem, MoodItems, WeatherItem, WeatherItems} from "@/types/diary";
+import {useDiaryById} from "@/hooks/useDiary";
+import {useParams} from "next/navigation";
 
-// 더미데이터
-const diaryEntries: DiaryDetailEntry[] = [
-    {
-        id: 1,
-        title: "12월 25일 일기",
-        write_date: "2024-12-25",
-        weather: "비",
-        mood: "보통",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        img_url: "image1.png",
-    },
-    {
-        weather: "눈",
-        id: 2,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        mood: "기쁨",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        img_url: "image2.png",
-    },
-    {
-        id: 3,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        weather: "흐림",
-        mood: "좋음",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        img_url: "image2.png",
-    },
-    {
-        id: 4,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        weather: "흐림",
-        mood: "지침",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        img_url: "image2.png",
-    },
-    {
-        id: 5,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        weather: "구름조금",
-        mood: "슬픔",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        img_url: "image2.png",
-    },
-    {
-        id: 6,
-        title: "1월 2일 일기",
-        write_date: "2025-01-02",
-        weather: "비",
-        mood: "보통",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        img_url: "image2.png",
-    },
-    {
-        id: 7,
-        title: "1월 2일 일기",
-        write_date: "2025-01-02",
-        weather: "맑음",
-        mood: "보통",
-        content: "<h1>오늘의 일기..... 재밋다.. 벌써 2025년이다. 새해에도 화팅.</h1><p><strong><em>야호 ~~ 테스트 테스트</em></strong></p><ul><li><p><strong><em>리스트도 테스트 해보자</em></strong></p></li><li><p><strong><em>ㅋㅋㅋㅋul ul </em></strong></p></li></ul><ol><li><p>번호있는 리스트 ol</p></li><li><p>야호야호</p></li></ol><pre><code>이건 코드 </code></pre><blockquote><p>이건 머지</p><p></p></blockquote>",
-        img_url: "image2.png",
-    },
-];
 // 날짜 변환
 const formatDate = (dateString: string): string => {
     const daysOfWeek = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
@@ -108,29 +43,25 @@ const getWeatherItem = (weather: string): WeatherItem => {
     );
 };
 const DiaryDetail = () => {
-    const {id} = useParams();
-    const [diary, setDiary] = useState<DiaryDetailEntry | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    // 모달 상태
     const [modalState, setModalState] = useState<"confirm" | "success" | "mood" | "">("");
 
-    useEffect(() => {
-        if (id) {
-            const entry = diaryEntries.find(entry => entry.id === Number(id));
-            if (entry) {
-                setDiary(entry);
-            } else {
-                alert("일기를 찾을 수 없습니다.");
-            }
-            setIsLoading(true);
-        }
-    }, [id]);
+    // url 파라미터 갖고오기(id값)
+    const params = useParams();
+    const id = params?.id;
+    const diaryId = Number(id);
 
-    if (isLoading) {
-        return <Loading />;
+    // api 호출
+    const {data: diary, isPending, isError} = useDiaryById(Number(diaryId));
+    // 로딩
+    if (isPending) {
+        return <LoadingSpinner />;
     }
-    if (!diary) {
+    // 에러
+    if (isError) {
         return <div>일기를 찾을 수 없습니다.</div>;
     }
+
     const moodItem = getMoodItem(diary.mood);
     const weatherItem = getWeatherItem(diary.weather);
 

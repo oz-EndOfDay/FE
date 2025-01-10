@@ -1,5 +1,5 @@
 import {useMutation, useQuery} from "@tanstack/react-query";
-import {sendDiary, fetchDiaries} from "@/api/diary";
+import {sendDiary, fetchDiaries, fetchDiaryById} from "@/api/diary";
 import {DiaryQueryParams} from "@/types/diary";
 
 export const useSendDiary = () => {
@@ -23,5 +23,14 @@ export const useFetchDiary = (params: DiaryQueryParams) => {
         retry: 1, // 실패 시 1회 재시도
         enabled: !!params, // params가 있을 때만 실행
         placeholderData: previousData => previousData, // 이전 데이터 유지
+    });
+};
+
+export const useDiaryById = (id: number) => {
+    return useQuery({
+        queryKey: ["diary", id],
+        queryFn: () => fetchDiaryById(id),
+        enabled: !!id, // id 있을때만 호출
+        staleTime: 1000 * 60 * 5,
     });
 };
