@@ -1,3 +1,18 @@
+// 조회
+export type DiaryQueryParams = {
+    word?: string;
+    year?: number;
+    month?: number;
+    page?: number;
+    size?: number;
+};
+export type DiaryResponse = {
+    items: DiaryListEntry[];
+    total: number;
+    page: number;
+    size: number;
+    pages: number;
+};
 export type DiaryListEntry = {
     id: number;
     title: string;
