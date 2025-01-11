@@ -34,6 +34,7 @@ const SignupForm = () => {
 
       if (response.ok) {
         const result = await response.json();
+        console.log(result);
         setServerMassage(`회원가입이 완료되었습니다.${result.message}`);
       } else {
         const error = await response.json();
