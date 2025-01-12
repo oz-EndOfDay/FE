@@ -15,7 +15,7 @@ export const login = async (data: LoginFormData) => {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    throw new Error(`등록되지 않은 회원입니다.`);
   }
 
   const token = await response.json();

@@ -51,7 +51,7 @@ const menuItems: MenuItem[] = [
 ];
 
 const Sidebar = () => {
-  const userinfo = useSelector((state: RootState) => state.auth.userInfo);
+  const token = useSelector((state: RootState) => state.auth.token);
 
   return (
     <aside className="md:w-[8rem] w-full md:h-full h-[5rem] bg-primary text-base flex md:flex-col flex-row fixed left-0 bottom-0 justify-center z-50">
@@ -59,7 +59,8 @@ const Sidebar = () => {
         {menuItems.map((item) => (
           <li key={item.id} className="flex items-center">
             <Link
-              href={item.id === 1 && userinfo ? "/main" : item.path}
+              href={item.id === 1 && token ? "/main" : item.path}
+              //토큰이 있으면 메인 클릭시 로그인 페이지가 아닌 메인 페이지로 가게 설정
               className="flex rounded-xl md:w-[5rem] md:h-[5rem] w-[3.5rem] h-[3.5rem] relative shadow-md justify-center items-center bg-beige"
             >
               <span className="md:w-[2rem] md:h-[2rem] w-[1.5rem] h-[1.5rem] relative">
