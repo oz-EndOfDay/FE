@@ -1,22 +1,32 @@
-import { LoginFormData } from "@/utils/registrationSchema";
+"use server";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import {LoginFormData} from "@/utils/registrationSchema";
+import {cookies} from "next/headers";
 
 export const login = async (data: LoginFormData) => {
-  const response = await fetch(`${API_BASE_URL}/users/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: data.email,
-      password: data.password,
-    }),
-  });
+    const cookieStore = await cookies();
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+    const response = await fetch("https://endofday.store/users/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
 
-  return await response.json();
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const token = await response.json();
+    cookieStore.set("accessToken", token.access_token, {
+        httpOnly: true,
+        secure: true,
+    });
+    cookieStore.set("refreshToken", token.refresh_token, {
+        httpOnly: true,
+        secure: true,
+    });
+
+    return token;
 };
