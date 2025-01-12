@@ -4,7 +4,7 @@ import { LoginFormData } from "@/utils/registrationSchema";
 import { cookies } from "next/headers";
 
 export const login = async (data: LoginFormData) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const response = await fetch(`${API_BASE_URL}/users/login`, {
     method: "POST",
