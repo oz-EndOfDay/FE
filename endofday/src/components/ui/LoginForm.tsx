@@ -31,6 +31,7 @@ const LoginForm = () => {
     try {
       const signin = await login(data);
       dispatch(setToken(signin.token));
+      console.log(signin);
       const userInfo = await getUserInfo(signin.access_token);
       dispatch(setUserInfo(userInfo));
     } catch (error) {
