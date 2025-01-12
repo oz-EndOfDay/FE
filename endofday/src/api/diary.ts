@@ -1,37 +1,106 @@
-import axios from "axios";
-import {DiaryEntry} from "@/types/diary";
-// 임시 로그인구현
-export const login = async () => {
-    try {
-        const response = await axios.post("http://3.38.93.178/users/login?email=hj19941221%40gmail.com&password=mokasarang", {});
-        localStorage.setItem("token2", response.data.access_token); // 로컬 스토리지에 저장
-        console.log(response.data.access_token);
-    } catch (error) {
-        console.error("로그인 실패:", error);
-    }
-};
-// 일기 전송
-export const sendDiary = async (formData: FormData): Promise<DiaryEntry> => {
-    const token = localStorage.getItem("token2");
+import {DiaryQueryParams} from "@/types/diary";
+import {DiaryDetailEntry, DiaryResponse, EmotionAnalysisResponse} from "@/types/diary";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-    if (!token) {
-        throw new Error("로그인 토큰이 없습니다.");
-    }
+// 일기 전송
+export const sendDiary = async (formData: FormData): Promise<void> => {
     try {
-        const response = await axios.post<DiaryEntry>("http://3.38.93.178/diary", formData, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "multipart/form-data",
-            },
+        const response = await fetch(`${API_BASE_URL}/diary`, {
+            method: "POST",
+            body: formData,
         });
-        return response.data;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            throw new Error(error.response?.data?.message || "서버 요청 중 문제가 발생했습니다.");
-        } else {
-            throw new Error("알 수 없는 오류가 발생했습니다.");
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
+    } catch (error) {
+        console.error("일기 전송 실패:", error);
+        throw new Error("Failed to write diary");
     }
 };
 
 // 일기 조회
+export const fetchDiaries = async (params: DiaryQueryParams = {}): Promise<DiaryResponse> => {
+    try {
+        const {word = "", year, month, page = 1, size = 6} = params;
+
+        // page, size 기본으로 쿼리 추가
+        const queryParams = new URLSearchParams({
+            page: page.toString(),
+            size: size.toString(),
+        });
+        // 다른 옵션들 값이 있을때만 추가
+        if (word.trim()) queryParams.append("word", word);
+        if (year !== undefined) queryParams.append("year", year.toString());
+        if (month !== undefined) queryParams.append("month", month.toString());
+
+        const response = await fetch(`${API_BASE_URL}/diary?${queryParams}`, {
+            method: "GET",
+        });
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => response.text());
+            throw new Error(typeof error === "string" ? error : error.message || "일기 목록을 가져오는데 실패했습니다.");
+        }
+
+        return response.json();
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`일기 목록 조회 실패: ${error.message}`);
+        }
+        throw new Error("알 수 없는 에러가 발생했습니다.");
+    }
+};
+
+// 개별일기조회
+export const fetchDiaryById = async (id: number): Promise<DiaryDetailEntry> => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/diary/${id}`, {
+            method: "GET",
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("일기 조회 실패:", error);
+        throw new Error("일기 조회에 실패했습니다.");
+    }
+};
+
+// 일기 삭제
+export const deleteDiaryById = async (id: number): Promise<void> => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/diary/${id}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("일기 삭제 실패:", error);
+        throw new Error("일기 삭제 실패했습니다.");
+    }
+};
+
+// 일기 감정분석 및 조언
+export const analyzeDiaryById = async (id: number): Promise<EmotionAnalysisResponse> => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/diary/${id}/analysis`, {
+            method: "POST",
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("감정 분석 실패:", error);
+        throw new Error("감정 분석 요청에 실패했습니다.");
+    }
+};

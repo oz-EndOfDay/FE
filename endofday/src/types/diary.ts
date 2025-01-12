@@ -1,13 +1,18 @@
-// post
-export type DiaryEntry = {
-    title: string;
-    write_date: string;
-    weather: string;
-    mood: string;
-    content: string;
-    image: string;
+// 조회
+export type DiaryQueryParams = {
+    word?: string;
+    year?: number;
+    month?: number;
+    page?: number;
+    size?: number;
 };
-// get
+export type DiaryResponse = {
+    items: DiaryListEntry[];
+    total: number;
+    page: number;
+    size: number;
+    pages: number;
+};
 export type DiaryListEntry = {
     id: number;
     title: string;
@@ -25,6 +30,12 @@ export type DiaryDetailEntry = {
     mood: string;
     content: string;
     img_url: string;
+};
+// post (일기감정분석, 조언)
+export type EmotionAnalysisResponse = {
+    diary_id: number;
+    diary_content: string;
+    analysis_result: string;
 };
 // 기분
 export type MoodItem = {
