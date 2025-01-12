@@ -8,6 +8,10 @@ type DiaryItemProps = {
 };
 
 const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
+    const dateString = data.write_date; // "2025-01-12"
+    const dateObj = new Date(dateString);
+    const dayOfWeek = dateObj.toLocaleDateString("en-US", {weekday: "short"});
+
     return type === "exchange" ? (
         <div className="relative flex items-center bg-white p-4 border-lightgray border rounded-xl">
             <div className="flex flex-shrink-0 border-lightgray flex-basis-auto relative border rounded-xl w-[3.75rem] h-[3.75rem]">
@@ -48,8 +52,8 @@ const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
     ) : (
         <div className="flex items-center bg-white p-3 border-lightgray border rounded-xl">
             <div className="flex flex-col border-lightgray justify-center items-center border rounded-xl w-[3.75rem] h-[3.75rem]">
-                <span className="text-gray">Sat</span>
-                <span className="text-gray">23</span>
+                <span className="text-gray">{dayOfWeek}</span>
+                <span className="text-gray">{data.write_date.slice(-2)}</span>
             </div>
             <div
                 className="pl-3"
@@ -61,12 +65,10 @@ const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
                 >
                     {data.title}
                 </Heading>
-                <Heading
-                    tag="p"
+                <p
                     className="truncate mt-1"
-                >
-                    {data.content}
-                </Heading>
+                    dangerouslySetInnerHTML={{__html: data.content}}
+                ></p>
             </div>
         </div>
     );

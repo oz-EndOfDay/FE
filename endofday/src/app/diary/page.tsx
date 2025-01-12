@@ -66,7 +66,7 @@ const DiaryPage = () => {
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
-
+    console.log(data, 'data');
     return (
         <div className="h-full flex flex-col">
             <div className="flex items-center below540:flex-col-reverse below540:items-end">

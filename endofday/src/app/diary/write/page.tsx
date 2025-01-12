@@ -15,10 +15,12 @@ import WeatherRadio from "@/components/diary/WeatherRadio";
 import Modal from "@/components/ui/Modal";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import {useSendDiary} from "@/hooks/useDiary";
+import {useRouter} from "next/navigation";
 
 const TipTapEditor = dynamic(() => import("@/components/diary/TipTapEditor"), {ssr: false});
 
 const WritePage = () => {
+    const router = useRouter();
     // 일기 전송 함수
     const {mutate, isPending} = useSendDiary();
     // 폼 데이터 저장
@@ -68,10 +70,10 @@ const WritePage = () => {
         formData.append("mood", data.mood);
         formData.append("weather", data.weather);
         formData.append("content", data.content);
-
         if (data.image) {
             formData.append("image", data.image);
         }
+
         setFormData(formData);
     };
     const handleConfirm = () => {
@@ -81,6 +83,8 @@ const WritePage = () => {
                     setCompleteModalOpen(true);
                     setWriteModalOpen(false);
                     setFormData(null);
+                    // 다이어리 리스트로 이동
+                    router.push("/diary");
                 },
             });
         }

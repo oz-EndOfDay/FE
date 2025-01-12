@@ -1,12 +1,24 @@
 import {DiaryQueryParams} from "@/types/diary";
 import {DiaryDetailEntry, DiaryResponse, EmotionAnalysisResponse} from "@/types/diary";
+import {store} from "@/store/store";
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 일기 전송
 export const sendDiary = async (formData: FormData): Promise<void> => {
+    // 토큰가져오기
+    const state = store.getState();
+    const accessToken = state.auth.token;
+    console.log("전송할때 토큰 잘들어오니?", accessToken);
+    if (!accessToken) throw new Error("로그인이 필요합니다.");
     try {
         const response = await fetch(`${API_BASE_URL}/diary`, {
             method: "POST",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                // "Content-Type": "multipart/form-data",
+            },
+            credentials: "include",
             body: formData,
         });
 
@@ -22,6 +34,9 @@ export const sendDiary = async (formData: FormData): Promise<void> => {
 
 // 일기 조회
 export const fetchDiaries = async (params: DiaryQueryParams = {}): Promise<DiaryResponse> => {
+    const state = store.getState();
+    const accessToken = state.auth.token;
+
     try {
         const {word = "", year, month, page = 1, size = 6} = params;
 
@@ -37,6 +52,10 @@ export const fetchDiaries = async (params: DiaryQueryParams = {}): Promise<Diary
 
         const response = await fetch(`${API_BASE_URL}/diary?${queryParams}`, {
             method: "GET",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            credentials: "include",
         });
 
         if (!response.ok) {
@@ -55,9 +74,16 @@ export const fetchDiaries = async (params: DiaryQueryParams = {}): Promise<Diary
 
 // 개별일기조회
 export const fetchDiaryById = async (id: number): Promise<DiaryDetailEntry> => {
+    const state = store.getState();
+    const accessToken = state.auth.token;
+
     try {
         const response = await fetch(`${API_BASE_URL}/diary/${id}`, {
             method: "GET",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            credentials: "include",
         });
 
         if (!response.ok) {
@@ -73,9 +99,15 @@ export const fetchDiaryById = async (id: number): Promise<DiaryDetailEntry> => {
 
 // 일기 삭제
 export const deleteDiaryById = async (id: number): Promise<void> => {
+    const state = store.getState();
+    const accessToken = state.auth.token;
     try {
         const response = await fetch(`${API_BASE_URL}/diary/${id}`, {
             method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            credentials: "include",
         });
 
         if (!response.ok) {
@@ -89,9 +121,15 @@ export const deleteDiaryById = async (id: number): Promise<void> => {
 
 // 일기 감정분석 및 조언
 export const analyzeDiaryById = async (id: number): Promise<EmotionAnalysisResponse> => {
+    const state = store.getState();
+    const accessToken = state.auth.token;
     try {
         const response = await fetch(`${API_BASE_URL}/diary/${id}/analysis`, {
             method: "POST",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            credentials: "include",
         });
 
         if (!response.ok) {
