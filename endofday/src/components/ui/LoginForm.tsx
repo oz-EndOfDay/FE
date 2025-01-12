@@ -27,18 +27,26 @@ const LoginForm = () => {
       password: "",
     },
   });
+
   const onSubmit = async (data: LoginFormData) => {
     try {
       const signin = await login(data);
       dispatch(setToken(signin.token));
-      console.log(signin);
+
       const userInfo = await getUserInfo(signin.access_token);
+
       dispatch(setUserInfo(userInfo));
-    } catch (error) {
-      alert("로그인 실패" + error);
-    } finally {
+      // if (!signin?.token) {
+      //   throw new Error("토큰을 받아오지 못했습니다.");
+      // }
+      // // 사용자 정보 검증: 유저 정보가 없으면 에러 발생
+      // if (!userInfo) {
+      //   throw new Error("사용자 정보를 받아오지 못했습니다.");
+      // }
       alert("로그인 성공");
       router.push("/main");
+    } catch (error) {
+      alert("로그인 실패: " + error);
     }
   };
 
