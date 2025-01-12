@@ -20,7 +20,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html suppressHydrationWarning>
       <body>
         <AuthProvider>
-          <PersistGate persistor={persistor}>
+          <PersistGate loading={null} persistor={persistor}>
             <QueryClientProvider client={queryClient}>
               <div className="flex min-h-full flex-col">
                 <Header />

@@ -1,123 +1,102 @@
 "use client";
 import {useState} from "react";
 import Link from "next/link";
-import {DiaryListEntry} from "@/types/diary";
 import Pagination from "@/components/friend/Pagination";
 import Select from "@/components/ui/Select";
 import SearchInput from "@/components/ui/SearchInput";
 import Heading from "@/components/ui/Heading";
 import WriteButton from "@/components/diary/WriteButton";
 import DiaryItem from "@/components/diary/DiaryItem";
-
-const diaryEntries: DiaryListEntry[] = [
-    {
-        id: 1,
-        title: "12월 25일 일기",
-        write_date: "2024-12-25",
-        content: "오늘은 고기를 먹었다...",
-    },
-    {
-        id: 2,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        content: "오늘은 산책을 했다.",
-    },
-    {
-        id: 3,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        content: "오늘은 산책을 했다.",
-    },
-    {
-        id: 4,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        content: "오늘은 산책을 했다.",
-    },
-    {
-        id: 5,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        content: "오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.",
-    },
-    {
-        id: 6,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        content: "오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.",
-    },
-    {
-        id: 7,
-        title: "12월 26일 일기",
-        write_date: "2024-12-26",
-        content: "오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.오늘은 산책을 했다.",
-    },
-];
+import {useFetchDiary} from "@/hooks/useDiary";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import {DiaryListEntry} from "@/types/diary";
 
 const DiaryPage = () => {
-    // select
-    const [value, setValue] = useState("년도");
-    const [value2, setValue2] = useState("월");
-    const handleSelectChange = (value: string) => {
-        setValue(value);
-    };
-    const handleSelectChange2 = (value2: string) => {
-        setValue2(value2);
-    };
-    const options = [
-        {value: "년도", label: "년도"},
-        {value: "2024", label: "2024"},
-        {value: "2023", label: "2023"},
-    ];
-    const options2 = [
-        {value: "월", label: "월"},
-        {value: "12", label: "12"},
-        {value: "11", label: "11"},
-        {value: "10", label: "10"},
-        {value: "9", label: "9"},
-        {value: "8", label: "8"},
-    ];
-
+    // 선택된 값 관리 (년도, 월, 검색어, 페이지)
+    const [year, setYear] = useState<string>("");
+    const [month, setMonth] = useState<string>("");
+    const [searchWord, setSearchWord] = useState<string>("");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const pageSize = 6;
-    const totalItems = diaryEntries.length;
-    const totalPages = Math.ceil(totalItems / pageSize);
 
+    // api 호출
+    const {data, isPending} = useFetchDiary({
+        page: currentPage,
+        size: pageSize,
+        year: year ? parseInt(year) : undefined,
+        month: month ? parseInt(month) : undefined,
+        word: searchWord,
+    });
+
+    // 로딩
+    if (isPending) {
+        return <LoadingSpinner />;
+    }
+
+    // 년도, 월 선택
+    const handleYearChange = (value: string) => {
+        setYear(value);
+        setCurrentPage(1); // 필터 변경 시 페이지 초기화
+    };
+    const handleMonthChange = (value: string) => {
+        setMonth(value);
+        setCurrentPage(1); // 필터 변경 시 페이지 초기화
+    };
+
+    const yearOptions = [
+        {value: "년도", label: "년도"},
+        {value: "2025", label: "2025"},
+        {value: "2024", label: "2024"},
+    ];
+    const monthOptions = [
+        {value: "월", label: "월"}, // 기본값
+        ...Array.from({length: 12}, (_, i) => ({
+            value: String(12 - i), // 12부터 1까지
+            label: String(12 - i),
+        })),
+    ];
+
+    // 검색
+    const handleSearchChange = (value: string) => {
+        setSearchWord(value);
+        setCurrentPage(1);
+    };
+
+    // 페이지네이션
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
-
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    const diaryList = diaryEntries.slice(startIndex, endIndex);
 
     return (
         <div className="h-full flex flex-col">
             <div className="flex items-center below540:flex-col-reverse below540:items-end">
                 <SearchInput
                     placeholder="제목으로 검색해 보세요"
+                    value={searchWord}
+                    onChange={value => setSearchWord(value)}
                     className="below540:max-w-full"
+                    onSearch={() => handleSearchChange(searchWord)}
                 />
                 <div className="flex">
                     <Select
-                        options={options}
-                        onChange={handleSelectChange}
-                        value={value}
+                        options={yearOptions}
+                        onChange={handleYearChange}
+                        value={year}
                     />
                     <Select
-                        options={options2}
-                        onChange={handleSelectChange2}
-                        value={value2}
+                        options={monthOptions}
+                        onChange={handleMonthChange}
+                        value={month}
                     />
                 </div>
             </div>
             <div className="pt-[3rem] flex-1">
                 <Heading tag="h2">
-                    {value}-{value2}
+                    {year || "년도"} - {month || "월"}
                 </Heading>
                 <ul className="flex flex-col gap-4 pt-[1rem]">
-                    {diaryList ? (
-                        diaryList.map(item => {
+                    {data && data.items && data.items.length > 0 ? (
+                        data.items.map((item: DiaryListEntry) => {
                             return (
                                 <li key={item.id}>
                                     <Link href={`/diary/${item.id}`}>
@@ -134,7 +113,7 @@ const DiaryPage = () => {
             <div className="mt-4 text-center">
                 <Pagination
                     currentPage={currentPage}
-                    totalPages={totalPages}
+                    totalPages={data?.pages ?? 1} // page가 undefined면 기본값 1
                     onPageChange={handlePageChange}
                 />
             </div>
