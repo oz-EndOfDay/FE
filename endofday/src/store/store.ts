@@ -5,21 +5,10 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import { persistStore } from "redux-persist";
 
-const createNoopStorage = () => {
-  return {
-    getItem: () => Promise.resolve(null),
-    setItem: () => Promise.resolve(),
-    removeItem: () => Promise.resolve(),
-  };
-};
-
-export const storageEngine =
-  typeof window !== "undefined" ? storage : createNoopStorage();
-
 const persistConfig = {
   key: "root",
-  storage: storageEngine, // 로컬 스토리지 사용
-  whitelist: ["auth"], // 'auth' 슬라이스만 저장하려면 whitelist 사용
+  storage: storage, // 로컬 스토리지 사용
+  whitelist: ["auth"],
 };
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -28,6 +17,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"], // 직렬화 체크 제외
+      },
+    }),
 });
 
 export const persistor = persistStore(store);
