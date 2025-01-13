@@ -1,8 +1,34 @@
 "use server";
-import {ExDiaryListEntry, ExDiaryDetailEntry} from "@/types/diary";
+import {ExDiaryListEntry, ExDiaryDetailEntry, ExFreindList} from "@/types/diary";
 import {cookies} from "next/headers";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+// 교환일기 친구목록 조회
+export const fetchExFriends = async (): Promise<ExFreindList> => {
+    // 토큰가져오기
+    const cookieStore = cookies();
+    const accessToken = cookieStore.get("access_token")?.value;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/friends`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+            credentials: "include",
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("교환일기 목록 조회 실패:", error);
+        throw new Error("교환일기 목록 조회에 실패했습니다.");
+    }
+};
 
 // 교환일기 작성
 export const sendExDiary = async (formData: FormData, friend_id: number): Promise<void> => {

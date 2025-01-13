@@ -34,6 +34,15 @@ export type DiaryDetailEntry = {
 };
 
 // 교환일기 리스트 조회
+export type ExFreindList = {
+    id: number;
+    user_id1: number;
+    user_id2: number;
+    is_accept: boolean;
+    ex_diary_cnt: number;
+    last_ex_date: string;
+    created_at: string;
+};
 export type ExDiaryListEntry = {
     id: number;
     author: string;
