@@ -27,18 +27,28 @@ const LoginForm = () => {
       password: "",
     },
   });
+
   const onSubmit = async (data: LoginFormData) => {
     try {
       const signin = await login(data);
-      dispatch(setToken(signin.token));
-      console.log(signin);
+      dispatch(setToken(signin.access_token));
+      console.log(signin.access_token);
       const userInfo = await getUserInfo(signin.access_token);
+
       dispatch(setUserInfo(userInfo));
-    } catch (error) {
-      alert("로그인 실패" + error);
-    } finally {
+      if (!signin?.access_token) {
+        throw new Error("서버와 통신이 원할하지 않습니다.");
+      }
+      // 사용자 정보 검증: 유저 정보가 없으면 에러 발생
+      if (!userInfo) {
+        throw new Error(
+          "사용자 정보를 받아오지 못했습니다. 다시 시도 해주세요."
+        );
+      }
       alert("로그인 성공");
       router.push("/main");
+    } catch (Error) {
+      alert("로그인 실패: " + Error);
     }
   };
 
