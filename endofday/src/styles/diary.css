@@ -90,22 +90,39 @@ blockquote {
     font-style: normal;
 }
 // 일기 상세조회
-div.diary-detail ol {
+.diary-detail ol {
     list-style: auto;
 }
-div.diary-detail ul,
-div.diary-detail ol {
+.diary-detail ul,
+.diary-detail ol {
     padding: 0 1rem;
     margin: 1.25rem 1rem 1.25rem 0.4rem;
     list-style: auto;
 }
-div.diary-detail ul {
-    list-style: disc !important;
+.diary-detail ul {
+    list-style: disc;
 }
-div.diary-detail ul li p,
-div.diary-detail ol li p {
+.diary-detail ul li p,
+.diary-detail ol li p {
     margin-top: 0.25em;
     margin-bottom: 0.25em;
+}
+.diary-detail h1 {
+    font-size: 2.25rem;
+    font-weight: bold;
+}
+
+.diary-detail h2 {
+    font-size: 1.875rem;
+    font-weight: bold;
+}
+// 제목
+.diary-detail .title {
+    font-weight: 600 !important;
+}
+.diary-detail h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 .truncate-content {
     display: -webkit-box; /* 플렉스 박스 설정 */
@@ -117,8 +134,8 @@ div.diary-detail ol li p {
 }
 // Day picker
 .daypicker {
-    position: relative !important;
-    width: 300px !important;
+    position: relative;
+    width: 300px;
 }
 .rdp-month {
     border: solid;
