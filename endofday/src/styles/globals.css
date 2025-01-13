@@ -1,3 +1,4 @@
+@import "@/styles/diary.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

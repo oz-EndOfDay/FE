@@ -66,7 +66,7 @@ const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
                     {data.title}
                 </Heading>
                 <p
-                    className="truncate mt-1"
+                    className="truncate-content mt-1"
                     dangerouslySetInnerHTML={{__html: data.content}}
                 ></p>
             </div>

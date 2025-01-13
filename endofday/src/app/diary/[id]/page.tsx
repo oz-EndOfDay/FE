@@ -152,8 +152,9 @@ const DiaryDetail = () => {
                                 paddingTop: "56.25%", // 16:9 비율
                             }}
                         >
+                            <p>다이어리 url {diary.img_url}</p>
                             <Image
-                                src="/icons/moka.jpeg"
+                                src={diary.img_url}
                                 alt="dummyImage"
                                 fill
                                 className="object-cover rounded-xl"

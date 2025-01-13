@@ -107,6 +107,14 @@ div.diary-detail ol li p {
     margin-top: 0.25em;
     margin-bottom: 0.25em;
 }
+.truncate-content {
+    display: -webkit-box; /* 플렉스 박스 설정 */
+    -webkit-line-clamp: 1; /* 한 줄로 제한 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
 // Day picker
 .daypicker {
     position: relative !important;

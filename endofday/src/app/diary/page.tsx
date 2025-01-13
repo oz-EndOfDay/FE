@@ -20,7 +20,7 @@ const DiaryPage = () => {
     const pageSize = 6;
 
     // api 호출
-    const {data, isPending} = useFetchDiary({
+    const {data, isPending, error} = useFetchDiary({
         page: currentPage,
         size: pageSize,
         year: year ? parseInt(year) : undefined,
@@ -31,6 +31,10 @@ const DiaryPage = () => {
     // 로딩
     if (isPending) {
         return <LoadingSpinner />;
+    }
+
+    if (error) {
+        console.error("다이어리 데이터 요청에 실패했습니다.", error);
     }
 
     // 년도, 월 선택
@@ -66,7 +70,7 @@ const DiaryPage = () => {
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
-    console.log(data, 'data');
+
     return (
         <div className="h-full flex flex-col">
             <div className="flex items-center below540:flex-col-reverse below540:items-end">
