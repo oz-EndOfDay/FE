@@ -13,6 +13,7 @@ export type DiaryResponse = {
     size: number;
     pages: number;
 };
+
 export type DiaryListEntry = {
     id: number;
     title: string;
@@ -30,6 +31,24 @@ export type DiaryDetailEntry = {
     mood: string;
     content: string;
     img_url: string;
+};
+
+// 교환일기 리스트 조회
+export type ExDiaryListEntry = {
+    id: number;
+    author: string;
+    title: string;
+    write_date: string;
+    content: string;
+    created_at: string;
+};
+export type ExDiaryDetailEntry = {
+    id: number;
+    title: string;
+    write_date: string;
+    content: string;
+    img_url: string;
+    created_at: string;
 };
 // post (일기감정분석, 조언)
 export type EmotionAnalysisResponse = {

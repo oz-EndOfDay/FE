@@ -17,9 +17,9 @@ export const sendDiary = async (formData: FormData): Promise<void> => {
     try {
         const response = await fetch(`${API_BASE_URL}/diary`, {
             method: "POST",
-            credentials: "omit", // 쿠키 전송 활성화
+            credentials: "include", // 쿠키 전송 활성화
             headers: {
-                Authorization: `Bearer ${accessToken}`, // 공백 확인!
+                Authorization: `Bearer ${accessToken}`,
             },
             body: formData,
         });
@@ -77,10 +77,9 @@ export const fetchDiaries = async (params: DiaryQueryParams = {}): Promise<Diary
 
 // 개별일기조회
 export const fetchDiaryById = async (id: number): Promise<DiaryDetailEntry> => {
-     // 토큰가져오기
-     const cookieStore = cookies();
-     const accessToken = cookieStore.get("access_token")?.value;
- 
+    // 토큰가져오기
+    const cookieStore = cookies();
+    const accessToken = cookieStore.get("access_token")?.value;
 
     try {
         const response = await fetch(`${API_BASE_URL}/diary/${id}`, {
