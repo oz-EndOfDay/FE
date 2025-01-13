@@ -48,27 +48,27 @@ export const MoodItems: MoodItem[] = [
   {
     id: 1,
     path: "/icons/joy_mood.png",
-    value: "happy",
+    value: "기쁨",
   },
   {
     id: 2,
     path: "/icons/good_mood.png",
-    value: "good",
+    value: "좋음",
   },
   {
     id: 3,
     path: "/icons/neutral_mood.png",
-    value: "normal",
+    value: "보통",
   },
   {
     id: 4,
     path: "/icons/tired_mood.png",
-    value: "tired",
+    value: "지침",
   },
   {
     id: 5,
     path: "/icons/sad_mood.png",
-    value: "sad",
+    value: "슬픔",
   },
 ];
 // 날씨
