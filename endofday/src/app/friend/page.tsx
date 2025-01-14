@@ -47,12 +47,7 @@ const FriendPage = () => {
             onClick={handleSearchClick}
             className="p-4 bg-white rounded-full hover:shadow"
           >
-            <Image
-              src="/icons/search.svg"
-              alt="검색 아이콘"
-              width={40}
-              height={40}
-            />
+            <Image src="/icons/search.svg" alt="검색 아이콘" width={40} height={40} />
           </button>
         </div>
       )}
