@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteFriend, fetchFriends } from "@/api/friendApi";
@@ -8,18 +7,20 @@ import Pagination from "./Pagination";
 
 interface FriendItem {
   id: number;
-  user_id1: number;
-  user_id2: number;
   is_accept: boolean;
   ex_diary_cnt: number;
   last_ex_date: string;
   created_at: string;
+  // API 예시에 따르면: "user1_nickname", "user2_nickname" 있을 수 있음
+  user1_nickname?: string;
+  user2_nickname?: string;
 }
 
 const FriendList = () => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = React.useState(1);
 
+  // 친구 목록 조회
   const {
     data,
     isLoading,
@@ -29,6 +30,7 @@ const FriendList = () => {
     queryFn: fetchFriends,
   });
 
+  // 친구 삭제
   const deleteFriendMutation = useMutation({
     mutationFn: (friendId: number) => deleteFriend(friendId),
     onSuccess: () => {
@@ -40,7 +42,6 @@ const FriendList = () => {
     },
   });
 
-  // 그리고 나서 조건문(early return)을 둡니다.
   if (isLoading) {
     return <div>로딩중...</div>;
   }
@@ -48,9 +49,10 @@ const FriendList = () => {
     return <div>친구 목록을 불러오는 중 오류가 발생했습니다.</div>;
   }
 
+  // data 구조: { friends: FriendItem[] }
   const friendList: FriendItem[] = data?.friends || [];
 
-  // 페이지네이션 로직
+  // 페이지네이션 (프론트에서 slicing)
   const pageSize = 5;
   const totalPages = Math.ceil(friendList.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
@@ -64,9 +66,10 @@ const FriendList = () => {
           key={friend.id}
           className="flex items-center justify-between border-b py-2"
         >
+          {/* 예: user2_nickname이 내 친구의 닉네임일 수도 있음 */}
           <ProfileCard
             profileImage="https://via.placeholder.com/50"
-            name={`친구ID: ${friend.user_id2}`}
+            name={friend.user2_nickname ?? "친구"}
             statusMessage={`is_accept: ${friend.is_accept}`}
           />
           <div className="space-x-2">
