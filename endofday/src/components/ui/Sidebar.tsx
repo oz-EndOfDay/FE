@@ -52,7 +52,7 @@ const menuItems: MenuItem[] = [
 
 const Sidebar = () => {
   const token = useSelector((state: RootState) => state.auth.token);
-
+  console.log(token);
   return (
     <aside className="md:w-[8rem] w-full md:h-full h-[5rem] bg-primary text-base flex md:flex-col flex-row fixed left-0 bottom-0 justify-center z-50">
       <ul className="flex md:flex-col flex-row md:space-y-10 space-x-6 md:space-x-0 w-full justify-center items-center">
