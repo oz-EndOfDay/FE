@@ -11,7 +11,7 @@ const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
     const dateString = data.write_date; // "2025-01-12"
     const dateObj = new Date(dateString);
     const dayOfWeek = dateObj.toLocaleDateString("en-US", {weekday: "short"});
-    console.log(data);
+    console.log(data, "데이터너누군데?");
     return type === "exchange" ? (
         <div className="relative flex items-center bg-white p-4 border-lightgray border rounded-xl">
             <div className="flex flex-shrink-0 border-lightgray flex-basis-auto relative border rounded-xl w-[3.75rem] h-[3.75rem]">
