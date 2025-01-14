@@ -14,7 +14,7 @@ const Main = () => {
       <Heading
         tag="h1"
         className="text-center"
-      >{`${userInfo?.name}님, 환영합니다!`}</Heading>
+      >{`${userInfo?.nickname}님, 환영합니다!`}</Heading>
 
       <Heading
         tag="h3"

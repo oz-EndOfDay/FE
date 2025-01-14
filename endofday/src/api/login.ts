@@ -1,32 +1,36 @@
 "use server";
 
-import { LoginFormData } from "@/utils/registrationSchema";
-import { cookies } from "next/headers";
+import {LoginFormData} from "@/utils/registrationSchema";
+import {cookies} from "next/headers";
 
 export const login = async (data: LoginFormData) => {
-  const cookieStore = await cookies();
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const response = await fetch(`${API_BASE_URL}/users/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+    const cookieStore = cookies();
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+    const response = await fetch(`${API_BASE_URL}/users/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+        credentials: "include",
+    });
 
-  const token = await response.json();
-  cookieStore.set("accessToken", token.access_token, {
-    httpOnly: true,
-    secure: true,
-  });
-  cookieStore.set("refreshToken", token.refresh_token, {
-    httpOnly: true,
-    secure: true,
-  });
+    if (!response.ok) {
+        throw new Error(`로그인에 실패했습니다. Error: ${response.status} - ${response.statusText}`);
+    }
 
-  return token;
+    const token = await response.json();
+
+    cookieStore.set("access_token", token.access_token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    });
+
+    cookieStore.set("refresh_token", token.refresh_token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    });
 };
