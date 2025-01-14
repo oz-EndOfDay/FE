@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { addFriend, AddFriendResponse } from "@/api/friendApi";
 import { searchUsers, SearchedUser } from "@/api/searchApi";
 import SearchInput from "@/components/ui/SearchInput";
 import Pagination from "@/components/friend/Pagination";
@@ -12,10 +13,16 @@ const FriendSearchPage = () => {
   const [results, setResults] = useState<SearchedUser[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // 친구추가 mutation
-  const addFriendMut = useMutation<number, Error, number>({
-    onSuccess: () => {
-      alert("친구 요청을 보냈습니다!");
+  // If addFriend returns Promise<AddFriendResponse>, use that type for TData
+  const addFriendMut = useMutation<AddFriendResponse, Error, number>({
+    mutationFn: (userId: number) => addFriend(userId),
+    onSuccess: (data) => {
+      // data: AddFriendResponse
+      if (data.success) {
+        alert("친구 요청을 보냈습니다!");
+      } else {
+        alert(`친구 요청 실패. ${data.message}`);
+      }
     },
     onError: (err) => {
       if (err.message.includes("Unauthorized")) {
@@ -69,7 +76,7 @@ const FriendSearchPage = () => {
             className="flex items-center justify-between p-4 bg-white rounded-lg"
           >
             <ProfileCard
-              profileImage="" // 필요 시
+              profileImage=""
               name={user.nickname}
               statusMessage={`이메일: ${user.email}`}
             />
