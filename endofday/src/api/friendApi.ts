@@ -1,3 +1,5 @@
+// src/api/friendApi.ts
+
 const BASE_URL = "http://3.38.93.178";
 
 /** 친구 목록 조회 : GET /friends */
@@ -8,7 +10,7 @@ export const fetchFriends = async () => {
   if (!res.ok) {
     throw new Error("Failed to fetch friends");
   }
-  return res.json();
+  return res.json(); // { friends: [...] }
 };
 
 /** 친구 신청: POST /friends/{user_id} */
@@ -19,7 +21,7 @@ export const addFriend = async (userId: number) => {
   if (!res.ok) {
     throw new Error("Failed to add friend");
   }
-  return res.json();
+  return res.json(); // { success: true, message: '...' }
 };
 
 /** 받은 친구 요청 리스트 조회: GET /friends/get_request */
@@ -30,7 +32,7 @@ export const fetchReceivedRequests = async () => {
   if (!res.ok) {
     throw new Error("Failed to fetch received friend requests");
   }
-  return res.json();
+  return res.json(); // { sent_requests: [...] }
 };
 
 /** 보낸 친구 요청 리스트 조회: GET /friends/send_request */
@@ -63,5 +65,5 @@ export const deleteFriend = async (friendId: number) => {
   if (!res.ok) {
     throw new Error("Failed to delete friend");
   }
-  return res.json();
+  return res.json(); // { success: true, message: '...' }
 };

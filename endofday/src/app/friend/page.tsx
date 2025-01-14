@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import FriendList from "@/components/friend/FriendList";
-import FriendRequests from "@/components/friend/FriendRequests";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import FriendList from "@/components/friend/FriendList";
+import FriendRequests from "@/components/friend/FriendRequests";
 
 const FriendPage = () => {
   const router = useRouter();
