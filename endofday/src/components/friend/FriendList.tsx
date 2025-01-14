@@ -1,102 +1,124 @@
 "use client";
 
-import React from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteFriend, fetchFriends } from "@/api/friendApi";
-import ProfileCard from "./ProfileCard";
+import React, {useState, useEffect} from "react";
 import Pagination from "./Pagination";
+import ProfileCard from "./ProfileCard";
+import {fetchFriends, deleteFriend, FriendListResponse} from "@/api/friendApi";
+import {useRouter} from "next/navigation";
 
 interface FriendItem {
-  id: number;
-  user_id1: number;
-  user_id2: number;
-  is_accept: boolean;
-  ex_diary_cnt: number;
-  last_ex_date: string;
-  created_at: string;
+    id: number;
+    is_accept: boolean;
+    ex_diary_cnt: number;
+    last_ex_date: string | null;
+    created_at: string;
+    friend_nickname: string | null;
+    friend_profile_img: string | null;
 }
 
 const FriendList = () => {
-  const queryClient = useQueryClient();
-  const [currentPage, setCurrentPage] = React.useState(1);
+    const router = useRouter();
 
-  const {
-    data,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["friends"],
-    queryFn: fetchFriends,
-  });
+    const [friends, setFriends] = useState<FriendItem[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-  const deleteFriendMutation = useMutation({
-    mutationFn: (friendId: number) => deleteFriend(friendId),
-    onSuccess: () => {
-      alert("친구가 삭제되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["friends"] });
-    },
-    onError: () => {
-      alert("친구 삭제 중 오류가 발생했습니다.");
-    },
-  });
+    const [currentPage, setCurrentPage] = useState(1);
 
-  // 그리고 나서 조건문(early return)을 둡니다.
-  if (isLoading) {
-    return <div>로딩중...</div>;
-  }
-  if (isError) {
-    return <div>친구 목록을 불러오는 중 오류가 발생했습니다.</div>;
-  }
+    useEffect(() => {
+        setLoading(true);
+        fetchFriends()
+            .then((data: FriendListResponse) => {
+                // data.friends : FriendItem[]
+                setFriends(data.friends);
+                console.log(data);
+            })
+            .catch((err: unknown) => {
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError("오류가 발생했습니다.");
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
 
-  const friendList: FriendItem[] = data?.friends || [];
+    const handleDelete = async (friendId: number) => {
+        try {
+            await deleteFriend(friendId);
+            alert("친구가 삭제되었습니다.");
+            setFriends(prev => prev.filter(f => f.id !== friendId));
+        } catch (err: unknown) {
+            if (err instanceof Error && err.message === "Unauthorized") {
+                alert("로그인이 필요합니다!");
+            } else {
+                alert("친구 삭제 중 오류가 발생했습니다.");
+            }
+        }
+    };
+    // 교환일기 페이지 이동
+    const handleNavigateDiary = (friend: FriendItem) => {
+        if (friend.ex_diary_cnt > 0 && friend.last_ex_date !== null) {
+            // ✅ 교환일기 리스트 페이지로 이동
+            router.push(`/exchange/${friend.id}/list`);
+        } else {
+            // ✅ 교환일기 작성 페이지로 이동
+            router.push(`/exchange/${friend.id}/write`);
+        }
+    };
+    if (loading) return <div>로딩중...</div>;
+    if (error) {
+        console.error("FriendList error:", error);
+        return <div>친구 목록을 불러오는 중 오류가 발생했습니다.</div>;
+    }
+    if (friends.length === 0) {
+        return <div className="text-center p-4">친구가 없습니다.</div>;
+    }
 
-  // 페이지네이션 로직
-  const pageSize = 5;
-  const totalPages = Math.ceil(friendList.length / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const currentFriends = friendList.slice(startIndex, endIndex);
+    const pageSize = 5;
+    const totalPages = Math.ceil(friends.length / pageSize);
+    const startIndex = (currentPage - 1) * pageSize;
+    const currentFriends = friends.slice(startIndex, startIndex + pageSize);
 
-  return (
-    <div>
-      {currentFriends.map((friend) => (
-        <div
-          key={friend.id}
-          className="flex items-center justify-between border-b py-2"
-        >
-          <ProfileCard
-            profileImage="https://via.placeholder.com/50"
-            name={`친구ID: ${friend.user_id2}`}
-            statusMessage={`is_accept: ${friend.is_accept}`}
-          />
-          <div className="space-x-2">
-            <button
-              className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200"
-              onClick={() =>
-                alert(`교환일기 보기 (friendId = ${friend.id})`)
-              }
-            >
-              교환일기
-            </button>
-            <button
-              className="px-3 py-1 bg-red-100 rounded hover:bg-red-200"
-              onClick={() => deleteFriendMutation.mutate(friend.id)}
-            >
-              삭제
-            </button>
-          </div>
+    return (
+        <div>
+            {currentFriends.map(friend => (
+                <div
+                    key={friend.id}
+                    className="flex items-center justify-between p-4 bg-white rounded-lg mb-4"
+                >
+                    <ProfileCard
+                        profileImage={friend.friend_profile_img || ""}
+                        name={friend.friend_nickname || "친구"}
+                        statusMessage={`id: ${friend.id}`}
+                    />
+                    <div className="space-x-2">
+                        <button
+                            className="px-3 py-1 bg-[#E7CCA9] rounded-full hover:bg-[#D1B696] transition-colors duration-200"
+                            onClick={() => handleNavigateDiary(friend)}
+                        >
+                            교환일기
+                        </button>
+                        <button
+                            className="px-3 py-1 bg-[#E7CCA9] rounded-full hover:bg-[#D1B696] transition-colors duration-200"
+                            onClick={() => handleDelete(friend.id)}
+                        >
+                            삭제
+                        </button>
+                    </div>
+                </div>
+            ))}
+            <div className="mt-4 text-center">
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={p => setCurrentPage(p)}
+                />
+            </div>
         </div>
-      ))}
-
-      <div className="mt-4 text-center">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
-      </div>
-    </div>
-  );
+    );
 };
 
 export default FriendList;

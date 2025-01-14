@@ -1,69 +1,68 @@
 "use client";
 
 import React, { useState } from "react";
-import ProfileCard from "@/components/friend/ProfileCard";
-import Pagination from "@/components/friend/Pagination";
 import { useMutation } from "@tanstack/react-query";
-import { addFriend } from "@/api/friendApi";
+import { addFriend, AddFriendResponse } from "@/api/friendApi";
+import { searchUsers, SearchedUser } from "@/api/searchApi";
 import SearchInput from "@/components/ui/SearchInput";
-
-// 가상의 유저 데이터 (실제로는 서버 API 호출)
-interface User {
-  id: number;
-  name: string;
-  statusMessage: string;
-  profileImage: string;
-}
-
-const mockUsers: User[] = [
-  { id: 1, name: "검색결과유저1", statusMessage: "상태메시지1", profileImage: "https://via.placeholder.com/50" },
-  { id: 2, name: "검색결과유저2", statusMessage: "상태메시지2", profileImage: "https://via.placeholder.com/50" },
-  { id: 3, name: "검색결과유저3", statusMessage: "상태메시지3", profileImage: "https://via.placeholder.com/50" },
-  { id: 4, name: "검색결과유저4", statusMessage: "상태메시지4", profileImage: "https://via.placeholder.com/50" },
-  { id: 5, name: "검색결과유저5", statusMessage: "상태메시지5", profileImage: "https://via.placeholder.com/50" },
-];
+import Pagination from "@/components/friend/Pagination";
+import ProfileCard from "@/components/friend/ProfileCard";
 
 const FriendSearchPage = () => {
   const [searchText, setSearchText] = useState("");
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [results, setResults] = useState<SearchedUser[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // 친구추가 mutation
-  const { mutate: addFriendMutate } = useMutation({
+  // If addFriend returns Promise<AddFriendResponse>, use that type for TData
+  const addFriendMut = useMutation<AddFriendResponse, Error, number>({
     mutationFn: (userId: number) => addFriend(userId),
-    onSuccess: () => {
-      alert("친구 요청을 보냈습니다!");
+    onSuccess: (data) => {
+      // data: AddFriendResponse
+      if (data.success) {
+        alert("친구 요청을 보냈습니다!");
+      } else {
+        alert(`친구 요청 실패. ${data.message}`);
+      }
     },
-    onError: () => {
-      alert("친구 신청에 실패했습니다.");
+    onError: (err) => {
+      if (err.message.includes("Unauthorized")) {
+        alert("로그인이 필요합니다.");
+      } else {
+        alert(`친구 신청에 실패했습니다. ${err.message}`);
+      }
     },
   });
 
-  // 검색 로직 (가상의 front filtering)
-  // 실제로는 `/users/search?keyword=${searchText}` API 등을 호출
-  const filteredUsers = mockUsers.filter((u) =>
-    u.name.toLowerCase().includes(searchText.toLowerCase())
-  );
+  // 검색
+  const handleSearch = async () => {
+    try {
+      const data = await searchUsers(searchText);
+      setResults(data);
+      setCurrentPage(1);
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message.includes("Unauthorized")) {
+        alert("로그인이 필요합니다.");
+      } else if (err instanceof Error) {
+        alert(`검색 오류가 발생했습니다. ${err.message}`);
+      } else {
+        alert("알 수 없는 오류가 발생했습니다.");
+      }
+    }
+  };
 
   // 페이지네이션
-  const pageSize = 2;
-  const totalItems = filteredUsers.length;
+  const pageSize = 5;
+  const totalItems = results.length;
   const totalPages = Math.ceil(totalItems / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const currentUsers = filteredUsers.slice(startIndex, endIndex);
-
-  // SearchInput에서 엔터 or 아이콘 클릭 시
-  const handleSearch = () => {
-    // 실제로는 서버에 검색 요청
-    alert(`"${searchText}"로 검색 (추후 API 연동)`);
-  };
+  const currentUsers = results.slice(startIndex, startIndex + pageSize);
 
   return (
     <div className="mt-8">
       <h2 className="text-center text-2xl font-bold mb-4">친구 찾기</h2>
 
       <SearchInput
-        placeholder="이메일과 닉네임으로 친구를 검색해보세요"
+        placeholder="닉네임/이메일 검색"
         value={searchText}
         onChange={(val) => setSearchText(val)}
         onSearch={handleSearch}
@@ -77,26 +76,23 @@ const FriendSearchPage = () => {
             className="flex items-center justify-between p-4 bg-white rounded-lg"
           >
             <ProfileCard
-              profileImage={user.profileImage}
-              name={user.name}
-              statusMessage={user.statusMessage}
+              profileImage=""
+              name={user.nickname}
+              statusMessage={`이메일: ${user.email}`}
             />
-            <div>
-              <button
-                className="px-4 py-2 bg-[#E7CCA9] rounded-full hover:bg-[#C9A782] font-semibold"
-                onClick={() => addFriendMutate(user.id)}
-              >
-                친구추가
-              </button>
-            </div>
+            <button
+              className="px-4 py-2 bg-[#E7CCA9] rounded-full hover:bg-[#C9A782] font-semibold"
+              onClick={() => addFriendMut.mutate(user.id)}
+            >
+              친구추가
+            </button>
           </div>
         ))}
-
         <div className="mt-4 text-center">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={(page) => setCurrentPage(page)}
+            onPageChange={(p) => setCurrentPage(p)}
           />
         </div>
       </div>
