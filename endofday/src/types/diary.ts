@@ -19,7 +19,8 @@ export type DiaryListEntry = {
     title: string;
     write_date: string;
     content: string;
-    img_url?: string; // 교환일기
+    created_at?: string; // 교환일기
+    author?: string; // 교환일기
 };
 
 export type DiaryDetailEntry = {
