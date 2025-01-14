@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./Pagination";
 import ProfileCard from "./ProfileCard";
-import { fetchFriends, deleteFriend } from "@/api/friendApi";
+import { fetchFriends, deleteFriend, FriendListResponse } from "@/api/friendApi";
 
 interface FriendItem {
   id: number;
@@ -25,11 +25,16 @@ const FriendList = () => {
   useEffect(() => {
     setLoading(true);
     fetchFriends()
-      .then((data: any) => {
-        setFriends(data?.friends || []);
+      .then((data: FriendListResponse) => {
+        // data.friends : FriendItem[]
+        setFriends(data.friends);
       })
-      .catch((err) => {
-        setError(err.message || "오류가 발생했습니다.");
+      .catch((err: unknown) => {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("오류가 발생했습니다.");
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -41,8 +46,8 @@ const FriendList = () => {
       await deleteFriend(friendId);
       alert("친구가 삭제되었습니다.");
       setFriends((prev) => prev.filter((f) => f.id !== friendId));
-    } catch (err: any) {
-      if (err.message === "Unauthorized") {
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message === "Unauthorized") {
         alert("로그인이 필요합니다!");
       } else {
         alert("친구 삭제 중 오류가 발생했습니다.");
@@ -92,12 +97,11 @@ const FriendList = () => {
           </div>
         </div>
       ))}
-
       <div className="mt-4 text-center">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={(page) => setCurrentPage(page)}
+          onPageChange={(p) => setCurrentPage(p)}
         />
       </div>
     </div>

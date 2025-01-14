@@ -14,13 +14,13 @@ const FriendSearchPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // 친구추가 mutation
-  const addFriendMut = useMutation({
+  const addFriendMut = useMutation<number, Error, number>({
     mutationFn: (userId: number) => addFriend(userId),
     onSuccess: () => {
       alert("친구 요청을 보냈습니다!");
     },
-    onError: (err: any) => {
-      if (err instanceof Error && err.message.includes("Unauthorized")) {
+    onError: (err) => {
+      if (err.message.includes("Unauthorized")) {
         alert("로그인이 필요합니다.");
       } else {
         alert(`친구 신청에 실패했습니다. ${err.message}`);
@@ -34,11 +34,13 @@ const FriendSearchPage = () => {
       const data = await searchUsers(searchText);
       setResults(data);
       setCurrentPage(1);
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (err instanceof Error && err.message.includes("Unauthorized")) {
         alert("로그인이 필요합니다.");
-      } else {
+      } else if (err instanceof Error) {
         alert(`검색 오류가 발생했습니다. ${err.message}`);
+      } else {
+        alert("알 수 없는 오류가 발생했습니다.");
       }
     }
   };
