@@ -1,11 +1,7 @@
 "use client";
-
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  fetchReceivedRequests,
-  acceptFriendRequest,
-} from "@/api/friendApi";
+import { fetchReceivedRequests, acceptFriendRequest } from "@/api/friendApi";
 import ProfileCard from "./ProfileCard";
 import Pagination from "./Pagination";
 
@@ -21,6 +17,7 @@ const FriendRequests = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
 
+  // 받은 친구 요청 (GET /friends/get_request)
   const {
     data: receivedData,
     isLoading,
@@ -30,12 +27,11 @@ const FriendRequests = () => {
     queryFn: fetchReceivedRequests,
   });
 
-  // PATCH /friends/{friend_id}
+  // 친구 요청 수락 (PATCH /friends/{friend_id})
   const acceptRequestMutation = useMutation({
     mutationFn: (friendId: number) => acceptFriendRequest(friendId),
     onSuccess: () => {
       alert("친구 요청을 수락했습니다.");
-      // **변경**: invalidateQueries -> 객체
       queryClient.invalidateQueries({ queryKey: ["receivedRequests"] });
       queryClient.invalidateQueries({ queryKey: ["friends"] });
     },
@@ -47,9 +43,10 @@ const FriendRequests = () => {
   if (isLoading) return <div>로딩중...</div>;
   if (isError) return <div>친구 요청을 불러오는 중 오류가 발생했습니다.</div>;
 
-  // 응답 예시: { sent_requests: RequestItem[] }
+  // { sent_requests: RequestItem[] }
   const requests: RequestItem[] = receivedData?.sent_requests || [];
 
+  // 페이지네이션
   const totalPages = Math.ceil(requests.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -67,14 +64,12 @@ const FriendRequests = () => {
             name={`유저: ${req.user_id1}`}
             statusMessage={`생성일: ${req.created_at}`}
           />
-          <div>
-            <button
-              className="px-3 py-1 bg-green-100 rounded hover:bg-green-200"
-              onClick={() => acceptRequestMutation.mutate(req.id)}
-            >
-              수락
-            </button>
-          </div>
+          <button
+            className="px-3 py-1 bg-green-100 rounded hover:bg-green-200"
+            onClick={() => acceptRequestMutation.mutate(req.id)}
+          >
+            수락
+          </button>
         </div>
       ))}
 
