@@ -5,7 +5,6 @@ export type DiaryQueryParams = {
   month?: number;
   page?: number;
   size?: number;
-  null?: null;
 };
 export type DiaryResponse = {
   items: DiaryListEntry[];

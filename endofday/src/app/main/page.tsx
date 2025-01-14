@@ -25,7 +25,9 @@ type ApiResponse = {
 
 const Main = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-  const { data, isPending, error } = useFetchDiary({ null: null });
+  const { data, isPending, error } = useFetchDiary({
+    size: 100,
+  });
 
   if (isPending) {
     return <LoadingSpinner />;
