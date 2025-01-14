@@ -8,14 +8,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import SmallButton from "@/components/ui/SmallButton";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { fetchWithToken } from "@/api/fetchUtils";
+import { updateUserProfile } from "@/api/updateUserProfile";
+import { useRouter } from "next/navigation";
+import { setUserInfo } from "@/store/auth/authSlice";
+import { getUserInfo } from "@/api/user";
 
 const MyPageForm = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const token = useSelector((state: RootState) => state.auth.token);
-
+  const router = useRouter();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -23,31 +27,28 @@ const MyPageForm = () => {
   } = useForm<MyPageData>({
     resolver: zodResolver(mypageSchema),
     defaultValues: {
-      name: "",
       nickname: "",
       password: "",
       introduce: "",
-      confirmPassword: "",
     },
   });
   const onSubmit = async (data: MyPageData) => {
     if (token === null) {
       throw new Error("토큰이 없습니다");
     }
-    try {
-      console.log(data);
-      const response = await fetchWithToken("/users", token, {
-        method: "PUT",
-        body: JSON.stringify(data), // 데이터를 JSON 문자열로 변환
-      });
-      console.log("생성된 게시물:", data);
-      if (!response.ok) {
-        throw new Error(`잘못 된 접근입니다.`);
-      }
-      alert("회원 정보가 수정되었습니다.");
-    } catch {
-      alert("서버경로가 올바르지 않습니다. 다시 시도해주세요.");
+    const formData = new FormData();
+    formData.append("nickname", data.nickname);
+    formData.append("introduce", data.introduce);
+    formData.append("password", data.password);
+    await updateUserProfile(formData);
+    if (!userInfo) {
+      throw new Error("사용자 정보를 받아오지 못했습니다. 다시 시도 해주세요.");
     }
+    const updateUserInfo = await getUserInfo();
+    dispatch(setUserInfo(updateUserInfo));
+    // 사용자 정보 검증: 유저 정보가 없으면 에러 발생
+    alert("회원 수정이 완료되었습니다.");
+    router.push("/main");
   };
 
   return (
@@ -83,14 +84,13 @@ const MyPageForm = () => {
 
       <div className="flex flex-col">
         <label className="text-black mb-2 ">Name</label>
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <input
           id="user_name"
           className="relative p-3 rounded-lg bg-lightgray focus:outline-none pointer-events-none"
           value={`${userInfo?.name}`}
-          {...register("name")}
         />
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <Input
           id="user_nickname"
           label="NickName"
@@ -121,16 +121,7 @@ const MyPageForm = () => {
         {errors.password && (
           <p className="text-red-500">{errors.password.message}</p>
         )}
-        <Input
-          id="user_password_confirm"
-          label="Password Confirm"
-          type="password"
-          placeholder="비밀번호 확인"
-          {...register("confirmPassword")}
-        />
-        {errors.confirmPassword && (
-          <p className="text-red-500">{errors.confirmPassword.message}</p>
-        )}
+
         <div className="flex flex-col !mt-[3.25rem] space-y-4 items-center">
           <Button variant="sand" type="submit">
             수정
