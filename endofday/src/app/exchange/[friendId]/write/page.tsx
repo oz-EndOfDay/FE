@@ -91,7 +91,7 @@ const WritePage = () => {
         // 폼 데이터 추가
         formData.append("title", data.title);
         formData.append("write_date", data.write_date);
-        formData.append("emotion", data.mood);
+        formData.append("mood", data.mood);
         formData.append("weather", data.weather);
         formData.append("content", data.content);
 

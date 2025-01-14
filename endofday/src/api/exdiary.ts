@@ -33,7 +33,7 @@ export const fetchExFriends = async (): Promise<ExFriendListResponse> => {
 export const sendExDiary = async ({formData, friendId}: {formData: FormData; friendId: number}): Promise<void> => {
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
-
+    console.log(formData, "데이터");
     if (!accessToken) throw new Error("로그인이 필요합니다.");
 
     try {
@@ -50,7 +50,7 @@ export const sendExDiary = async ({formData, friendId}: {formData: FormData; fri
             throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
     } catch (error) {
-        console.error("교환일기 전송 실패:", error);
+        console.log("교환일기 전송 실패:", error);
         throw new Error("Failed to write diary");
     }
 };
