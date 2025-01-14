@@ -3,22 +3,16 @@
 import React, {useState} from "react";
 import Link from "next/link";
 import ProfileCard from "@/components/friend/ProfileCard";
+import {ExFriendList} from "@/types/diary";
 import Pagination from "@/components/friend/Pagination";
 
-interface Friend {
-    id: number;
-    name: string;
-    statusMessage: string;
-    profileImage: string;
-}
-
 interface ExchangeFriendListProps {
-    friends: Friend[];
+    friends: ExFriendList[];
 }
 
-const ExchangeFriendList = ({friends}: ExchangeFriendListProps) => {
+const ExchangeFriendList: React.FC<ExchangeFriendListProps> = ({friends}) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const pageSize = 2; // 한 페이지에 몇명 표시할건지
+    const pageSize = 6; // 한 페이지에 몇 명 표시할지
     const totalItems = friends.length;
     const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -28,33 +22,33 @@ const ExchangeFriendList = ({friends}: ExchangeFriendListProps) => {
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const currentFriends = friends.slice(startIndex, endIndex);
-
+    const exFriendList = friends.slice(startIndex, endIndex);
     return (
         <div className="h-full flex flex-col">
             <ul className="flex flex-col gap-4 flex-1">
-                {currentFriends.map(friend => (
+                {exFriendList.map(friend => (
                     <li
                         key={friend.id}
                         className="p-4 bg-white rounded-lg shadow-sm"
                     >
                         <Link
-                            href="/"
-                            className="w-full flex items-center justify-between "
+                            href={`/exchange/${friend.id}/list`}
+                            className="w-full flex items-center justify-between"
                         >
                             <ProfileCard
-                                profileImage={friend.profileImage}
-                                name={friend.name}
-                                statusMessage={friend.statusMessage}
+                                profileImage={friend.friend_profile_img ?? "/default-profile.png"}
+                                name={friend.friend_nickname}
+                                statusMessage={`id: ${friend.id}`}
                             />
-                            <div className="text-right space-x-2">
-                                <p>마지막 교환 날짜 : 2024-12-20</p>
-                                <p>교환한 일기 수 : 3</p>
+                            <div className="text-right space-y-1">
+                                <p>마지막 교환 날짜: {friend.last_ex_date ? new Date(friend.last_ex_date).toLocaleDateString() : "없음"}</p>
+                                <p>교환한 일기 수: {friend.ex_diary_cnt}</p>
                             </div>
                         </Link>
                     </li>
                 ))}
             </ul>
+
             <div className="mt-4 text-center">
                 <Pagination
                     currentPage={currentPage}
