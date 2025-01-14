@@ -9,12 +9,11 @@ import {
   ChartData,
   ChartOptions,
 } from "chart.js";
-import { useState } from "react";
 
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-// import { fetchEmotionData } from "@/hooks/useFetchEmotion";
-// import LoadingSpinner from "./LoadingSpinner";
+import { fetchEmotionData } from "@/hooks/useFetchEmotion";
+import LoadingSpinner from "./LoadingSpinner";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -27,27 +26,19 @@ interface EmotionData {
 }
 
 const EmotionDoughnutChart = () => {
-  // const [emotionData, setEmotionData] = useState<EmotionData | null>(null);
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     const data = await fetchEmotionData();
-  //     if (data) {
-  //       setEmotionData(data);
-  //     }
-  //   };
-  //   loadData();
-  // }, []);
-  // if (!emotionData) {
-  //   return <LoadingSpinner />;
-  // }
-
-  const [emotionData] = useState<EmotionData>({
-    happy: 12,
-    good: 8,
-    normal: 5,
-    tired: 3,
-    sad: 2,
-  });
+  const [emotionData, setEmotionData] = useState<EmotionData | null>(null);
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await fetchEmotionData();
+      if (data) {
+        setEmotionData(data);
+      }
+    };
+    loadData();
+  }, []);
+  if (!emotionData) {
+    return <LoadingSpinner />;
+  }
 
   const totalCount = Object.values(emotionData).reduce((a, b) => a + b, 0);
 
