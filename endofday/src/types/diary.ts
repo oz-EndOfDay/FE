@@ -54,6 +54,9 @@ export type ExDiaryListEntry = {
     content: string;
     created_at: string;
 };
+export type ExDiaryListResponse = {
+    diaries: ExDiaryListEntry[];
+};
 export type ExDiaryDetailEntry = {
     id: number;
     title: string;
@@ -65,8 +68,8 @@ export type ExDiaryDetailEntry = {
 // post (일기감정분석, 조언)
 export type EmotionAnalysisResponse = {
     diary_id: number;
-    diary_content: string;
-    analysis_result: string;
+    diary_analysis_result: string;
+    advice_analysis_result: string;
 };
 // 기분
 export type MoodItem = {

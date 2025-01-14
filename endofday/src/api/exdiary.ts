@@ -1,11 +1,11 @@
 "use server";
-import {ExDiaryListEntry, ExDiaryDetailEntry, ExFreindList} from "@/types/diary";
+import {ExDiaryListResponse, ExDiaryDetailEntry, ExFriendListResponse} from "@/types/diary";
 import {cookies} from "next/headers";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 교환일기 친구목록 조회
-export const fetchExFriends = async (): Promise<ExFreindList> => {
+export const fetchExFriends = async (): Promise<ExFriendListResponse> => {
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
@@ -57,7 +57,7 @@ export const sendExDiary = async (formData: FormData, friend_id: number): Promis
 };
 
 // 교환일기 목록 조회
-export const fetchExDiaries = async (friend_id: number): Promise<ExDiaryListEntry> => {
+export const fetchExDiaries = async (friend_id: number): Promise<ExDiaryListResponse> => {
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 

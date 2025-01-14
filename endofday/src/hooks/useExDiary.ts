@@ -27,7 +27,7 @@ export const useExSendDiary = (friend_id: number) => {
 };
 
 // 교환일기 목록 get
-export const useFetchDiary = (friend_id: number) => {
+export const useExFetchDiary = (friend_id: number) => {
     return useQuery({
         queryKey: ["exdiaries", friend_id],
         queryFn: () => fetchExDiaries(friend_id),
