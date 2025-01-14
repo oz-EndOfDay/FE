@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useState, useMemo} from "react";
 import Link from "next/link";
 import SmallButton from "@/components/ui/SmallButton";
 import ExchangeFriendList from "@/components/exchange/ExchangeFriendList";
@@ -8,11 +8,29 @@ import Button from "@/components/ui/Button";
 import {useExGetFriend} from "@/hooks/useExDiary";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
+type SortType = "name" | "count" | "";
+
 const ExchangeFriendPage = () => {
     // API 호출
     const {data, isPending, error} = useExGetFriend();
     console.log(data);
 
+    // 정렬 상태관리
+    const [sortType, setSortType] = useState<SortType>("");
+
+    // 친구 목록 정렬 함수
+    const sortedFriends = useMemo(() => {
+        if (!data?.friends) return [];
+
+        switch (sortType) {
+            case "name":
+                return [...data.friends].sort((a, b) => (a.friend_nickname || "").localeCompare(b.friend_nickname || ""));
+            case "count":
+                return [...data.friends].sort((a, b) => b.ex_diary_cnt - a.ex_diary_cnt);
+            default:
+                return data.friends; // 기본 정렬
+        }
+    }, [data, sortType]);
     // 로딩 상태
     if (isPending) {
         return <LoadingSpinner />;
@@ -55,12 +73,16 @@ const ExchangeFriendPage = () => {
                     <div className="text-center mb-4">
                         <Heading tag="h2">교환일기 친구 목록</Heading>
                     </div>
-                    <div className="text-right mb-3">
-                        <SmallButton variant="text">이름순</SmallButton>
-                        <SmallButton variant="text">최신순</SmallButton>
-                        <SmallButton variant="text">교환갯수순</SmallButton>
+                    <div className="text-right mb-3 flex gap-2 justify-end">
+                        <SmallButton onClick={() => setSortType("name")}>이름순</SmallButton>
+                        <SmallButton
+                            variant="sand"
+                            onClick={() => setSortType("count")}
+                        >
+                            교환갯수순
+                        </SmallButton>
                     </div>
-                    <ExchangeFriendList friends={data.friends} />
+                    <ExchangeFriendList friends={sortedFriends} />
                 </>
             )}
         </div>
