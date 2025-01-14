@@ -61,10 +61,12 @@ export type ExDiaryListResponse = {
 export type ExDiaryDetailEntry = {
     id: number;
     title: string;
+    sender?: string; // 교환일기
     write_date: string;
+    weather: string;
+    mood: string;
     content: string;
     img_url: string;
-    created_at: string;
 };
 // post (일기감정분석, 조언)
 export type EmotionAnalysisResponse = {
