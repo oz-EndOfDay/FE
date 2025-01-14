@@ -33,15 +33,18 @@ export type DiaryDetailEntry = {
     img_url: string;
 };
 
-// 교환일기 리스트 조회
-export type ExFreindList = {
+// 교환일기 조회
+export type ExFriendList = {
     id: number;
-    user_id1: number;
-    user_id2: number;
     is_accept: boolean;
     ex_diary_cnt: number;
-    last_ex_date: string;
-    created_at: string;
+    last_ex_date: string; // ISO 형식의 날짜 문자열
+    created_at: string; // ISO 형식의 날짜 문자열
+    friend_nickname: string;
+    friend_profile_img: string;
+};
+export type ExFriendListResponse = {
+    friends: ExFriendList[];
 };
 export type ExDiaryListEntry = {
     id: number;
@@ -50,6 +53,9 @@ export type ExDiaryListEntry = {
     write_date: string;
     content: string;
     created_at: string;
+};
+export type ExDiaryListResponse = {
+    diaries: ExDiaryListEntry[];
 };
 export type ExDiaryDetailEntry = {
     id: number;
@@ -62,8 +68,8 @@ export type ExDiaryDetailEntry = {
 // post (일기감정분석, 조언)
 export type EmotionAnalysisResponse = {
     diary_id: number;
-    diary_content: string;
-    analysis_result: string;
+    diary_analysis_result: string;
+    advice_analysis_result: string;
 };
 // 기분
 export type MoodItem = {

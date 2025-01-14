@@ -1,12 +1,11 @@
 "use server";
-import {ExDiaryListEntry, ExDiaryDetailEntry, ExFreindList} from "@/types/diary";
+import {ExDiaryListResponse, ExDiaryDetailEntry, ExFriendListResponse} from "@/types/diary";
 import {cookies} from "next/headers";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 교환일기 친구목록 조회
-export const fetchExFriends = async (): Promise<ExFreindList> => {
-    // 토큰가져오기
+export const fetchExFriends = async (): Promise<ExFriendListResponse> => {
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
@@ -20,7 +19,7 @@ export const fetchExFriends = async (): Promise<ExFreindList> => {
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
         }
 
         return await response.json();
@@ -31,17 +30,15 @@ export const fetchExFriends = async (): Promise<ExFreindList> => {
 };
 
 // 교환일기 작성
-export const sendExDiary = async (formData: FormData, friend_id: number): Promise<void> => {
-    // 토큰가져오기
+export const sendExDiary = async ({formData, friendId}: {formData: FormData; friendId: number}): Promise<void> => {
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
-
+    console.log(formData, "데이터");
     if (!accessToken) throw new Error("로그인이 필요합니다.");
 
     try {
-        const response = await fetch(`${API_BASE_URL}/ex_diary/${friend_id}`, {
+        const response = await fetch(`${API_BASE_URL}/ex_diary/${friendId}`, {
             method: "POST",
-            credentials: "include", // 쿠키 전송 활성화
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -53,14 +50,13 @@ export const sendExDiary = async (formData: FormData, friend_id: number): Promis
             throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
     } catch (error) {
-        console.error("교환일기 전송 실패:", error);
+        console.log("교환일기 전송 실패:", error);
         throw new Error("Failed to write diary");
     }
 };
 
-// 교환일기 목록 조회 (친구와의)
-export const fetchExDiaries = async (friend_id: number): Promise<ExDiaryListEntry> => {
-    // 토큰가져오기
+// 교환일기 목록 조회
+export const fetchExDiaries = async (friend_id: number): Promise<ExDiaryListResponse> => {
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
@@ -84,14 +80,13 @@ export const fetchExDiaries = async (friend_id: number): Promise<ExDiaryListEntr
     }
 };
 
-// 교환일기상세조회
+// 교환일기 상세조회
 export const fetchExDiaryById = async (friend_id: number, ex_diary_id: number): Promise<ExDiaryDetailEntry> => {
-    // 토큰가져오기
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
     try {
-        const response = await fetch(`${API_BASE_URL}}/ex_diary/${friend_id}/${ex_diary_id}`, {
+        const response = await fetch(`${API_BASE_URL}/ex_diary/${friend_id}/${ex_diary_id}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -112,12 +107,11 @@ export const fetchExDiaryById = async (friend_id: number, ex_diary_id: number): 
 
 // 교환일기 삭제
 export const deleteExDiaryById = async (friend_id: number, ex_diary_id: number): Promise<void> => {
-    // 토큰가져오기
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
     try {
-        const response = await fetch(`${API_BASE_URL}}/ex_diary/${friend_id}/${ex_diary_id}`, {
+        const response = await fetch(`${API_BASE_URL}/ex_diary/${friend_id}/${ex_diary_id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
