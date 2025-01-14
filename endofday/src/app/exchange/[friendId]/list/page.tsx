@@ -7,6 +7,7 @@ import WriteButton from "@/components/diary/WriteButton";
 import DiaryItem from "@/components/diary/DiaryItem";
 import {getFriendData} from "@/utils/getFreindData";
 // import Pagination from "@/components/friend/Pagination";
+import {getExTurn} from "@/utils/getExTurn";
 import {useParams} from "next/navigation";
 import {useExFetchDiary, useExGetFriend} from "@/hooks/useExDiary";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -15,25 +16,15 @@ const ExchangeDiaryList = () => {
     const params = useParams();
     const id = params?.friendId;
     const friendId = Number(id);
-    console.log(friendId, "id");
+
     // 해당친구와의 리스트 조회
     const {data: diaryList, isPending, isError} = useExFetchDiary(friendId);
     const {data: friendList} = useExGetFriend();
-    console.log(friendList, "liststsdfsdf");
-
+    console.log(diaryList);
     // 친구 데이터
     const {ex_diary_cnt = 0, friend_nickname = "알 수 없음"} = getFriendData(friendList?.friends ?? [], friendId) ?? {};
 
-    // ✅ 차례 구분 로직
-    let isMyTurn = false;
-
-    if (ex_diary_cnt === 0) {
-        // 아무도 작성하지 않았으면 → 내 차례
-        isMyTurn = true;
-    } else {
-        // 짝수면 내 차례, 홀수면 친구 차례
-        isMyTurn = ex_diary_cnt % 2 === 0;
-    }
+    const turn = getExTurn(diaryList, ex_diary_cnt);
 
     // 로딩
     if (isPending) {
@@ -50,21 +41,21 @@ const ExchangeDiaryList = () => {
                     <Heading tag="h2">{friend_nickname} 님과의 소중한 교환일기</Heading>
                     <Heading
                         tag="p"
-                        className="mt-1"
+                        className="mt-2"
                     >
                         {ex_diary_cnt}개의 교환일기가 있습니다.
                     </Heading>
-                    {isMyTurn ? (
+                    {ex_diary_cnt > 0 && turn === "내 차례" ? (
                         <Heading
                             tag="p"
-                            className="mt-1 text-green-600"
+                            className="mt-2 text-green-600"
                         >
                             ✅ 내 차례입니다! 작성 완료 후 수정이 불가능합니다.
                         </Heading>
                     ) : (
                         <Heading
                             tag="p"
-                            className="mt-1 text-blue-600"
+                            className="mt-2 text-blue-600"
                         >
                             📖 친구의 차례입니다!
                         </Heading>
@@ -74,7 +65,7 @@ const ExchangeDiaryList = () => {
                     {diaryList && diaryList.diaries && diaryList.diaries.length > 0 ? (
                         diaryList.diaries.map(item => (
                             <li key={item.id}>
-                                <Link href={`/exchange/${friendId}/diary/${item.id}`}>
+                                <Link href={`/exchange/${friendId}/${item.id}`}>
                                     <DiaryItem
                                         data={item}
                                         type="exchange"
@@ -95,7 +86,7 @@ const ExchangeDiaryList = () => {
                 />
             </div> */}
 
-            {isMyTurn ? (
+            {turn === "내 차례" ? (
                 <Link href={`/exchange/${friendId}/write`}>
                     <WriteButton />
                 </Link>

@@ -33,12 +33,10 @@ const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
                     작성자: {data.author === "Me" ? "나" : "친구"}
                 </Heading>
                 <Heading tag="p">{data.title}</Heading>
-                <Heading
-                    tag="p"
-                    className="truncate"
-                >
-                    {data.content}
-                </Heading>
+                <p
+                    className="truncate-content mt-1"
+                    dangerouslySetInnerHTML={{__html: data.content}}
+                ></p>
             </div>
             <div className="absolute top-4 right-4">
                 <Heading
