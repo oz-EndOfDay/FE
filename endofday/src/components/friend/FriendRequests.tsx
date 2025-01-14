@@ -71,7 +71,7 @@ const FriendRequests = () => {
       {currentRequests.map((req) => (
         <div
           key={req.id}
-          className="flex items-center justify-between p-4 bg-white rounded-lg"
+          className="flex items-center justify-between p-4 bg-white rounded-lg mb-4"
         >
           <ProfileCard
             profileImage={req.friend_profile_img || ""}

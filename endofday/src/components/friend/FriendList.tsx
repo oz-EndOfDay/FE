@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import Pagination from "./Pagination";
 import ProfileCard from "./ProfileCard";
-import { fetchFriends, deleteFriend, FriendListResponse } from "@/api/friendApi";
+import {fetchFriends, deleteFriend, FriendListResponse} from "@/api/friendApi";
 
 interface FriendItem {
   id: number;
@@ -74,7 +74,7 @@ const FriendList = () => {
       {currentFriends.map((friend) => (
         <div
           key={friend.id}
-          className="flex items-center justify-between p-4 bg-white rounded-lg"
+          className="flex items-center justify-between p-4 bg-white rounded-lg mb-4"
         >
           <ProfileCard
             profileImage={friend.friend_profile_img || ""}
