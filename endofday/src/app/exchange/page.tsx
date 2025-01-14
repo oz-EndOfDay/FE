@@ -5,41 +5,32 @@ import SmallButton from "@/components/ui/SmallButton";
 import ExchangeFriendList from "@/components/exchange/ExchangeFriendList";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
-
-interface Friend {
-    id: number;
-    name: string;
-    statusMessage: string;
-    profileImage: string;
-}
-
-const mockFriends: Friend[] = [
-    {
-        id: 1,
-        name: "홍길동",
-        statusMessage: "안녕하세요!",
-        profileImage: "",
-    },
-    {
-        id: 2,
-        name: "김철수",
-        statusMessage: "반갑습니다",
-        profileImage: "",
-    },
-    {
-        id: 3,
-        name: "이영희",
-        statusMessage: "오늘도 화이팅!",
-        profileImage: "",
-    },
-];
+import {useExGetFriend} from "@/hooks/useExDiary";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 const ExchangeFriendPage = () => {
-    const friends: Friend[] = mockFriends;
-    const isListEmpty = friends.length === 0;
+    // API 호출
+    const {data, isPending, error} = useExGetFriend();
+    console.log(data);
+
+    // 로딩 상태
+    if (isPending) {
+        return <LoadingSpinner />;
+    }
+
+    // 에러 처리
+    if (error) {
+        console.error("교환일기 친구목록 조회에 실패했습니다.", error);
+        return (
+            <div className="flex-1 flex justify-center items-center">
+                <p>교환일기 친구목록을 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.</p>
+            </div>
+        );
+    }
+
     return (
         <div className="flex-1 flex flex-col md:mt-8">
-            {isListEmpty ? (
+            {!data || data.friends.length === 0 ? (
                 <div className="flex h-full flex-col justify-center items-center text-center">
                     <Heading
                         tag="p"
@@ -72,7 +63,7 @@ const ExchangeFriendPage = () => {
                     <Link href="/exchange/list">
                         <button type="button">리스트</button>
                     </Link>
-                    <ExchangeFriendList friends={friends} />
+                    <ExchangeFriendList friends={data.friends} />
                 </>
             )}
         </div>

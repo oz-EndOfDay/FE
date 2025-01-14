@@ -6,7 +6,6 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 교환일기 친구목록 조회
 export const fetchExFriends = async (): Promise<ExFreindList> => {
-    // 토큰가져오기
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
@@ -32,7 +31,6 @@ export const fetchExFriends = async (): Promise<ExFreindList> => {
 
 // 교환일기 작성
 export const sendExDiary = async (formData: FormData, friend_id: number): Promise<void> => {
-    // 토큰가져오기
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
@@ -41,7 +39,7 @@ export const sendExDiary = async (formData: FormData, friend_id: number): Promis
     try {
         const response = await fetch(`${API_BASE_URL}/ex_diary/${friend_id}`, {
             method: "POST",
-            credentials: "include", // 쿠키 전송 활성화
+            credentials: "include",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -58,9 +56,8 @@ export const sendExDiary = async (formData: FormData, friend_id: number): Promis
     }
 };
 
-// 교환일기 목록 조회 (친구와의)
+// 교환일기 목록 조회
 export const fetchExDiaries = async (friend_id: number): Promise<ExDiaryListEntry> => {
-    // 토큰가져오기
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
@@ -84,14 +81,13 @@ export const fetchExDiaries = async (friend_id: number): Promise<ExDiaryListEntr
     }
 };
 
-// 교환일기상세조회
+// 교환일기 상세조회
 export const fetchExDiaryById = async (friend_id: number, ex_diary_id: number): Promise<ExDiaryDetailEntry> => {
-    // 토큰가져오기
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
     try {
-        const response = await fetch(`${API_BASE_URL}}/ex_diary/${friend_id}/${ex_diary_id}`, {
+        const response = await fetch(`${API_BASE_URL}/ex_diary/${friend_id}/${ex_diary_id}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -112,12 +108,11 @@ export const fetchExDiaryById = async (friend_id: number, ex_diary_id: number): 
 
 // 교환일기 삭제
 export const deleteExDiaryById = async (friend_id: number, ex_diary_id: number): Promise<void> => {
-    // 토큰가져오기
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
     try {
-        const response = await fetch(`${API_BASE_URL}}/ex_diary/${friend_id}/${ex_diary_id}`, {
+        const response = await fetch(`${API_BASE_URL}/ex_diary/${friend_id}/${ex_diary_id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
