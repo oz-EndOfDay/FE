@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { addFriend } from "@/api/friendApi";
 import { searchUsers, SearchedUser } from "@/api/searchApi";
 import SearchInput from "@/components/ui/SearchInput";
 import Pagination from "@/components/friend/Pagination";
@@ -15,7 +14,6 @@ const FriendSearchPage = () => {
 
   // 친구추가 mutation
   const addFriendMut = useMutation<number, Error, number>({
-    mutationFn: (userId: number) => addFriend(userId),
     onSuccess: () => {
       alert("친구 요청을 보냈습니다!");
     },
