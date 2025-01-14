@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "./diary.css";
 :root {
     --background: #fdfbf8;
     --foreground: #000000;
