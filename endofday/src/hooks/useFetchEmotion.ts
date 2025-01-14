@@ -21,6 +21,6 @@ export const fetchEmotionData = async () => {
 
     return await response.json();
   } catch (error) {
-    console.error("Error fetching emotion data:", error);
+    alert("Error fetching emotion data:" + error);
   }
 };
