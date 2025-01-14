@@ -19,7 +19,7 @@ export const fetchExFriends = async (): Promise<ExFriendListResponse> => {
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
         }
 
         return await response.json();
@@ -30,16 +30,15 @@ export const fetchExFriends = async (): Promise<ExFriendListResponse> => {
 };
 
 // 교환일기 작성
-export const sendExDiary = async (formData: FormData, friend_id: number): Promise<void> => {
+export const sendExDiary = async ({formData, friendId}: {formData: FormData; friendId: number}): Promise<void> => {
     const cookieStore = cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
     if (!accessToken) throw new Error("로그인이 필요합니다.");
 
     try {
-        const response = await fetch(`${API_BASE_URL}/ex_diary/${friend_id}`, {
+        const response = await fetch(`${API_BASE_URL}/ex_diary/${friendId}`, {
             method: "POST",
-            credentials: "include",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },

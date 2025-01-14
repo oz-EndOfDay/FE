@@ -74,6 +74,7 @@ const WritePage = () => {
         }
 
         setFormData(formData);
+        console.log(formData)
     };
     const handleConfirm = () => {
         if (formData) {

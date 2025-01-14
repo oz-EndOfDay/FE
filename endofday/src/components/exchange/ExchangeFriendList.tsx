@@ -38,7 +38,7 @@ const ExchangeFriendList: React.FC<ExchangeFriendListProps> = ({friends}) => {
                             <ProfileCard
                                 profileImage={friend.friend_profile_img ?? "/default-profile.png"}
                                 name={friend.friend_nickname}
-                                statusMessage={`상태메세지`}
+                                statusMessage={`id: ${friend.id}`}
                             />
                             <div className="text-right space-y-1">
                                 <p>마지막 교환 날짜: {friend.last_ex_date ? new Date(friend.last_ex_date).toLocaleDateString() : "없음"}</p>

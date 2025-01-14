@@ -60,9 +60,6 @@ const ExchangeFriendPage = () => {
                         <SmallButton variant="text">최신순</SmallButton>
                         <SmallButton variant="text">교환갯수순</SmallButton>
                     </div>
-                    <Link href="/exchange/list">
-                        <button type="button">리스트</button>
-                    </Link>
                     <ExchangeFriendList friends={data.friends} />
                 </>
             )}

@@ -1,6 +1,6 @@
 "use client";
 import "@/styles/diary.css";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {diarySchema, DiaryFormData} from "@/utils/diarySchema";
@@ -13,14 +13,47 @@ import Button from "@/components/ui/Button";
 import MoodRadio from "@/components/diary/MoodRadio";
 import WeatherRadio from "@/components/diary/WeatherRadio";
 import Modal from "@/components/ui/Modal";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import {useParams} from "next/navigation";
+import {useExGetFriend, useExSendDiary} from "@/hooks/useExDiary";
+import {useRouter} from "next/navigation";
 
 const TipTapEditor = dynamic(() => import("@/components/diary/TipTapEditor"), {ssr: false});
 
 const WritePage = () => {
+    const router = useRouter();
+    // url 파라미터 값 갖고오기
+    const params = useParams();
+    const id = params?.friendId;
+    const friendId = Number(id);
+    // API 호출
+    const {data} = useExGetFriend();
+    // 친구 상태
+    const [friendName, setFriendName] = useState<string | null>(null);
+    const [isFirstExDiary, setIsFirstExDiary] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (data && data.friends) {
+            const friendData = data.friends.find(el => el.id === friendId);
+
+            if (friendData) {
+                setFriendName(friendData.friend_nickname);
+                setIsFirstExDiary(friendData.ex_diary_cnt === 0);
+            } else {
+                setFriendName(null);
+            }
+        }
+    }, [data, friendId]);
+    // 일기 전송 함수
+    const {mutate, isPending} = useExSendDiary();
+    // 폼 데이터 저장
+    const [formData, setFormData] = useState<FormData | null>(null);
     // 작성 모달 상태
     const [isWriteModalOpen, setWriteModalOpen] = useState(false);
     // 완료 모달 상태
     const [isCompleteModalOpen, setCompleteModalOpen] = useState(false);
+    // 날짜
+    const [isOpenDayPicker, setOpenDayPicker] = useState(false);
 
     const closeModal = () => {
         setWriteModalOpen(false);
@@ -50,6 +83,7 @@ const WritePage = () => {
 
     // 폼 제출
     const onSubmit = (data: DiaryFormData) => {
+        console.log("폼 데이터 제출됨:", data);
         // 작성모달
         setWriteModalOpen(true);
         const formData = new FormData();
@@ -64,33 +98,56 @@ const WritePage = () => {
         if (data.image) {
             formData.append("image", data.image);
         }
-        // 서버에 데이터전송 함수 추가해야함(리액트쿼리)
+        console.log("폼데이터 확인:", formData);
+        setFormData(formData);
     };
     const handleConfirm = () => {
-        setCompleteModalOpen(true);
+        if (formData) {
+            mutate(
+                {formData, friendId},
+                {
+                    onSuccess: () => {
+                        setCompleteModalOpen(true);
+                        setWriteModalOpen(false);
+                        setFormData(null);
+                        //  작성 후 교환일기 리스트로 이동
+                        router.push(`/exchange/${friendId}/list`);
+                    },
+                    onError: error => {
+                        console.error("작성 실패:", error);
+                        alert("교환일기 작성에 실패했습니다.");
+                    },
+                }
+            );
+        }
     };
-    // 날짜
-    const [isOpenDayPicker, setOpenDayPicker] = useState(false);
-
+    console.log(formData, friendId);
+    // 로딩
+    if (isPending) {
+        return <LoadingSpinner />;
+    }
     return (
         <div>
             <div className="text-center">
-                <Heading tag="h2">친구이름님과의 소중한 교환일기</Heading>
-                <Heading
-                    tag="p"
-                    className="mt-2"
-                >
-                    ✅ 내 차례입니다! 작성 완료 후 수정이 불가능합니다.
-                </Heading>
-                {/* 교환일기 처음으로 작성했을때 */}
-                <Heading
-                    tag="p"
-                    className="mt-2"
-                >
-                    교환일기의 첫 페이지를 장식해 보세요.
-                    <br />
-                    친구와의 소중한 기록이 시작됩니다!
-                </Heading>
+                <Heading tag="h2">{friendName}님과의 소중한 교환일기</Heading>
+
+                {isFirstExDiary ? (
+                    <Heading
+                        tag="p"
+                        className="mt-2"
+                    >
+                        교환일기의 첫 페이지를 장식해 보세요.
+                        <br />
+                        친구와의 소중한 기록이 시작됩니다!
+                    </Heading>
+                ) : (
+                    <Heading
+                        tag="p"
+                        className="mt-2"
+                    >
+                        ✅ 내 차례입니다! 작성 완료 후 수정이 불가능합니다.
+                    </Heading>
+                )}
             </div>
             <form
                 className="space-y-4"

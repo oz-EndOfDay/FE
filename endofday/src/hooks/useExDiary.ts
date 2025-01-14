@@ -14,15 +14,9 @@ export const useExGetFriend = () => {
 };
 
 // 교환일기 post
-export const useExSendDiary = (friend_id: number) => {
-    return useMutation<void, Error, FormData>({
-        mutationFn: formData => sendExDiary(formData, friend_id),
-        onSuccess: () => {
-            console.log("교환일기 전송 성공");
-        },
-        onError: (error: Error) => {
-            console.error("교환일기 전송 실패:", error.message);
-        },
+export const useExSendDiary = () => {
+    return useMutation({
+        mutationFn: sendExDiary,
     });
 };
 
