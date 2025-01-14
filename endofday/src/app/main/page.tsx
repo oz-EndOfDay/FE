@@ -62,7 +62,7 @@ const Main = () => {
           />
         </div>
         <Heading tag="h1" className="text-center">
-          일기를 통해 본 나의 감정 흐름
+          {"일기를 통해 본 나의 감정 흐름"}
         </Heading>
 
         <div className="flex flex-col gap-16 justify-center items-center ">
@@ -150,7 +150,7 @@ const Main = () => {
       </div>
       <br />
       <Heading tag="h1" className="text-center">
-        일기를 통해 본 나의 감정 흐름
+        {"일기를 통해 본 나의 감정 흐름"}
       </Heading>
 
       <div className="flex flex-col gap-16 justify-center items-center ">
