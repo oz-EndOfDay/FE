@@ -1,13 +1,11 @@
 "use client";
-
 import React, { useState } from "react";
-import ProfileCard from "@/components/friend/ProfileCard";
-import Pagination from "@/components/friend/Pagination";
 import { useMutation } from "@tanstack/react-query";
 import { addFriend } from "@/api/friendApi";
 import SearchInput from "@/components/ui/SearchInput";
+import Pagination from "@/components/friend/Pagination";
+import ProfileCard from "@/components/friend/ProfileCard";
 
-// 가상의 유저 데이터 (실제로는 서버 API 호출)
 interface User {
   id: number;
   name: string;
@@ -16,18 +14,43 @@ interface User {
 }
 
 const mockUsers: User[] = [
-  { id: 1, name: "검색결과유저1", statusMessage: "상태메시지1", profileImage: "https://via.placeholder.com/50" },
-  { id: 2, name: "검색결과유저2", statusMessage: "상태메시지2", profileImage: "https://via.placeholder.com/50" },
-  { id: 3, name: "검색결과유저3", statusMessage: "상태메시지3", profileImage: "https://via.placeholder.com/50" },
-  { id: 4, name: "검색결과유저4", statusMessage: "상태메시지4", profileImage: "https://via.placeholder.com/50" },
-  { id: 5, name: "검색결과유저5", statusMessage: "상태메시지5", profileImage: "https://via.placeholder.com/50" },
+  {
+    id: 1,
+    name: "검색결과유저1",
+    statusMessage: "상태메시지1",
+    profileImage: "",
+  },
+  {
+    id: 2,
+    name: "검색결과유저2",
+    statusMessage: "상태메시지2",
+    profileImage: "",
+  },
+  {
+    id: 3,
+    name: "검색결과유저3",
+    statusMessage: "상태메시지3",
+    profileImage: "",
+  },
+  {
+    id: 4,
+    name: "검색결과유저4",
+    statusMessage: "상태메시지4",
+    profileImage: "",
+  },
+  {
+    id: 5,
+    name: "검색결과유저5",
+    statusMessage: "상태메시지5",
+    profileImage: "",
+  },
 ];
 
 const FriendSearchPage = () => {
   const [searchText, setSearchText] = useState("");
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // 친구추가 mutation
+  // 친구 추가 (POST /friends/{user_id})
   const { mutate: addFriendMutate } = useMutation({
     mutationFn: (userId: number) => addFriend(userId),
     onSuccess: () => {
@@ -38,8 +61,7 @@ const FriendSearchPage = () => {
     },
   });
 
-  // 검색 로직 (가상의 front filtering)
-  // 실제로는 `/users/search?keyword=${searchText}` API 등을 호출
+  // 간단한 front filtering (실제로는 서버 /users/search 등 사용)
   const filteredUsers = mockUsers.filter((u) =>
     u.name.toLowerCase().includes(searchText.toLowerCase())
   );
@@ -52,10 +74,9 @@ const FriendSearchPage = () => {
   const endIndex = startIndex + pageSize;
   const currentUsers = filteredUsers.slice(startIndex, endIndex);
 
-  // SearchInput에서 엔터 or 아이콘 클릭 시
+  // SearchInput에서 엔터나 아이콘 클릭 시 호출
   const handleSearch = () => {
-    // 실제로는 서버에 검색 요청
-    alert(`"${searchText}"로 검색 (추후 API 연동)`);
+    alert(`"${searchText}"로 검색 (추후 실제 API 연동)`);
   };
 
   return (
@@ -81,14 +102,12 @@ const FriendSearchPage = () => {
               name={user.name}
               statusMessage={user.statusMessage}
             />
-            <div>
-              <button
-                className="px-4 py-2 bg-[#E7CCA9] rounded-full hover:bg-[#C9A782] font-semibold"
-                onClick={() => addFriendMutate(user.id)}
-              >
-                친구추가
-              </button>
-            </div>
+            <button
+              className="px-4 py-2 bg-[#E7CCA9] rounded-full hover:bg-[#C9A782] font-semibold"
+              onClick={() => addFriendMutate(user.id)}
+            >
+              친구추가
+            </button>
           </div>
         ))}
 
