@@ -11,7 +11,7 @@ const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
     const dateString = data.write_date; // "2025-01-12"
     const dateObj = new Date(dateString);
     const dayOfWeek = dateObj.toLocaleDateString("en-US", {weekday: "short"});
-
+    console.log(data);
     return type === "exchange" ? (
         <div className="relative flex items-center bg-white p-4 border-lightgray border rounded-xl">
             <div className="flex flex-shrink-0 border-lightgray flex-basis-auto relative border rounded-xl w-[3.75rem] h-[3.75rem]">
@@ -30,7 +30,7 @@ const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
                     tag="p"
                     className="font-semibold"
                 >
-                    작성자: 친구
+                    작성자: {data.author === "Me" ? "나" : "친구"}
                 </Heading>
                 <Heading tag="p">{data.title}</Heading>
                 <Heading
