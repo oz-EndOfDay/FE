@@ -8,9 +8,10 @@ interface DiaryModalsProps {
     onClose: () => void;
     onDeleteConfirm: () => void;
     analysisResult: EmotionAnalysisResponse | null;
+    myNickname: string;
 }
 
-const DiaryModals = ({modalState, onClose, onDeleteConfirm, analysisResult}: DiaryModalsProps) => {
+const DiaryModals = ({modalState, onClose, onDeleteConfirm, analysisResult, myNickname}: DiaryModalsProps) => {
     return (
         <>
             {modalState === "confirm" && (
@@ -34,8 +35,8 @@ const DiaryModals = ({modalState, onClose, onDeleteConfirm, analysisResult}: Dia
             )}
             {modalState === "mood" && (
                 <CloseModal
-                    title="'따봉맨'님의 감정분석"
-                    subTitle="'따봉맨'님에게 해주고싶은 말"
+                    title={`${myNickname}님의 감정분석`}
+                    subTitle={`${myNickname}님에게 해주고 싶은말`}
                     subContent={analysisResult?.advice_analysis_result || "분석 결과가 없습니다."}
                     onClose={onClose}
                 >
