@@ -20,7 +20,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({profileImage, name, statusMess
                     className="rounded-full object-cover"
                 />
             </div>
-            <div>
+            <div className="">
                 <div className="font-semibold">{name}</div>
                 <div className="text-gray-500 text-sm">{statusMessage}</div>
             </div>

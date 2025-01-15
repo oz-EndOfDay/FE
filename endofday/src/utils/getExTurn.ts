@@ -7,6 +7,5 @@ export const getExTurn = (diaryListResponse: ExDiaryListResponse = {diaries: []}
     }
     // 가장 최근 작성된 일기를 가져옴
     const lastDiary = diaryListResponse.diaries[0];
-    // 최근 작성자가 "Me"면 친구 차례, 아니면 내 차례
     return lastDiary.author === "Me" ? "친구 차례" : "내 차례";
 };
