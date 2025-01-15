@@ -94,7 +94,12 @@ const ExchangeDiaryDetail = () => {
             <div className="diary-detail">
                 <div className="space-y-4">
                     <div className="text-center flex justify-center items-center gap-2 border-b border-gray pb-3 md:pb-6">
-                        <Heading tag="h2">{formatDate(diary.write_date)}</Heading>
+                        <Heading
+                            tag="h2"
+                            className="!font-semibold !text-2xl"
+                        >
+                            {formatDate(diary.write_date)}
+                        </Heading>
                         {moodItem && (
                             <div className="w-[3rem] h-[3rem] relative">
                                 <Image
@@ -131,7 +136,7 @@ const ExchangeDiaryDetail = () => {
                     </div>
                     <div>
                         <p className="mb-2">작성자</p>
-                        <div className="p-3 text-black bg-white border-lightgray border rounded-xl">{diary.sender}</div>
+                        <div className="p-3 text-black bg-white border-lightgray border rounded-xl">{diary.author}</div>
                     </div>
                     <div>
                         <p className="mb-2">내용</p>
