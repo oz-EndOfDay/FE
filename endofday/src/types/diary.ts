@@ -21,6 +21,7 @@ export type DiaryListEntry = {
     content: string;
     created_at?: string; // 교환일기
     author?: string; // 교환일기
+    img_url?: string; // 교환일기
 };
 
 export type DiaryDetailEntry = {
@@ -67,6 +68,7 @@ export type ExDiaryDetailEntry = {
     mood: string;
     content: string;
     img_url: string;
+    author: string;
 };
 // post (일기감정분석, 조언)
 export type EmotionAnalysisResponse = {
