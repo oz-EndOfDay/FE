@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+
 import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,25 +10,35 @@ import {
   ChartOptions,
 } from "chart.js";
 
+import { useEffect, useState } from "react";
+
+import { fetchEmotionData } from "@/hooks/useFetchEmotion";
+import LoadingSpinner from "./LoadingSpinner";
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface EmotionData {
-  joy: number;
+  happy: number;
   good: number;
   normal: number;
   tired: number;
   sad: number;
 }
 
-const EmotionDoughnutChart: React.FC = () => {
-  //useEffect를 통해 데이터 불러올 예정
-  const [emotionData] = useState<EmotionData>({
-    joy: 12,
-    good: 8,
-    normal: 5,
-    tired: 3,
-    sad: 2,
-  });
+const EmotionDoughnutChart = () => {
+  const [emotionData, setEmotionData] = useState<EmotionData | null>(null);
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await fetchEmotionData();
+      if (data) {
+        setEmotionData(data);
+      }
+    };
+    loadData();
+  }, []);
+  if (!emotionData) {
+    return <LoadingSpinner />;
+  }
 
   const totalCount = Object.values(emotionData).reduce((a, b) => a + b, 0);
 
@@ -38,7 +48,7 @@ const EmotionDoughnutChart: React.FC = () => {
       {
         label: "감정 비율",
         data: [
-          (emotionData.joy / totalCount) * 100,
+          (emotionData.happy / totalCount) * 100,
           (emotionData.good / totalCount) * 100,
           (emotionData.normal / totalCount) * 100,
           (emotionData.tired / totalCount) * 100,
@@ -65,7 +75,6 @@ const EmotionDoughnutChart: React.FC = () => {
 
   const options: ChartOptions<"doughnut"> = {
     responsive: true,
-
     plugins: {
       legend: {
         position: "top",
