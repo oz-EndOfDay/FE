@@ -17,10 +17,11 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import {useParams} from "next/navigation";
 import {useExGetFriend, useExSendDiary} from "@/hooks/useExDiary";
 import {useRouter} from "next/navigation";
-
+import {useQueryClient} from "@tanstack/react-query";
 const TipTapEditor = dynamic(() => import("@/components/diary/TipTapEditor"), {ssr: false});
 
 const WritePage = () => {
+    const queryClient = useQueryClient();
     const router = useRouter();
     // url 파라미터 값 갖고오기
     const params = useParams();
@@ -110,8 +111,8 @@ const WritePage = () => {
                         setCompleteModalOpen(true);
                         setWriteModalOpen(false);
                         setFormData(null);
-                        //  작성 후 교환일기 리스트로 이동
-                        router.push(`/exchange/${friendId}/list`);
+                        // ✅ 기존 데이터를 무효화 → 최신 데이터 강제 새로고침
+                        queryClient.invalidateQueries({queryKey: ["diaries"]});
                     },
                     onError: error => {
                         console.error("작성 실패:", error);
@@ -120,6 +121,13 @@ const WritePage = () => {
                 }
             );
         }
+    };
+
+    //  "작성 완료" 모달의 확인 버튼을 눌렀을 때 이동
+    const handleCompleteConfirm = () => {
+        setCompleteModalOpen(false);
+        //  작성 후 교환일기 리스트로 이동
+        router.push(`/exchange/${friendId}/list`);
     };
     console.log(formData, friendId);
     // 로딩
@@ -267,7 +275,7 @@ const WritePage = () => {
             {isCompleteModalOpen && (
                 <Modal
                     title="작성 완료! 친구이름님 차례로 변경되었습니다"
-                    onConfirm={closeModal}
+                    onConfirm={handleCompleteConfirm}
                     confirmText="확인"
                     confirmType={true}
                     Isdescription={false}
