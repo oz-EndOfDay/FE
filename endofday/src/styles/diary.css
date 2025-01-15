@@ -29,6 +29,9 @@ input[type="radio"] {
     color: #697077;
     font-style: normal;
 }
+.ProseMirror {
+    padding-bottom: 150px;
+}
 .prose h1 {
     font-size: 2.25rem;
     font-weight: bold;

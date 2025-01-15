@@ -145,20 +145,15 @@ const ExchangeDiaryDetail = () => {
                             dangerouslySetInnerHTML={{__html: diary.content}}
                         />
                     </div>
-                    <div>
+                    <div className="pb-[2rem] md:pb-[3.125rem]">
                         <p className="mb-2">사진</p>
                         {diary.img_url ? (
-                            <div
-                                className="relative w-full aspect-w-16 aspect-h-9 max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto"
-                                style={{
-                                    paddingTop: "56.25%", // 16:9 비율
-                                }}
-                            >
+                            <div className="relative w-full max-w-2xl mx-auto aspect-[10/9]">
                                 <Image
-                                    src="/icons/moka.jpeg"
-                                    alt="dummyImage"
+                                    src={diary.img_url}
+                                    alt="이미지"
                                     fill
-                                    className="object-cover rounded-xl"
+                                    className="object-contain rounded-xl"
                                 />
                             </div>
                         ) : (

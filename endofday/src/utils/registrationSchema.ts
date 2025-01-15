@@ -8,7 +8,7 @@ export const registrationSchema = z
     password: z
       .string()
       .min(8, "비밀번호는 최소 8자 이상이어야 합니다")
-      .regex(/[a-z]/, "비밀번호에는 최소 하나의 소문자가 포함되어야 합니다")
+      .regex(/[a-z]/, "비밀번호에는 최소 하나의 문자가 포함되어야 합니다")
       .regex(/[0-9]/, "비밀번호에는 최소 하나의 숫자가 포함되어야 합니다")
       .regex(
         /[!@#$%^?]/,
@@ -27,7 +27,7 @@ export const loginSchema = z.object({
   password: z
     .string()
     .min(8, "비밀번호는 최소 8자 이상이어야 합니다")
-    .regex(/[a-z]/, "비밀번호에는 최소 하나의 소문자가 포함되어야 합니다")
+    .regex(/[a-z]/, "비밀번호에는 최소 하나의 문자가 포함되어야 합니다")
     .regex(/[0-9]/, "비밀번호에는 최소 하나의 숫자가 포함되어야 합니다")
     .regex(
       /[!@#$%^?]/,
@@ -41,7 +41,7 @@ export const mypageSchema = z.object({
   password: z
     .string()
     .min(8, "비밀번호는 최소 8자 이상이어야 합니다")
-    .regex(/[a-z]/, "비밀번호에는 최소 하나의 소문자가 포함되어야 합니다")
+    .regex(/[a-z]/, "비밀번호에는 최소 하나의 문자가 포함되어야 합니다")
     .regex(/[0-9]/, "비밀번호에는 최소 하나의 숫자가 포함되어야 합니다")
     .regex(
       /[!@#$%^?]/,

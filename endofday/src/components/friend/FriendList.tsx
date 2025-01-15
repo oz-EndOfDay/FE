@@ -14,6 +14,7 @@ interface FriendItem {
     created_at: string;
     friend_nickname: string | null;
     friend_profile_img: string | null;
+    friend_introduce?: string | null;
 }
 
 const FriendList = () => {
@@ -83,41 +84,43 @@ const FriendList = () => {
     const currentFriends = friends.slice(startIndex, startIndex + pageSize);
 
     return (
-        <div>
-            {currentFriends.map(friend => (
-                <div
-                    key={friend.id}
-                    className="flex items-center justify-between p-4 bg-white rounded-lg mb-4"
-                >
-                    <ProfileCard
-                        profileImage={friend.friend_profile_img || ""}
-                        name={friend.friend_nickname || "친구"}
-                        statusMessage={`id: ${friend.id}`}
-                    />
-                    <div className="space-x-2">
-                        <button
-                            className="px-3 py-1 bg-[#E7CCA9] rounded-full hover:bg-[#D1B696] transition-colors duration-200"
-                            onClick={() => handleNavigateDiary(friend)}
-                        >
-                            교환일기
-                        </button>
-                        <button
-                            className="px-3 py-1 bg-[#E7CCA9] rounded-full hover:bg-[#D1B696] transition-colors duration-200"
-                            onClick={() => handleDelete(friend.id)}
-                        >
-                            삭제
-                        </button>
+        <>
+            <div>
+                {currentFriends.map(friend => (
+                    <div
+                        key={friend.id}
+                        className="flex items-center justify-between p-4 bg-white rounded-lg mb-4"
+                    >
+                        <ProfileCard
+                            profileImage={friend.friend_profile_img ?? "/icons/ProfileExample.png"}
+                            name={friend.friend_nickname || "친구"}
+                            statusMessage={friend.friend_introduce || ""}
+                        />
+                        <div className="space-x-2">
+                            <button
+                                className="px-3 py-1 bg-[#E7CCA9] rounded-full hover:bg-[#D1B696] transition-colors duration-200"
+                                onClick={() => handleNavigateDiary(friend)}
+                            >
+                                교환일기
+                            </button>
+                            <button
+                                className="px-3 py-1 bg-[#E7CCA9] rounded-full hover:bg-[#D1B696] transition-colors duration-200"
+                                onClick={() => handleDelete(friend.id)}
+                            >
+                                삭제
+                            </button>
+                        </div>
                     </div>
-                </div>
-            ))}
-            <div className="mt-4 text-center">
+                ))}
+            </div>
+            <div className="mt-auto text-center">
                 <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={p => setCurrentPage(p)}
                 />
             </div>
-        </div>
+        </>
     );
 };
 
