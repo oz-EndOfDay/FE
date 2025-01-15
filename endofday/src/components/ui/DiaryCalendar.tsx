@@ -6,13 +6,13 @@ import { IoClose } from "react-icons/io5";
 import "@/styles/calendar.css";
 import LoadingSpinner from "./LoadingSpinner";
 import { useFetchDiary } from "@/hooks/useDiary";
+import { useRouter } from "next/navigation";
 
 const DiaryCalendar: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-
   const { data, isPending, error } = useFetchDiary({});
-
+  const router = useRouter();
   if (isPending) {
     return <LoadingSpinner />;
   }
@@ -44,7 +44,7 @@ const DiaryCalendar: React.FC = () => {
       return diaries.length > 0 ? (
         <div className=" flex flex-col gap-1 md:text-nowrap overflow-hidden m-2 items-start md:p-4 p-1 md:text-md text-sm font-semibold border md:h-[110px] h-[60px] min-w-8 border-lightgray rounded-md text-gray">
           {diaries.map((items, id) => (
-            <p className="line-clamp-1" key={id}>
+            <p className="whitespace-nowrap truncate max-w-24" key={id}>
               {items.title}
             </p>
           ))}
@@ -115,9 +115,10 @@ const DiaryCalendar: React.FC = () => {
                   {selectedDateDiaries.map((diary, id) => (
                     <li
                       key={id}
+                      onClick={() => router.push(`/diary/${diary.id}`)}
                       className="p-2 border border-lightgray rounded cursor-pointer hover:bg-gray-100 flex  items-center gap-5"
                     >
-                      <div>
+                      <div className="flex h-full w-full">
                         <p className="font-semibold">{diary.title}</p>
                         <p className="text-ellipsis line-clamp-2">
                           {diary.content}
