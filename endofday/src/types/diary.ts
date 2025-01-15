@@ -44,6 +44,7 @@ export type ExFriendList = {
     created_at: string; // ISO 형식의 날짜 문자열
     friend_nickname: string;
     friend_profile_img: string;
+    friend_introduce: string;
 };
 export type ExFriendListResponse = {
     friends: ExFriendList[];

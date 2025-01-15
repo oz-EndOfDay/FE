@@ -18,13 +18,18 @@ export const useSendDiary = () => {
 // 일기 get
 export const useFetchDiary = (params: DiaryQueryParams) => {
     return useQuery({
-        queryKey: ["diaries", params], // 고유 키
+        queryKey: ["diaries", params],
         queryFn: () => fetchDiaries(params),
-        staleTime: 1000 * 60 * 5, // 5분 동안 데이터 신선하게 유지
-        gcTime: 1000 * 60 * 10, // 10분 동안 캐시 유지
-        retry: 1, // 실패 시 1회 재시도
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 10,
+        retry: 1,
         enabled: !!params, // params가 있을 때만 실행
         placeholderData: previousData => previousData, // 이전 데이터 유지
+        // ✅ 자동 업데이트 추가 옵션
+        refetchOnMount: true, // 컴포넌트 마운트 시 자동 새로고침
+        refetchOnWindowFocus: true, // 창이 포커스 될 때 자동 새로고침
+        refetchInterval: 1000 * 60, // 1분마다 자동 새로고침
+        refetchIntervalInBackground: true, // 창이 백그라운드일 때도 새로고침
     });
 };
 

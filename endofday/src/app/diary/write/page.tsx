@@ -2,6 +2,7 @@
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {useQueryClient} from "@tanstack/react-query";
 import {diarySchema, DiaryFormData} from "@/utils/diarySchema";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -19,6 +20,7 @@ import {useRouter} from "next/navigation";
 const TipTapEditor = dynamic(() => import("@/components/diary/TipTapEditor"), {ssr: false});
 
 const WritePage = () => {
+    const queryClient = useQueryClient();
     const router = useRouter();
     // 일기 전송 함수
     const {mutate, isPending} = useSendDiary();
@@ -74,7 +76,7 @@ const WritePage = () => {
         }
 
         setFormData(formData);
-        console.log(formData)
+        console.log(formData);
     };
     const handleConfirm = () => {
         if (formData) {
@@ -83,11 +85,20 @@ const WritePage = () => {
                     setCompleteModalOpen(true);
                     setWriteModalOpen(false);
                     setFormData(null);
-                    // 다이어리 리스트로 이동
-                    router.push("/diary");
+                    // ✅ 기존 데이터를 무효화 → 최신 데이터 강제 새로고침
+                    queryClient.invalidateQueries({queryKey: ["diaries"]});
+                },
+                onError: error => {
+                    console.error("작성 실패 ❌", error);
+                    alert("일기 작성에 실패했습니다. 다시 시도해주세요.");
                 },
             });
         }
+    };
+    //  "작성 완료" 모달의 확인 버튼을 눌렀을 때 이동
+    const handleCompleteConfirm = () => {
+        setCompleteModalOpen(false);
+        router.push("/diary"); // ✅ 여기서 페이지 이동
     };
     if (isPending) {
         return <LoadingSpinner />;
@@ -215,7 +226,7 @@ const WritePage = () => {
                 <Modal
                     title="일기 작성을 완료하였습니다."
                     description="내 일기 목록에서 확인해보세요."
-                    onConfirm={closeModal}
+                    onConfirm={handleCompleteConfirm}
                     confirmText="확인"
                     confirmType={true}
                 />
