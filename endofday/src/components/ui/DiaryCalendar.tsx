@@ -71,7 +71,7 @@ const DiaryCalendar: React.FC = () => {
     // 모달 닫기
     const closeModal = () => setModalOpen(false);
     return (
-        <div className="flex flex-col items-center md:w-[80%] gap-10">
+        <div className="flex flex-col items-center md:w-[80%] gap-10 pt-[3rem]">
             <Heading tag="h1">나의 기록</Heading>
             <div className="overflow-hidden md:shadow-md shadow-sm rounded-[20px] ">
                 <Calendar
