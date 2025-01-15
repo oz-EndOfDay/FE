@@ -32,7 +32,7 @@ const ProfileToggle = () => {
 
   return (
     <aside
-      className={`min-h-screen bg-warmgray px-5 flex-col flex-shrink-0 items-center ${isToggleOpen ? "w-[15rem]" : "w-[3rem]"} md:flex hidden ml-[8rem] z-50 relative transition-all ease-out duration-300`}
+      className={`min-h-screen bg-warmgray px-5 flex-col flex-shrink-0 items-center ${isToggleOpen ? "w-[15rem]" : "w-[3rem]"} md:flex hidden ml-[8rem] z-50 relative transition-all ease-out duration-300 ${userInfo !== null ? "" : " pointer-events-none"}`}
     >
       <div className="sticky top-0 left-0 w-full">
         {isToggleOpen ? (
@@ -71,10 +71,13 @@ const ProfileToggle = () => {
           >
             <div className="bg-white w-[11.25rem] h-[11.25rem] rounded-[50%] flex justify-center items-center border overflow-hidden">
               <Image
-                src={`${userInfo?.img_url}`}
+                src={`${userInfo?.img_url !== null ? userInfo?.img_url : "/icons/ProfileExample.png"}`}
                 alt="프로필이미지"
                 width={180}
                 height={180}
+                onError={(e) => {
+                  e.currentTarget.src = "/icons/ProfileExample.png";
+                }}
               />
             </div>
             <Heading tag="h2" className="text-center mt-7">
