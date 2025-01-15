@@ -11,7 +11,7 @@ const MyInfoSidebar = () => {
         <>
             {/* 웹 */}
             <nav className={`min-h-screen bg-warmgray px-10 flex-col items-center md:flex hidden ml-[8rem] z-50 relative`}>
-                <ul className="space-y-10 sticky top-[130px] left-0 w-full text-center">
+                <ul className="space-y-10 sticky top-[200px] left-0 w-full text-center">
                     <li>
                         <Link href="/my">
                             <span className="font-bold">내 정보</span>
