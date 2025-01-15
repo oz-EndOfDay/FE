@@ -30,6 +30,11 @@ export const useExFetchDiary = (friend_id: number) => {
         retry: 1,
         enabled: !!friend_id,
         placeholderData: previousData => previousData,
+         // ✅ 자동 업데이트 추가 옵션
+         refetchOnMount: true, // 컴포넌트 마운트 시 자동 새로고침
+         refetchOnWindowFocus: true, // 창이 포커스 될 때 자동 새로고침
+         refetchInterval: 1000 * 60, // 1분마다 자동 새로고침
+         refetchIntervalInBackground: true, // 창이 백그라운드일 때도 새로고침
     });
 };
 
