@@ -36,7 +36,7 @@ const ExchangeFriendList: React.FC<ExchangeFriendListProps> = ({friends}) => {
                             className="w-full flex items-center justify-between"
                         >
                             <ProfileCard
-                                profileImage={friend.friend_profile_img ?? "/default-profile.png"}
+                                profileImage={friend.friend_profile_img ?? "/icons/ProfileExample.png"}
                                 name={friend.friend_nickname}
                                 statusMessage={`id: ${friend.id}`}
                             />
