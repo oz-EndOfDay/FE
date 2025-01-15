@@ -11,7 +11,7 @@ interface ProfileCardProps {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({profileImage, name, statusMessage}) => {
     return (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
             <div className="w-[50px] h-[50px] min-w-[50px] min-h-[50px] relative">
                 <Image
                     src={profileImage}
