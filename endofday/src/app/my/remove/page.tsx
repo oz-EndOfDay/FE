@@ -1,4 +1,4 @@
-import DiaryRemoveTable from "@/components/ui/DiaryRemoveTable";
+import { DiaryRemoveTable } from "@/components/ui/DiaryRemoveTable";
 import Heading from "@/components/ui/Heading";
 
 const remove = () => {
