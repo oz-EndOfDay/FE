@@ -4,95 +4,48 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import { IoClose } from "react-icons/io5";
 import "@/styles/calendar.css";
-
-// Diary 목업 데이터 타입 정의
-interface Diary {
-  date: string;
-  title: string;
-  mood: "기쁨" | "좋음" | "보통" | "지침" | "슬픔";
-  weather: "맑음" | "구름조금" | "흐림" | "비" | "눈";
-  content: string;
-}
-
-// 목업 데이터
-const mockDiaries: Diary[] = [
-  {
-    date: "2025-01-01",
-    title: "새해 첫날",
-    mood: "기쁨",
-    weather: "맑음",
-    content:
-      "새해가 밝았다. 주문진에 가서 해 뜨는 걸 보고 한정식을 먹고 돌아와서 회에 쐬주를 때렸다. 좋은 30살의 시작이었다.",
-  },
-  {
-    date: "2025-01-05",
-    title: "테스트",
-    mood: "지침",
-    weather: "맑음",
-    content: "테스트 중",
-  },
-  {
-    date: "2025-01-16",
-    title: "프로젝트 마감",
-    mood: "지침",
-    weather: "맑음",
-    content:
-      "으아아아아아악. 말 줄임표 테스트를 해볼거다 텍스트가 두 줄이 넘으면 말 줄임표 기호가 떠야한다. 얍",
-  },
-  {
-    date: "2025-01-25",
-    title: "여행 가고 싶다",
-    mood: "보통",
-    weather: "구름조금",
-    content: "일본 가서 라멘이랑 규동이랑 돈까스 먹고 싶다.",
-  },
-  {
-    date: "2025-01-26",
-    title: "바쁜 하루",
-    mood: "지침",
-    weather: "비",
-    content: "바쁘다 바빠 현대사회",
-  },
-  {
-    date: "2025-01-26",
-    title: "바쁜 하루2",
-    mood: "지침",
-    weather: "비",
-    content: "바쁘다 바빠 현대사회",
-  },
-  {
-    date: "2025-01-26",
-    title: "바쁜 하루3",
-    mood: "지침",
-    weather: "비",
-    content: "바쁘다 바빠 현대사회",
-  },
-];
+import LoadingSpinner from "./LoadingSpinner";
+import { useFetchDiary } from "@/hooks/useDiary";
 
 const DiaryCalendar: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
+  const { data, isPending, error } = useFetchDiary({});
+
+  if (isPending) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    console.error("다이어리 데이터 요청에 실패했습니다.", error);
+  }
+
+  if (!data || !data.items || data.items.length === 0) {
+    return <div>{"데이터가 없습니다."}</div>;
+  }
+
   // 선택된 날짜의 일기들 가져오기
   const selectedDateDiaries = selectedDate
-    ? mockDiaries.filter(
-        (diary) =>
-          new Date(diary.date).toDateString() === selectedDate.toDateString()
+    ? data.items.filter(
+        (items) =>
+          new Date(items.write_date).toDateString() ===
+          selectedDate.toDateString()
       )
     : [];
 
   // 날짜 타일에 표시할 내용
   const getTileContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
-      const diaries = mockDiaries.filter(
-        (d) => new Date(d.date).toDateString() === date.toDateString()
+      const diaries = data.items.filter(
+        (d) => new Date(d.write_date).toDateString() === date.toDateString()
       );
 
       return diaries.length > 0 ? (
         <div className=" flex flex-col gap-1 md:text-nowrap overflow-hidden m-2 items-start md:p-4 p-1 md:text-md text-sm font-semibold border md:h-[110px] h-[60px] min-w-8 border-lightgray rounded-md text-gray">
-          {diaries.map((diary, index) => (
-            <p className="line-clamp-1" key={index}>
-              {diary.title}
+          {diaries.map((items, id) => (
+            <p className="line-clamp-1" key={id}>
+              {items.title}
             </p>
           ))}
         </div>
@@ -159,12 +112,11 @@ const DiaryCalendar: React.FC = () => {
               </div>
               {selectedDateDiaries.length > 0 ? (
                 <ul className="space-y-2">
-                  {selectedDateDiaries.map((diary, index) => (
+                  {selectedDateDiaries.map((diary, id) => (
                     <li
-                      key={index}
+                      key={id}
                       className="p-2 border border-lightgray rounded cursor-pointer hover:bg-gray-100 flex  items-center gap-5"
                     >
-                      <div className=" w-[70px] h-[70px] bg-lightgray rounded-lg flex-shrink-0 text-center"></div>
                       <div>
                         <p className="font-semibold">{diary.title}</p>
                         <p className="text-ellipsis line-clamp-2">
