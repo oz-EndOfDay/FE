@@ -89,7 +89,7 @@ const FriendList = () => {
                 {currentFriends.map(friend => (
                     <div
                         key={friend.id}
-                        className="flex items-center justify-between p-4 bg-white rounded-lg mb-4"
+                        className="flex items-center justify-between p-4 bg-white shadow-sm rounded-lg mb-4"
                     >
                         <ProfileCard
                             profileImage={friend.friend_profile_img ?? "/icons/ProfileExample.png"}
@@ -104,7 +104,7 @@ const FriendList = () => {
                                 교환일기
                             </button>
                             <button
-                                className="px-3 py-1 bg-[#E7CCA9] rounded-full hover:bg-[#D1B696] transition-colors duration-200"
+                                className="px-3 py-1 bg-[#545f71] rounded-full hover:bg-[#D1B696] text-white transition-colors duration-200"
                                 onClick={() => handleDelete(friend.id)}
                             >
                                 삭제
