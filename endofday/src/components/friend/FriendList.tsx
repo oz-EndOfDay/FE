@@ -6,17 +6,8 @@ import ProfileCard from "./ProfileCard";
 import {fetchFriends, deleteFriend, FriendListResponse} from "@/api/friendApi";
 import {useRouter} from "next/navigation";
 import FriendModals from "./FriendModals";
-
-interface FriendItem {
-    id: number;
-    is_accept: boolean;
-    ex_diary_cnt: number;
-    last_ex_date: string | null;
-    created_at: string;
-    friend_nickname: string | null;
-    friend_profile_img: string | null;
-    friend_introduce?: string | null;
-}
+import LoadingSpinner from "../ui/LoadingSpinner";
+import {FriendItem} from "@/types/friend";
 
 const FriendList = () => {
     const router = useRouter();
@@ -47,7 +38,7 @@ const FriendList = () => {
 
         loadFriends();
     }, []);
-
+    console.log(selectedFriend, "?");
     const openDeleteModal = async (friendId: number) => {
         setSelectedFriendId(friendId);
         setModalState("confirm");
@@ -95,7 +86,7 @@ const FriendList = () => {
         setSelectedFriend(null); // 친구 정보 초기화
     };
 
-    if (loading) return <div className="text-center p-4">로딩중...</div>;
+    if (loading) return <LoadingSpinner />;
     if (error) {
         console.error("FriendList error:", error);
         return <div className="text-center p-4">친구 목록을 불러오는 중 오류가 발생했습니다.</div>;
@@ -151,6 +142,7 @@ const FriendList = () => {
                 onClose={closeModal}
                 onDeleteConfirm={handleDeleteConfirm}
                 onNavigateDiary={navigateModalDiary}
+                selectedFriend={selectedFriend}
             />
         </>
     );

@@ -9,6 +9,8 @@ import Modal from "@/components/ui/Modal";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import {MoodItem, MoodItems, WeatherItem, WeatherItems} from "@/types/diary";
 import {useDeleteDiary, useDiaryById} from "@/hooks/useExDiary";
+import {RootState} from "@/store/store";
+import {useSelector} from "react-redux";
 
 // 날짜 변환
 const formatDate = (dateString: string): string => {
@@ -41,6 +43,8 @@ const getWeatherItem = (weather: string): WeatherItem => {
     );
 };
 const ExchangeDiaryDetail = () => {
+    const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+    const myNickname = userInfo?.nickname;
     const router = useRouter();
     // 삭제 api 호출
     const {mutate: deleteDiaryById} = useDeleteDiary();
@@ -54,7 +58,7 @@ const ExchangeDiaryDetail = () => {
 
     // 상세 api 호출
     const {data: diary, isPending, isError} = useDiaryById(Number(friendId), Number(exDiaryId));
-    console.log(diary);
+
     // 로딩
     if (isPending) {
         return <LoadingSpinner />;
@@ -88,7 +92,7 @@ const ExchangeDiaryDetail = () => {
             }
         );
     };
-
+    console.log(diary);
     return (
         <>
             <div className="diary-detail">
@@ -123,12 +127,14 @@ const ExchangeDiaryDetail = () => {
                         )}
                     </div>
                     <div className="text-right">
-                        <SmallButton
-                            type="submit"
-                            onClick={openDeleteConfirmModal}
-                        >
-                            삭제
-                        </SmallButton>
+                        {myNickname === diary.author && (
+                            <SmallButton
+                                type="submit"
+                                onClick={openDeleteConfirmModal}
+                            >
+                                삭제
+                            </SmallButton>
+                        )}
                     </div>
                     <div>
                         <p className="mb-2">제목</p>
