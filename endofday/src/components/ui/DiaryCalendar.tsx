@@ -143,7 +143,7 @@ const DiaryCalendar: React.FC = () => {
             <div>
               <div className="flex justify-between items-center gap-4">
                 <h2 className="text-xl font-semibold">
-                  {new Intl.DateTimeFormat("en", {
+                  {new Intl.DateTimeFormat("ko", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",

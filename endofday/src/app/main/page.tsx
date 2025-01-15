@@ -154,7 +154,7 @@ const Main = () => {
       </Heading>
 
       <div className="flex flex-col gap-16 justify-center items-center ">
-        <div className="md:h-[700px] md:w-[700px] h-[300px] w-[300px]">
+        <div className="md:h-[500px] md:w-[500px] h-[300px] w-[300px]">
           <EmotionDoughnutChart />
         </div>
       </div>
