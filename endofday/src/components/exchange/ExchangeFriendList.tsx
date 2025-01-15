@@ -24,7 +24,7 @@ const ExchangeFriendList: React.FC<ExchangeFriendListProps> = ({friends}) => {
     const endIndex = startIndex + pageSize;
     const exFriendList = friends.slice(startIndex, endIndex);
     return (
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col mt-5">
             <ul className="flex flex-col gap-4 flex-1">
                 {exFriendList.map(friend => (
                     <li

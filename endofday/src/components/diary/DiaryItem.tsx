@@ -11,16 +11,23 @@ const DiaryItem: React.FC<DiaryItemProps> = ({data, type}) => {
     const dateString = data.write_date; // "2025-01-12"
     const dateObj = new Date(dateString);
     const dayOfWeek = dateObj.toLocaleDateString("en-US", {weekday: "short"});
-    console.log(data, "데이터너누군데?");
+
     return type === "exchange" ? (
         <div className="relative flex items-center bg-white p-4 border-lightgray border rounded-xl">
-            <div className="flex flex-shrink-0 border-lightgray flex-basis-auto relative border rounded-xl w-[3.75rem] h-[3.75rem]">
-                <Image
-                    src="/photo"
-                    fill
-                    className="object-contain"
-                    alt="교환일기사진"
-                />
+            <div className="flex flex-shrink-0 overflow-hidden border-lightgray flex-basis-auto relative border rounded-xl w-[3.75rem] h-[3.75rem]">
+                {data.img_url ? (
+                    <Image
+                        src={data.img_url}
+                        fill
+                        className="object-contain"
+                        alt="교환일기사진"
+                    />
+                ) : (
+                    <div className="w-full flex items-center justify-center flex-col">
+                        <span className="text-gray">{dayOfWeek}</span>
+                        <span className="text-gray">{data.write_date.slice(-2)}</span>
+                    </div>
+                )}
             </div>
             <div
                 className="pl-3"
