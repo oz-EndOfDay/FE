@@ -3,6 +3,41 @@
 @tailwind utilities;
 
 @import "./diary.css";
+@font-face {
+    font-family: "MaruBuri";
+    src: url("https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff2") format("woff2");
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "MaruBuri";
+    src: url("https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "MaruBuri";
+    src: url("https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "MaruBuri";
+    src: url("https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "MaruBuri";
+    src: url("https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+}
+
 :root {
     --background: #fdfbf8;
     --foreground: #000000;
@@ -15,7 +50,7 @@ body {
     min-height: 100%;
     color: var(--foreground);
     background: var(--background);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "MaruBuri", sans-serif;
     margin: 0;
 }
 @layer base {
