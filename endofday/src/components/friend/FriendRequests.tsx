@@ -68,34 +68,35 @@ const FriendRequests = () => {
     const currentRequests = requests.slice(startIndex, startIndex + pageSize);
 
     return (
-        <div>
-            {currentRequests.map(req => (
-                <div
-                    key={req.id}
-                    className="flex items-center justify-between p-4 bg-white rounded-lg mb-4"
-                >
-                    <ProfileCard
-                        profileImage={req.friend_profile_img || ""}
-                        name={req.friend_nickname || "유저"}
-                        statusMessage={`id: ${req.id}`}
-                    />
-                    <button
-                        className="px-3 py-1 bg-[#E7CCA9] rounded-full hover:bg-[#D1B696] transition-colors duration-200"
-                        onClick={() => handleAccept(req.id)}
+        <>
+            <div>
+                {currentRequests.map(req => (
+                    <div
+                        key={req.id}
+                        className="flex items-center justify-between p-4 bg-white rounded-lg mb-4"
                     >
-                        수락
-                    </button>
-                </div>
-            ))}
-
-            <div className="mt-4 text-center">
+                        <ProfileCard
+                            profileImage={req.friend_profile_img || ""}
+                            name={req.friend_nickname || "유저"}
+                            statusMessage={`id: ${req.id}`}
+                        />
+                        <button
+                            className="px-3 py-1 bg-[#E7CCA9] rounded-full hover:bg-[#D1B696] transition-colors duration-200"
+                            onClick={() => handleAccept(req.id)}
+                        >
+                            수락
+                        </button>
+                    </div>
+                ))}
+            </div>
+            <div className="mt-auto text-center">
                 <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={setCurrentPage}
                 />
             </div>
-        </div>
+        </>
     );
 };
 

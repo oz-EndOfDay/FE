@@ -38,7 +38,10 @@ const MyInfoSidebar = () => {
             </button>
 
             {/* 모바일 */}
-            <nav className={`fixed top-1/2 left-1/2 bg-warmgray rounded-lg p-[2.3rem] flex-col items-center z-50 transition-transform duration-500 ease-in-out translate-x-[-50%] translate-y-[-50%] ${isMenuOpen ? "opacity-100" : "opacity-0"} md:hidden`}>
+            <nav
+                className={`fixed top-1/2 left-1/2 bg-warmgray rounded-lg p-[2.3rem] flex-col items-center z-50 transition-transform duration-500 ease-in-out translate-x-[-50%] translate-y-[-50%] 
+    ${isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} md:hidden`}
+            >
                 {/* 닫기 버튼 */}
                 <button
                     className="absolute top-3 right-4 text-xl text-gray-600"

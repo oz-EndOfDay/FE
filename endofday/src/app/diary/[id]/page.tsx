@@ -10,6 +10,8 @@ import {useDiaryById, useDeleteDiary, useAnalyzeDiary} from "@/hooks/useDiary";
 import {useParams} from "next/navigation";
 import {useRouter} from "next/navigation";
 import DiaryModals from "@/components/diary/DiaryModals";
+import {RootState} from "@/store/store";
+import {useSelector} from "react-redux";
 
 // 날짜 변환
 const formatDate = (dateString: string): string => {
@@ -42,6 +44,8 @@ const getWeatherItem = (weather: string): WeatherItem => {
     );
 };
 const DiaryDetail = () => {
+    const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+    const myNickname = userInfo?.nickname;
     const router = useRouter();
     // 삭제 api 호출
     const {mutate: deleteDiaryById} = useDeleteDiary();
@@ -182,6 +186,7 @@ const DiaryDetail = () => {
                 onClose={closeModal}
                 onDeleteConfirm={handleDeleteSuccess}
                 analysisResult={analysisResult}
+                myNickname={myNickname}
             />
         </>
     );
