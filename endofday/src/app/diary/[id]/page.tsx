@@ -155,7 +155,7 @@ const DiaryDetail = () => {
                             <div className="relative w-full max-w-2xl mx-auto aspect-[10/9]">
                                 <Image
                                     src={diary.img_url}
-                                    alt="dummyImage"
+                                    alt="이미지"
                                     fill
                                     className="object-cover rounded-xl"
                                 />
