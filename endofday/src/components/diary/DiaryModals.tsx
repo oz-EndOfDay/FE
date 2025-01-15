@@ -8,7 +8,7 @@ interface DiaryModalsProps {
     onClose: () => void;
     onDeleteConfirm: () => void;
     analysisResult: EmotionAnalysisResponse | null;
-    myNickname: string;
+    myNickname: string | undefined;
 }
 
 const DiaryModals = ({modalState, onClose, onDeleteConfirm, analysisResult, myNickname}: DiaryModalsProps) => {
