@@ -3,177 +3,177 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Modal from "@/components/ui/Modal";
+import { deleteCookies } from "@/api/logout";
+// import NotificationPanel from "@/components/NotificationPanel";
+// import { RoomList } from "@/components/chat/RoomList";
+// import { ChatRoom } from "@/components/chat/ChatRoom";
+// import { FriendList } from "@/components/chat/FriendList";
+// import {IoChatbubbleOutline} from "react-icons/io5";
+// import {FaRegUser} from "react-icons/fa6";
 
-import NotificationPanel from "@/components/NotificationPanel";
-import { RoomList } from "@/components/chat/RoomList";
-import { ChatRoom } from "@/components/chat/ChatRoom";
-import { FriendList } from "@/components/chat/FriendList";
-import {IoChatbubbleOutline} from "react-icons/io5";
-import {FaRegUser} from "react-icons/fa6";
+// interface NotificationItem {
+//   id: number;
+//   profileUrl: string;
+//   text: string;
+//   unread: boolean;
+// }
 
-interface NotificationItem {
-  id: number;
-  profileUrl: string;
-  text: string;
-  unread: boolean;
-}
+// interface ChatRoomItem {
+//   id: number;
+//   friendId: number;
+//   friendName: string;
+//   friendProfile: string;
+//   lastMessage: string;
+// }
 
-interface ChatRoomItem {
-  id: number;
-  friendId: number;
-  friendName: string;
-  friendProfile: string;
-  lastMessage: string;
-}
+// const mockNotifications: NotificationItem[] = [
+//   {
+//     id: 1,
+//     profileUrl: "/icons/my.svg",
+//     text: "홍길동님이 댓글을 남겼습니다.",
+//     unread: true,
+//   },
+//   {
+//     id: 2,
+//     profileUrl: "/icons/my.svg",
+//     text: "김코딩님이 메시지를 보냈습니다.",
+//     unread: false,
+//   },
+//   {
+//     id: 3,
+//     profileUrl: "/icons/my.svg",
+//     text: "이하루님이 친구신청 보냈습니다.",
+//     unread: true,
+//   },
+// ];
 
-const mockNotifications: NotificationItem[] = [
-  {
-    id: 1,
-    profileUrl: "/icons/my.svg",
-    text: "홍길동님이 댓글을 남겼습니다.",
-    unread: true,
-  },
-  {
-    id: 2,
-    profileUrl: "/icons/my.svg",
-    text: "김코딩님이 메시지를 보냈습니다.",
-    unread: false,
-  },
-  {
-    id: 3,
-    profileUrl: "/icons/my.svg",
-    text: "이하루님이 친구신청 보냈습니다.",
-    unread: true,
-  },
-];
-
-const mockChatRooms: ChatRoomItem[] = [
-  {
-    id: 101,
-    friendId: 1,
-    friendName: "홍길동",
-    friendProfile: "/icons/my.svg",
-    lastMessage: "안녕하세요!",
-  },
-  {
-    id: 102,
-    friendId: 2,
-    friendName: "김코딩",
-    friendProfile: "/icons/my.svg",
-    lastMessage: "오늘은 같이 코딩해요.",
-  },
-];
+// const mockChatRooms: ChatRoomItem[] = [
+//   {
+//     id: 101,
+//     friendId: 1,
+//     friendName: "홍길동",
+//     friendProfile: "/icons/my.svg",
+//     lastMessage: "안녕하세요!",
+//   },
+//   {
+//     id: 102,
+//     friendId: 2,
+//     friendName: "김코딩",
+//     friendProfile: "/icons/my.svg",
+//     lastMessage: "오늘은 같이 코딩해요.",
+//   },
+// ];
 
 export default function Header() {
   // ------------------ 알림(Notification) 상태 ------------------
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [notifications, setNotifications] =
-    useState<NotificationItem[]>(mockNotifications);
-  const [notificationFilter, setNotificationFilter] =
-    useState<"all" | "unread">("all");
-  const [isNotificationEnabled, setIsNotificationEnabled] = useState(true);
+  // const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  // const [notifications, setNotifications] =
+  //   useState<NotificationItem[]>(mockNotifications);
+  // const [notificationFilter, setNotificationFilter] =
+  //   useState<"all" | "unread">("all");
+  // const [isNotificationEnabled, setIsNotificationEnabled] = useState(true);
 
-  const filteredNotifications = notifications.filter((n) => {
-    if (notificationFilter === "all") return true;
-    return n.unread;
-  });
+  // const filteredNotifications = notifications.filter((n) => {
+  //   if (notificationFilter === "all") return true;
+  //   return n.unread;
+  // });
 
-  const handleNotificationClick = (id: number) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, unread: false } : n))
-    );
-  };
+  // const handleNotificationClick = (id: number) => {
+  //   setNotifications((prev) =>
+  //     prev.map((n) => (n.id === id ? { ...n, unread: false } : n))
+  //   );
+  // };
 
-  const handleNotificationFilter = (filter: "all" | "unread") => {
-    setNotificationFilter(filter);
-  };
+  // const handleNotificationFilter = (filter: "all" | "unread") => {
+  //   setNotificationFilter(filter);
+  // };
 
-  const handleNotificationToggle = () => {
-    setIsNotificationOpen((prev) => !prev);
-    setIsChatOpen(false);
-    setIsProfileOpen(false);
-  };
+  // const handleNotificationToggle = () => {
+  //   setIsNotificationOpen((prev) => !prev);
+  //   setIsChatOpen(false);
+  //   setIsProfileOpen(false);
+  // };
 
-  // ------------------ 채팅(Chat) 상태 ------------------
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [chatTab, setChatTab] = useState<"friend" | "room">("friend");
-  const [friendSearch, setFriendSearch] = useState("");
-  const [roomSearch, setRoomSearch] = useState("");
-  const [activeChatRoomId, setActiveChatRoomId] = useState<number | null>(null);
-  const activeChatRoom = mockChatRooms.find((r) => r.id === activeChatRoomId);
+  // // ------------------ 채팅(Chat) 상태 ------------------
+  // const [isChatOpen, setIsChatOpen] = useState(false);
+  // const [chatTab, setChatTab] = useState<"friend" | "room">("friend");
+  // const [friendSearch, setFriendSearch] = useState("");
+  // const [roomSearch, setRoomSearch] = useState("");
+  // const [activeChatRoomId, setActiveChatRoomId] = useState<number | null>(null);
+  // const activeChatRoom = mockChatRooms.find((r) => r.id === activeChatRoomId);
 
-  const handleChatToggle = () => {
-    setIsChatOpen(!isChatOpen);
-    setIsNotificationOpen(false);
-    setIsProfileOpen(false);
-    setActiveChatRoomId(null);
-  };
+  // const handleChatToggle = () => {
+  //   setIsChatOpen(!isChatOpen);
+  //   setIsNotificationOpen(false);
+  //   setIsProfileOpen(false);
+  //   setActiveChatRoomId(null);
+  // };
 
-  const handleSwitchTab = (tab: "friend" | "room") => {
-    setChatTab(tab);
-  };
-  const handleFriendClick = (friend: { id: number; name: string }) => {
-    const foundRoom = mockChatRooms.find((room) => room.friendId === friend.id);
-    if (foundRoom) {
-      setActiveChatRoomId(foundRoom.id);
-    } else {
-      alert(`${friend.name}님과의 채팅방이 없습니다 (데모)`);
-    }
-  };
-  const handleRoomClick = (roomId: number) => {
-    setActiveChatRoomId(roomId);
-  };
-  const handleGoBack = () => {
-    setActiveChatRoomId(null);
-  };
+  // const handleSwitchTab = (tab: "friend" | "room") => {
+  //   setChatTab(tab);
+  // };
+  // const handleFriendClick = (friend: { id: number; name: string }) => {
+  //   const foundRoom = mockChatRooms.find((room) => room.friendId === friend.id);
+  //   if (foundRoom) {
+  //     setActiveChatRoomId(foundRoom.id);
+  //   } else {
+  //     alert(`${friend.name}님과의 채팅방이 없습니다 (데모)`);
+  //   }
+  // };
+  // const handleRoomClick = (roomId: number) => {
+  //   setActiveChatRoomId(roomId);
+  // };
+  // const handleGoBack = () => {
+  //   setActiveChatRoomId(null);
+  // };
 
-  // 채팅방 나가기 모달
-  const [isLeaveChatModalOpen, setIsLeaveChatModalOpen] = useState(false);
-  const [isLeftChatConfirmModalOpen, setIsLeftChatConfirmModalOpen] =
-    useState(false);
+  // // 채팅방 나가기 모달
+  // const [isLeaveChatModalOpen, setIsLeaveChatModalOpen] = useState(false);
+  // const [isLeftChatConfirmModalOpen, setIsLeftChatConfirmModalOpen] =
+  //   useState(false);
 
-  const handleLeaveChatRoom = () => {
-    setIsLeaveChatModalOpen(true);
-  };
-  const confirmLeaveChatRoom = () => {
-    setIsLeaveChatModalOpen(false);
-    setIsLeftChatConfirmModalOpen(true);
-  };
-  const cancelLeaveChatRoom = () => {
-    setIsLeaveChatModalOpen(false);
-  };
-  const finalConfirmLeftChat = () => {
-    setIsLeftChatConfirmModalOpen(false);
-    console.log(`${activeChatRoom?.friendName}님과의 채팅방에서 나갔습니다.`);
-    setActiveChatRoomId(null);
-  };
+  // const handleLeaveChatRoom = () => {
+  //   setIsLeaveChatModalOpen(true);
+  // };
+  // const confirmLeaveChatRoom = () => {
+  //   setIsLeaveChatModalOpen(false);
+  //   setIsLeftChatConfirmModalOpen(true);
+  // };
+  // const cancelLeaveChatRoom = () => {
+  //   setIsLeaveChatModalOpen(false);
+  // };
+  // const finalConfirmLeftChat = () => {
+  //   setIsLeftChatConfirmModalOpen(false);
+  //   console.log(`${activeChatRoom?.friendName}님과의 채팅방에서 나갔습니다.`);
+  //   setActiveChatRoomId(null);
+  // };
 
-  const chatMessages = [
-    {
-      id: 1,
-      isMe: true,
-      profileUrl: "/icons/my.svg",
-      nickname: "나",
-      text: "안녕하세요!",
-      time: "오전 9:00",
-    },
-    {
-      id: 2,
-      isMe: false,
-      profileUrl: activeChatRoom?.friendProfile,
-      nickname: activeChatRoom?.friendName,
-      text: "안녕하세요! 반갑습니다.",
-      time: "오전 9:02",
-    },
-    {
-      id: 3,
-      isMe: true,
-      profileUrl: "/icons/my.svg",
-      nickname: "나",
-      text: "오늘 날씨 좋네요!",
-      time: "오전 9:05",
-    },
-  ];
+  // const chatMessages = [
+  //   {
+  //     id: 1,
+  //     isMe: true,
+  //     profileUrl: "/icons/my.svg",
+  //     nickname: "나",
+  //     text: "안녕하세요!",
+  //     time: "오전 9:00",
+  //   },
+  //   {
+  //     id: 2,
+  //     isMe: false,
+  //     profileUrl: activeChatRoom?.friendProfile,
+  //     nickname: activeChatRoom?.friendName,
+  //     text: "안녕하세요! 반갑습니다.",
+  //     time: "오전 9:02",
+  //   },
+  //   {
+  //     id: 3,
+  //     isMe: true,
+  //     profileUrl: "/icons/my.svg",
+  //     nickname: "나",
+  //     text: "오늘 날씨 좋네요!",
+  //     time: "오전 9:05",
+  //   },
+  // ];
 
   // ------------------ 프로필(마이페이지 / 로그아웃) 상태 ------------------
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -183,8 +183,8 @@ export default function Header() {
 
   const handleProfileToggle = () => {
     setIsProfileOpen(!isProfileOpen);
-    setIsChatOpen(false);
-    setIsNotificationOpen(false);
+    // setIsChatOpen(false);
+    // setIsNotificationOpen(false);
   };
   const handleGotoMyPage = () => {
     console.log("마이페이지로 이동 (미구현)");
@@ -199,16 +199,26 @@ export default function Header() {
     setIsLogoutModalOpen(false);
     setIsLoggedOutConfirmModalOpen(true);
   };
-  const handleLoggedOutConfirm = () => {
+  const handleLoggedOutConfirm = async () => {
     setIsLoggedOutConfirmModalOpen(false);
-    console.log("로그아웃 완료 (실제 로직 처리)");
+    try {
+      await deleteCookies();
+    } catch (error) {
+      console.error("쿠키 삭제 중 오류 발생:", error);
+      alert("감사합니다.");
+    }
+
+    // 브라우저 로컬 데이터 삭제 및 리다이렉트는 항상 수행
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "/";
   };
 
   // ------------------ 바깥 클릭 시 패널 닫기 ------------------
-  const chatIconRef = useRef<HTMLButtonElement>(null);
-  const chatPanelRef = useRef<HTMLDivElement>(null);
-  const notificationIconRef = useRef<HTMLButtonElement>(null);
-  const notificationPanelRef = useRef<HTMLDivElement>(null);
+  // const chatIconRef = useRef<HTMLButtonElement>(null);
+  // const chatPanelRef = useRef<HTMLDivElement>(null);
+  // const notificationIconRef = useRef<HTMLButtonElement>(null);
+  // const notificationPanelRef = useRef<HTMLDivElement>(null);
   const profileIconRef = useRef<HTMLButtonElement>(null);
   const profilePanelRef = useRef<HTMLDivElement>(null);
 
@@ -217,25 +227,25 @@ export default function Header() {
       const target = e.target as Node;
 
       // 채팅
-      if (
-        isChatOpen &&
-        chatIconRef.current &&
-        chatPanelRef.current &&
-        !chatIconRef.current.contains(target) &&
-        !chatPanelRef.current.contains(target)
-      ) {
-        setIsChatOpen(false);
-      }
-      // 알림
-      if (
-        isNotificationOpen &&
-        notificationIconRef.current &&
-        notificationPanelRef.current &&
-        !notificationIconRef.current.contains(target) &&
-        !notificationPanelRef.current.contains(target)
-      ) {
-        setIsNotificationOpen(false);
-      }
+      // if (
+      //   isChatOpen &&
+      //   chatIconRef.current &&
+      //   chatPanelRef.current &&
+      //   !chatIconRef.current.contains(target) &&
+      //   !chatPanelRef.current.contains(target)
+      // ) {
+      //   setIsChatOpen(false);
+      // }
+      // // 알림
+      // if (
+      //   isNotificationOpen &&
+      //   notificationIconRef.current &&
+      //   notificationPanelRef.current &&
+      //   !notificationIconRef.current.contains(target) &&
+      //   !notificationPanelRef.current.contains(target)
+      // ) {
+      //   setIsNotificationOpen(false);
+      // }
       // 프로필
       if (
         isProfileOpen &&
@@ -252,7 +262,8 @@ export default function Header() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isChatOpen, isNotificationOpen, isProfileOpen]);
+  }, [isProfileOpen]);
+  // isChatOpen, isNotificationOpen,
 
   // --------------------------------------------------------------------------
   // 렌더링
@@ -260,9 +271,8 @@ export default function Header() {
   return (
     <header className="fixed top-0 right-0 h-16 flex items-center bg-FDFBF8 justify-end px-2 z-50 w-full">
       <div className="flex items-center gap-2">
-
         {/* 채팅 아이콘 + 패널 */}
-        <div>
+        {/* <div>
           <button
             ref={chatIconRef}
             onClick={handleChatToggle}
@@ -278,7 +288,7 @@ export default function Header() {
             >
               {activeChatRoomId === null ? (
                 <div className="p-4 relative" style={{ minHeight: "400px" }}>
-                  {/* 친구목록 / 채팅방 목록 */}
+                  친구목록 / 채팅방 목록
                   {chatTab === "friend" && (
                     <FriendList
                       friendSearch={friendSearch}
@@ -303,10 +313,10 @@ export default function Header() {
                         lastMessage: item.lastMessage,
                       }))}
                     />
-                  )}
+                  )} */}
 
-                  {/* 탭 전환 버튼들 */}
-                  <div className="absolute bottom-2 left-0 w-full px-4">
+        {/* 탭 전환 버튼들 */}
+        {/* <div className="absolute bottom-2 left-0 w-full px-4">
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleSwitchTab("friend")}
@@ -342,10 +352,10 @@ export default function Header() {
               )}
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* 알림 아이콘 */}
-        <div>
+        {/* <div>
           <button
             ref={notificationIconRef}
             onClick={handleNotificationToggle}
@@ -369,7 +379,7 @@ export default function Header() {
               />
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* 프로필 아이콘 */}
         <div>
@@ -378,7 +388,12 @@ export default function Header() {
             onClick={handleProfileToggle}
             className="p-2 hover:bg-gray-100 rounded-full"
           >
-            <Image src="/icons/my.svg" alt="프로필 아이콘" width={40} height={40} />
+            <Image
+              src="/icons/my.svg"
+              alt="프로필 아이콘"
+              width={40}
+              height={40}
+            />
           </button>
 
           {isProfileOpen && (
@@ -441,12 +456,12 @@ export default function Header() {
           // 취소 버튼 없이 확인만
           onConfirm={handleLoggedOutConfirm}
           confirmText="확인"
-          confirmType={true}  // 이 값으로 인해, 버튼 하나만 표시
+          confirmType={true} // 이 값으로 인해, 버튼 하나만 표시
         />
       )}
 
       {/* 채팅방 나가기: 첫 번째 모달 */}
-      {isLeaveChatModalOpen && (
+      {/* {isLeaveChatModalOpen && (
         <Modal
           title="채팅방을 나가시겠습니까?"
           description="모든 채팅 내용이 삭제됩니다."
@@ -455,10 +470,10 @@ export default function Header() {
           cancelText="취소"
           confirmText="확인"
         />
-      )}
+      )} */}
 
       {/* 채팅방 나가기: 두 번째 모달 (확인만) */}
-      {isLeftChatConfirmModalOpen && (
+      {/* {isLeftChatConfirmModalOpen && (
         <Modal
           title={`${activeChatRoom?.friendName}님과의 채팅방에서 나갔습니다.`}
           // 취소 버튼 없이 확인만
@@ -466,7 +481,7 @@ export default function Header() {
           confirmText="확인"
           confirmType={true} // 하나만 표시
         />
-      )}
+      )} */}
     </header>
   );
 }
