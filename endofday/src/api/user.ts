@@ -12,6 +12,7 @@ export const getUserInfo = async () => {
             "Authorization": `Bearer ${accessToken?.value}`,
             "Cache-Control": "no-store",
         },
+        cache: "no-store",
     });
 
     if (!response.ok) {
@@ -19,7 +20,7 @@ export const getUserInfo = async () => {
     }
 
     const userData = await response.json();
-    console.log(userData);
+    console.log(userData, "???????");
     return userData;
 };
 
