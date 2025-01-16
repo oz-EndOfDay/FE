@@ -14,7 +14,6 @@ export const getUserInfo = async () => {
             "Cache-Control": "no-store",
         },
         cache: "no-store",
-        next: {revalidate: 0},
         // credentials: "include",
     });
 
