@@ -12,6 +12,7 @@ export const getUserInfo = async () => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken?.value}`,
     },
+    cache: "no-store",
     // credentials: "include",
   });
 
