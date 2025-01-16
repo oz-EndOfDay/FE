@@ -9,7 +9,7 @@ import SmallButton from "@/components/ui/SmallButton";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { login } from "@/api/login";
-import { setUserInfo } from "@/store/auth/authSlice";
+import { clearAuth, setUserInfo } from "@/store/auth/authSlice";
 import { getUserInfo } from "@/api/user";
 import { useRouter } from "next/navigation";
 
@@ -32,6 +32,7 @@ const LoginForm = () => {
     try {
       await login(data);
       const userInfo = await getUserInfo();
+      dispatch(clearAuth());
       dispatch(setUserInfo(userInfo));
       // 사용자 정보 검증: 유저 정보가 없으면 에러 발생
       if (!userInfo) {
