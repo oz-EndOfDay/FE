@@ -122,6 +122,7 @@ const TipTapEditor: React.FC<TipTapEditorProps> = ({value, onChange, onImageAdd}
                             />
                         </button>
                     </div>
+                    <p className="mt-2 text-sm">사진은 1장만 첨부 가능합니다</p>
                 </div>
             )}
             {/* 사진 취소 확인 모달 */}

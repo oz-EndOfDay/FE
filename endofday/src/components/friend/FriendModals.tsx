@@ -1,14 +1,16 @@
 "use client";
 import Modal from "@/components/ui/Modal";
+import {FriendItem} from "@/types/friend";
 
 interface FriendModalsProps {
     modalState: "" | "confirm" | "success" | "alreadyExchanging" | "startExchange";
     onClose: () => void;
     onDeleteConfirm: () => void;
     onNavigateDiary: () => void;
+    selectedFriend: FriendItem | null;
 }
 
-const FriendModals = ({modalState, onClose, onDeleteConfirm, onNavigateDiary}: FriendModalsProps) => {
+const FriendModals = ({modalState, onClose, onDeleteConfirm, onNavigateDiary, selectedFriend}: FriendModalsProps) => {
     return (
         <>
             {modalState === "confirm" && (
@@ -33,7 +35,7 @@ const FriendModals = ({modalState, onClose, onDeleteConfirm, onNavigateDiary}: F
             {modalState === "alreadyExchanging" && (
                 <Modal
                     title="이미 교환일기를 하고있는 친구네요!"
-                    description={`친구님의 교환일기 리스트 페이지로 이동합니다.`}
+                    description={`${selectedFriend?.friend_nickname}님의 교환일기 리스트 페이지로 이동합니다.`}
                     onConfirm={onNavigateDiary}
                     confirmText="확인"
                     confirmType={true}
@@ -41,7 +43,7 @@ const FriendModals = ({modalState, onClose, onDeleteConfirm, onNavigateDiary}: F
             )}
             {modalState === "startExchange" && (
                 <Modal
-                    title={`친구님과 교환일기를 쓰러 가볼까요?`}
+                    title={`${selectedFriend?.friend_nickname}님과 교환일기를 쓰러 가볼까요?`}
                     description="교환일기 작성 페이지로 이동합니다."
                     onConfirm={onNavigateDiary}
                     confirmText="확인"
