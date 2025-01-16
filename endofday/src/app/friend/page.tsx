@@ -5,6 +5,7 @@ import {useRouter} from "next/navigation";
 import Image from "next/image";
 import FriendList from "@/components/friend/FriendList";
 import FriendRequests from "@/components/friend/FriendRequests";
+import SmallButton from "@/components/ui/SmallButton";
 
 const FriendPage = () => {
     const router = useRouter();
@@ -36,18 +37,21 @@ const FriendPage = () => {
             <div className="flex flex-col gap-4 flex-1">{activeTab === "myFriends" ? <FriendList /> : <FriendRequests />}</div>
 
             {activeTab === "myFriends" && (
-                <div className="absolute bottom-4 right-4">
-                    <button
+                <div className="fixed md:bottom-5 md:right-5 bottom-[6rem] right-[2rem] animate-bounceY">
+                    <SmallButton
                         onClick={handleSearchClick}
-                        className="p-4 bg-white rounded-full hover:shadow"
+                        variant="icon"
+                        className="bg-white w-[3.5rem] h-[3.5rem] md:w-[5rem] md:h-[5rem] border border-lightgray shadow-md rounded-full !static !top-0 !right-0 flex justify-center items-center disabled:bg-gray disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <Image
-                            src="/icons/search.svg"
-                            alt="검색 아이콘"
-                            width={40}
-                            height={40}
-                        />
-                    </button>
+                        <div className="relative w-[2rem] h-[2rem]">
+                            <Image
+                                src="/icons/search.svg"
+                                alt="검색"
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
+                    </SmallButton>
                 </div>
             )}
         </div>

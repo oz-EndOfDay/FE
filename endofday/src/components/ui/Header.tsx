@@ -4,6 +4,10 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Modal from "@/components/ui/Modal";
 import { deleteCookies } from "@/api/logout";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { useRouter } from "next/navigation";
+
 // import NotificationPanel from "@/components/NotificationPanel";
 // import { RoomList } from "@/components/chat/RoomList";
 // import { ChatRoom } from "@/components/chat/ChatRoom";
@@ -180,14 +184,15 @@ export default function Header() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isLoggedOutConfirmModalOpen, setIsLoggedOutConfirmModalOpen] =
     useState(false);
-
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const router = useRouter();
   const handleProfileToggle = () => {
     setIsProfileOpen(!isProfileOpen);
     // setIsChatOpen(false);
     // setIsNotificationOpen(false);
   };
   const handleGotoMyPage = () => {
-    console.log("마이페이지로 이동 (미구현)");
+    router.push("/my");
   };
   const handleLogoutClick = () => {
     setIsLogoutModalOpen(true);
@@ -386,11 +391,15 @@ export default function Header() {
           <button
             ref={profileIconRef}
             onClick={handleProfileToggle}
-            className="p-2 hover:bg-gray-100 rounded-full"
+            className={
+              userInfo !== null
+                ? "p-2 hover:bg-gray-100 rounded-full"
+                : "p-2 hover:bg-gray-100 rounded-full pointer-events-none"
+            }
           >
             <Image
               src="/icons/my.svg"
-              alt="프로필 아이콘"
+              alt="프로필 사진"
               width={40}
               height={40}
             />
@@ -403,13 +412,15 @@ export default function Header() {
             >
               <div className="flex items-center p-4">
                 <Image
-                  src="/icons/my.svg"
+                  src={`${userInfo?.img_url !== null ? userInfo?.img_url : "/icons/ProfileExample.png"}`}
                   alt="프로필"
                   width={48}
                   height={48}
                   className="rounded-full"
                 />
-                <span className="font-bold flex-1 text-center">내닉네임</span>
+                <span className="font-bold flex-1 text-center">
+                  {userInfo?.nickname}님
+                </span>
               </div>
 
               <hr className="my-2 w-4/5 mx-auto" />

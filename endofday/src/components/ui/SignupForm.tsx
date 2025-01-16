@@ -9,11 +9,15 @@ import Input from "@/components/ui/Input";
 import { useForm } from "react-hook-form";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
+
+import Modal from "./Modal";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const SignupForm = () => {
-  const [serverMessage, setServerMassage] = useState<string | null>(null);
+  const router = useRouter();
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,7 +26,6 @@ const SignupForm = () => {
     resolver: zodResolver(registrationSchema),
   });
   const onSubmit = async (data: RegistrationFormData) => {
-    setServerMassage(null);
     try {
       const response = await fetch(`${API_BASE_URL}/users`, {
         method: "POST",
@@ -35,15 +38,19 @@ const SignupForm = () => {
       if (response.ok) {
         const result = await response.json();
         console.log(result);
-        setServerMassage(`회원가입이 완료되었습니다.${result.message}`);
+        setIsModalOpen(true);
       } else {
-        const error = await response.json();
-        setServerMassage(`회원가입 실패: ${error.message}`);
+        alert(`회원가입 실패: `);
       }
     } catch (err) {
       console.error("오류발생:", err);
-      setServerMassage("서버와 통신 중 오류가 발생했습니다.");
+      alert("서버와 통신 중 오류가 발생했습니다.");
     }
+  };
+
+  const handleModalConfirm = () => {
+    setIsModalOpen(false); // 모달 닫기
+    router.push("/"); // 홈으로 리다이렉트
   };
 
   return (
@@ -109,18 +116,17 @@ const SignupForm = () => {
             회원가입
           </Button>
         </div>
-        {serverMessage && (
-          <p
-            className={`mt-4 ${
-              serverMessage.startsWith("회원가입 실패")
-                ? "text-red-500"
-                : "text-green-500"
-            }`}
-          >
-            {serverMessage}
-          </p>
-        )}
       </form>
+      {isModalOpen && (
+        <Modal
+          title="회원가입이 완료 되었습니다."
+          description="가입 확인 메일을 확인해주세요."
+          onConfirm={handleModalConfirm} // 확인 버튼 클릭 시 handleModalConfirm 호출
+          confirmText="확인"
+          confirmType={true}
+          Isdescription={true}
+        />
+      )}
     </div>
   );
 };

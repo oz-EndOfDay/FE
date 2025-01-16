@@ -1,5 +1,4 @@
 "use client";
-import "@/styles/diary.css";
 import React, {useState, useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -274,7 +273,7 @@ const WritePage = () => {
             )}
             {isCompleteModalOpen && (
                 <Modal
-                    title="작성 완료! 친구이름님 차례로 변경되었습니다"
+                    title={`작성 완료! ${friendName}님 차례로 변경되었습니다`}
                     onConfirm={handleCompleteConfirm}
                     confirmText="확인"
                     confirmType={true}
