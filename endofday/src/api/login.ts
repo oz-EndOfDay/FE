@@ -12,6 +12,7 @@ export const login = async (data: LoginFormData) => {
     headers: {
       "Content-Type": "application/json",
     },
+    cache: "no-store",
     body: JSON.stringify(data),
     credentials: "include",
   });
