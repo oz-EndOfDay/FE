@@ -1,5 +1,5 @@
 "use server";
-
+export const fetchCache = "force-no-store";
 import {cookies} from "next/headers";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const cookieStore = cookies();
