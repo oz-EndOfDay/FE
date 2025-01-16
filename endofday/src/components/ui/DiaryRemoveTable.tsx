@@ -74,7 +74,7 @@ export const DiaryRemoveTable = () => {
                             >
                                 <td className="text-center p-1">{index + 1}</td>
                                 <td className=" p-2 font-bold">{diary.title}</td>
-                                <td className="text-ellipsis line-clamp-2 px-2 md:mt-2 mt-5">{diary.content.replace(/<[^>]*>/g, "")}</td>
+                                <td className="text-ellipsis line-clamp-2 px-2 mt-[0.8rem] md:mt-[0.5rem]">{diary.content.replace(/<[^>]*>/g, "")}</td>
                                 <td className="text-center">{diary.write_date}</td>
                                 <td className="text-center">
                                     <SmallButton
