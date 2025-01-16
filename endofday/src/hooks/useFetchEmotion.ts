@@ -1,11 +1,11 @@
 "use server";
 import { cookies } from "next/headers";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const cookieStore = cookies();
-const accessToken = cookieStore.get("access_token")?.value;
-
 export const fetchEmotionData = async () => {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
+
   try {
     const response = await fetch(`${API_BASE_URL}/diary/mood-stats`, {
       method: "GET",
