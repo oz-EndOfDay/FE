@@ -1,9 +1,10 @@
 "use server";
 import { cookies } from "next/headers";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const cookieStore = cookies();
-const accessToken = cookieStore.get("access_token")?.value;
+
 export const fetchDeletedDiaries = async () => {
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
   try {
     const response = await fetch(`${API_BASE_URL}/diary/deleted`, {
       method: "GET",
@@ -27,8 +28,8 @@ export const fetchDeletedDiaries = async () => {
 };
 
 export const handleRestore = async (diary_id: number) => {
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
   try {
     const response = await fetch(`${API_BASE_URL}/diary/${diary_id}/restore`, {
       method: "PATCH", // 복구 요청은 PATCH로 보냄
