@@ -86,9 +86,6 @@
 ## 🧰 사용 스택
 
 
-### :wrench: System Architecture
-
-<img src="https://user-images.githubusercontent.com/90237119/215304129-d8006105-cf1c-49c7-a819-4f819dfac523.png"/>
 
 ### FE
 <div align=center>
@@ -243,4 +240,4 @@
 >
 > [📜 화면 정의서](https://www.figma.com/design/ok3cpOmMOy44xVd5w6qpIX/Untitled?node-id=0-1&p=f&t=POxV5d6vhi1xnTq0-0)
 > 
-> [📜 이거 안되나](https://drive.google.com/file/d/1pQnohjTPuk7oC4W6-TsKGORS8k3bbjOE/view?usp=drive_link)
+
